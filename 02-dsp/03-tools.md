@@ -28,7 +28,7 @@
 * [OSS](http://www.opensound.com/oss.html): a sad piece of
   history
 
-  * Still common to use the OSS compatibility device
+  * Still sometimes use the OSS compatibility device
     (`/dev/dsp`) provided by ALSA for simple audio things
 
 * [ALSA](http://www.alsa-project.org) provides Linux kernel

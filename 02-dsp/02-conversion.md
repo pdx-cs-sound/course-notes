@@ -35,7 +35,7 @@
 * Convert voltage on wire to binary number
 
 * This is the "hard" direction: the DAC tricks aren't
-  invertible
+  entirely invertible
 
 * One common approach uses some combination of DACs and
   comparators to try to make the DAC output match the

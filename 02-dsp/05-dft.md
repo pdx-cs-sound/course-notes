@@ -14,15 +14,15 @@
 
 * Let's turn the integral
   [into a sum](https://betterexplained.com/articles/an-interactive-guide-to-the-fourier-transform/)
-  by treating \\(f(t)\\) as a series of *impulses*: nonzero
+  by treating $f(t)$ as a series of *impulses*: nonzero
   only at discrete timesteps
 
   $$ X[k] = \sum_{n=0}^{N-1} x[n] e^{-i k n / N} $$
 
 * The frequency-domain value at *unit frequency k*, namely
-  \\(X[k]\\) has been written as a weighted sum of the
-  discrete time-domain values \\(x[i]\\) over the period
-  \\(N\\)
+  $X[k]$ has been written as a weighted sum of the
+  discrete time-domain values $x[i]$ over the period
+  $N$
 
 * The inverse transformation works similarly
 
@@ -30,14 +30,14 @@
 
 ## Notes On The DFT
 
-* The \\(X\\)s are still complex (!)
+* The $X$s are still complex (!)
 
 * The inverse is computed only as the sum of discrete
   frequencies
 
 * Be careful about the amplitude. The bin amplitudes grow
-  like \\(N\\): there's different conventions about where to
-  put the \\(1/N\\) to scale them back. I am following
+  like $N$: there's different conventions about where to
+  put the $1/N$ to scale them back. I am following
   Wikipedia here, and putting the scaling in the inverse
   transform.
 

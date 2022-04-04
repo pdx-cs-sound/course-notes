@@ -16,11 +16,11 @@
 
 ## Time and Frequency
 
-* We have: a continuous waveform, a function \\(f(t)\\)
+* We have: a continuous waveform, a function $f(t)$
   representing sound pressure
 
 * We want: a continuous *spectrum*, showing the amplitude
-  and phase of sine waves at every frequency \\(\hat{f}(\omega)\\)
+  and phase of sine waves at every frequency $\hat{f}(\omega)$
 
 * Wait, amplitude and phase from a single function? Yes,
   representing a frequency as a complex number with the usual
@@ -32,11 +32,11 @@
 
   $$ \theta(f(\omega)) = tan^{-1}(a, b) $$
 
-* Note: you will see both *i* and *j* for \\(\sqrt{-1}\\) in
+* Note: you will see both *i* and *j* for $\sqrt{-1}$ in
   different contexts
 
 * Note: we freely mix between *angular frequency*
-  \\(\omega\\) and "normal" frequency *f* (dammit — we'll be
+  $\omega$ and "normal" frequency *f* (dammit — we'll be
   using *f* as a symbol for both frequency and a generic
   function) via
 
@@ -59,8 +59,8 @@
 
 ## The Time Domain and the Frequency Domain
 
-* Reminder: Fourier claims that every \\(f(t)\\) can be
-  represented as some \\(\hat{f}(\omega)\\) (more or less)
+* Reminder: Fourier claims that every $f(t)$ can be
+  represented as some $\hat{f}(\omega)$ (more or less)
 
 * We think of the first kind of thing as "in the time
   domain", the second as "in the frequency domain"
