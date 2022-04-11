@@ -7,8 +7,8 @@
 
 ## Windowing
 
-* \\(x[n]\\) is treated as *cyclic*: it is assumed that the
-  length of \\(x\\) is exactly the period of the signal
+* $x[n]$ is treated as *cyclic*: it is assumed that the
+  length of $x$ is exactly the period of the signal
 
 * If you have a cycle-and-a-half of a sine, it's going to
   look like there's a sharp edge in it
@@ -30,11 +30,11 @@
   [Gaussian Filter](https://en.wikipedia.org/wiki/Gaussian_filter)
   bank like [this](http://wiki.besa.de/index.php?title=File:Spectral_%285%29.gif)
 
-* The transform as given is \\(O(N^2)\\), because we do
-  \\(O(N)\\) work to compute each bin
+* The transform as given is $O(N^2)$, because we do
+  $O(N)$ work to compute each bin
 
 * But we can compute for just some of the bins if we like: even
-  one. Just fix \\(k\\)
+  one. Just fix $k$
 
   $$ X[k] = \sum_{n=0}^{N-1} x[n] e^{-i k n / N} $$
 
@@ -44,7 +44,7 @@
 ## The Fast Fourier Transform
 
 * A dynamic programming trick gets the time complexity of
-  the DFT down to \\(O(N \lg N)\\)
+  the DFT down to $O(N \lg N)$
 
 * No, I'm not going to explain it here: treat it as a black box
 
@@ -70,28 +70,35 @@
   gives you something similar to the FFT, but only
   magnitudes
 
-* Still can be done \\(O(N lg N)\\)
+* Still can be done $O(N lg N)$
 
 * The DCT has a different set of boundary conditions
 
 * DCTs are used a lot in compression and processing, for
   example in MPEG
 
-## Spectra of Common Signals
+## Spectra of Triangle Wave, Square Wave
 
-* Triangle, square: Fundamental plus "odd harmonics"
+* [Triangle](https://en.wikipedia.org/wiki/Triangle_wave), [square](https://en.wikipedia.org/wiki/Square_wave): Fundamental plus "odd harmonics"
 
   * Harmonic is a multiple of the fundamental. So odd
     harmonics of *f* appear at *3f*, *5f*, etc
 
-  * Difference between triangle and square is decay rate,
-    phase
+    * For square wave
 
-  * Odd harmonics are a characteristic of many kinds of
-    distortion
+      $$ x[t] = sin(\omega t) + \frac{1}{3} sin(3 \omega t) + \frac{1}{5} sin(5 \omega t) + \ldots $$
 
-  * "Total Harmonic Distortion" measures this by inputting a
-    sine wave and seeing what harmonics come out
+    * For triangle wave
+
+      $$ x[t] = sin(\omega t) - \frac{1}{9} sin(3 \omega t) + \frac{1}{25} sin(5 \omega t) + \ldots $$
+
+## Spectra In General
+
+* Odd and sometimes even harmonics are a characteristic of
+  many kinds of distortion
+
+* "Total Harmonic Distortion" measures this by inputting a
+  sine wave and seeing what harmonics come out
 
 * "White noise" (random samples): Flattish noise spectrum
   ("noise is a sum of random frequencies")
@@ -142,4 +149,3 @@
 
 * We will talk more about audio compression later in the
   course
-

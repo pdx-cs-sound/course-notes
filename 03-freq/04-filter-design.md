@@ -2,19 +2,19 @@
 
 * Let's design an FIR lowpass filter
 
-* First, some notation: `x(n)` is the nth sample of input,
-  `y(n)` is the nth sample of output. Amplitude of sample is
+* First, some notation: $x[n]$ is the nth sample of input,
+  $y[n]$ is the nth sample of output. Amplitude of sample is
   assumed -1..1
 
 * Filter equation:
 
-          y(n) = (x(n) + x(n - 1)) / 2
+    $$y[n] = \frac{1}{2}(x[n] + x[n - 1])$$
 
 * Why is this a low-pass filter? For higher
-  frequencies if sample `x(n)` is positive sample `x(n-1)`
+  frequencies, if sample $x[n]$ is positive, sample $x[n-1]$
   will tend to be negative, so they will tend to cancel. For
-  lower frequencies the sample `x(n)` will be close to
-  `x(n-1)` so they will reinforce
+  lower frequencies the sample $x[n]$ will be close to
+  $x[n-1]$ so they will reinforce
 
 * This filter is kind of bad: the
   [frequency response](http://www.dsprelated.com/josimages_new/filters/img115.png)
@@ -45,12 +45,12 @@
 
   $$ y[i] = \frac{1}{k} x[i-k \ldots i] \cdot a[k \ldots 0] $$
 
-  So \\(k\\) multiplications and additions per sample
+  So $k$ multiplications and additions per sample
 
 * Now the cost is greater, and the latency is higher, but
   the quality can be *very* good
 
-* Where do the coefficients \\(a\\) come from?
+* Where do the coefficients $a$ come from?
 
 ## Inversion, Reversal, Superposition
 
@@ -127,7 +127,7 @@
 * Basic operation is the same as FIR, except that you have
   to remember some output:
 
-          y(n) = (1/(k+m)) (x(n-k … n) ∙ a(k … 0) + y(n-m-1 … n-1) ∙ a(0 … m))
+    $$y[n] = \frac{1}{k+m} (x[n-k \ldots n] \cdot a[k \ldots 0] + y[n-m-1 \ldots n-1] \cdot b[0 \ldots m])$$
 
 * Always use floating point, as intermediate terms can get
   large / small

@@ -7,56 +7,6 @@
 
 * Can build *much* better filters
 
-## Aside: Number Representation
-
-* How shall we represent samples for this kind of
-  processing?
-
-    * Obvious choice: integers at sampling resolution
-
-        * Can get weird for 24-bit, so promote to 32?
-
-        * Math is tricky: overflow etc. Promote to next higher
-          size?
-
-        * What resolution to output? May have more or less
-          precision than started with
-
-        * Fast
-
-    * Obvious choice: floating-point
-
-        * Scale input to -1..1 or 0..1
-
-        * 32 or 64 bit? (32-bit conveniently has 24 bits of
-          precision)
-
-        * Issues of precision and resolution *mostly* go
-          away (Inf and NaN).
-
-        * Fast with HW support, slow otherwise especially on
-          8-bit hardware
-
-    * Less obvious choice: "fixed-point"
-
-        * Treat integer as having implicit fixed "binary point"
-
-                  .1001011000000001
-                  1.001011000000001
-                  -.001011000000001
-                  10010110.00000001
-
-        * Fiddly, especially for languages that don't allow
-          implementing a fixed-point type with normal arithmetic
-
-        * Slightly slower than integer: must keep the decimal in
-          the right place
-
-        * Typical used on integer-only embedded systems,
-          "[DSP chips](https://en.wikipedia.org/wiki/Motorola_56000)"
-
-* Strongly suggest 64-bit floating point for this course:
-  just say no to a bunch of annoying bugs
 
 ## DFT Filters
 

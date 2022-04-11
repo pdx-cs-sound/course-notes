@@ -47,9 +47,9 @@
 * The average is essentially a bad digital filter here: will
   work OK but not great
 
-## Reminder: Applying A Digital Filter
+## Applying A Digital Filter
 
-* Remember how a digital filter works:
+* Remember how an FIR digital filter works:
 
   $$y[i] = \sum_{j=0}^{N-1} a[j] x[i - j]$$
 
