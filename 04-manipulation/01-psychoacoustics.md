@@ -28,6 +28,18 @@
   [standards](https://en.wikipedia.org/wiki/Line_level):
   usually 1—2 Vpp maximum.
 
+    * 0dBV is 1Vrms = 1.414Vpp — sometimes consumer standard
+    * 0dBu is 1.095Vpp — pro standard
+    * 0dBu = 0dBm = 1mW @ 600Ω = 0.7746Vrms = 1.0954Vpp
+
+      $$
+      V = I \cdot R \\
+      I = \frac{V}{R} \\
+      P = I \cdot V \\
+      P = \frac{V^2}{R} \\
+      V = \sqrt{P \cdot R}
+      $$
+
 * A "loudness" control typically provides a big bass boost
   and a smaller treble boost
 

@@ -74,9 +74,11 @@
       (interpolate / decimate in frequency domain), take inverse
       DFT; Fourier uncertainty is a problem, multiscale is hard
 
-* The difficulty of this plan is why video is time-scaled
-  rather than audio
+      [Phase Vocoder](https://en.wikipedia.org/wiki/Phase_vocoder)
+      is the general and somewhat successful approach here
+
+* The difficulty of these plans is why historically video
+  was time-scaled (frame skipping / doubling) rather than audio
 
 * AKA pitch-shifting, because pitch is log-frequency, so
   multiplication becomes addition
-

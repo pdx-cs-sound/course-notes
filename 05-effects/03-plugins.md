@@ -1,6 +1,6 @@
 ## Effects "Plugin" Architecture
 
-* Compare LADSPA, LV2, VSP, JUCE, etc etc
+* Compare VST, LADSPA, LV2, JUCE, etc etc
 
 * "Linux Audio Developers Simple Plugin API" <http://www.ladspa.org>
 
@@ -93,4 +93,3 @@
 * Based on a Norwegian thesis, since lost.
   
 * How does it sound?
-

@@ -25,7 +25,7 @@
 * MP3 (discussed in a bit) is a surprisingly close cousin to
   this scheme
 
-## Companding
+## Log-Companding
 
 * Idea: Small differences in large amplitudes matter
   less. In particular, human hearing is log-amplitude
@@ -42,16 +42,19 @@
 
     * Continuous
 
-      $$y(t) = \mathrm{sgn}(x(t)) \frac{\ln(1 + \mu |x(t)|)}{\ln(1 + \mu)}$$
+      $$y[n] = \mathrm{sgn}(x[n]) \frac{\ln(1 + \mu |x[n]|)}{\ln(1 + \mu)}$$
 
-      where µ is 255
+      where µ is 255 (more or less, I think)
 
     * Discrete version is given by big approximation table
 
+* A-Law: 13 bits in, 8 bits out; slightly gentler squashing
+
 ## POTS
 
-* US Plain Ol' Telephone Service compression is downsampling to
+* US Plain Ol' Telephone Service (POTS) compression is downsampling to
   8000 sps and then µ-Law encoding to 8 bits, so 64000 bps
+  (*cf* ISDN)
 
 * Lossy, but turns out to be good enough to sound OK for voice
 
