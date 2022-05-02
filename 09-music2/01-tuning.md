@@ -33,8 +33,8 @@
   periods are thus long
 
 * Thirds are particularly bad, being about 1% (1 cent) off.
-  This would be considered borderline "out-of-tune" for a
-  guitar
+  Most humans cannot hear a 1 cent difference. It is easy to
+  detect it with a tuner.
 
 # The Guitar Fretboard
 
@@ -84,10 +84,10 @@
 
 * This gives the fourth and fifth note of the scale
 
-* A major scale up a fifth has just one black key: by
+* A C major scale up a fifth has just one black key: by
   convention this is the sharp 7
 
-* A major scale down a fifth (up a fourth) has just one
+* A C major scale down a fifth (up a fourth) has just one
   black key: by convention this is the flat 4
 
 * Continuing "around the circle" gets more sharps / flats

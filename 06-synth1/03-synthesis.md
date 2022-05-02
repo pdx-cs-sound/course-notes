@@ -16,10 +16,12 @@
 * Recall that a distorted sinusoid has "harmonics": multiples
   of the fundamental frequency
 
-  * Square wave has strong odd harmonics
+  * Square wave, triangle have odd harmonics
+    (square's are stronger)
 
-  * Triangle, Sawtooth, various other waves have even
-    harmonics, and sometimes have odd harmonics
+  * Sawtooth has all harmonics
+
+  * Various other waves have even and/or odd harmonics
 
 * Organ plan: Make power-of-two pipe lengths for each note
   ("ranks") with adjustable volume
@@ -31,6 +33,7 @@
   sounds
 
 * Electric organ "oscillators"; synthesizer "VCO"
+  (Voltage-Controlled Oscillator)
 
 ## Envelope
 
@@ -83,7 +86,8 @@
   Controlled Filter ("VCF").  Often bandpass, used to get
   resonance effects etc
 
-* Filter often controlled by LFO and/or ADSR
+* Filter often controlled by Low Frequency Oscillator
+  ("LFO") and/or ADSR
 
 ## Noise
 
@@ -127,5 +131,6 @@
   changes in frequency over time. They are basically
   subtractive instruments
 
-* Plucked strings are pretty garbage, really: hard to do well
+* Plucked strings are pretty garbage, really: hard to do
+  well ([Karplus-Strong](https://en.wikipedia.org/wiki/Karplus%E2%80%93Strong_string_synthesis))
 

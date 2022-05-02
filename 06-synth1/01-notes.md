@@ -30,11 +30,11 @@
 
 * For example: 
 
-  \begin{eqnarray\*}
-    \textrm{note}\_{0}(f) &=& f \\\\
-    \textrm{note}\_{12}(f) &=& 2f \\\\
-    \textrm{note}\_{-24}(f) &=& \frac{f}{4}
-  \end{eqnarray\*}
+  $$\begin{eqnarray*}
+    \textrm{note}_{0}(f) &=& f \\
+    \textrm{note}_{12}(f) &=& 2f \\
+    \textrm{note}_{-24}(f) &=& \frac{f}{4}
+  \end{eqnarray*}$$
 
 * There is a bunch of music theory here for future
 
@@ -43,28 +43,29 @@
 * For Western scales, the base frequency is 440Hz, because reasons
 
 * We can use a numbering based on piano keys as a standard:
-  MIDI "key number"
+  "MIDI key number"
 
-* In MIDI 440Hz A is key 69; we call this the A in "octave
-  4" or A4
+* MIDI 440Hz A is key 69; we call this the A in "octave 4"
+  or A4
 
 * We give the notes letter names with a possible "sharp" or
   "flat" modifier
-
-          Key   Freq    Name    Octave
-          69    440     A       4
-          70    466.16  B♭/A♯
-          71    493.88  B
-          72    523.25  C
-          73    554.37  D♭/C♯
-          74    587.33  D
-          75    622.25  E♭/D♯
-          76    659.26  E
-          77    698.46  F
-          78    739.99  F♯/G♭
-          79    783.99  G
-          80    830.61  A♭/G♯
-          81    880     A       5
+                                                      
+  |Key |   Freq  | Exact                       |Name  | Octave|
+  |---:|--------:|:---------------------------:|:-----|:------|
+  | 69 |  440.00 | $440 \cdot 2^\frac{0}{12}$  |A     |  4    |
+  | 70 |  466.16 | $440 \cdot 2^\frac{1}{12}$  |B♭/A♯ |       |
+  | 71 |  493.88 | $440 \cdot 2^\frac{2}{12}$  |B     |       |
+  | 72 |  523.25 | $440 \cdot 2^\frac{3}{12}$  |C     |       |
+  | 73 |  554.37 | $440 \cdot 2^\frac{4}{12}$  |D♭/C♯ |       |
+  | 74 |  587.33 | $440 \cdot 2^\frac{5}{12}$  |D     |       |
+  | 75 |  622.25 | $440 \cdot 2^\frac{6}{12}$  |E♭/D♯ |       |
+  | 76 |  659.26 | $440 \cdot 2^\frac{7}{12}$  |E     |       |
+  | 77 |  698.46 | $440 \cdot 2^\frac{8}{12}$  |F     |       |
+  | 78 |  739.99 | $440 \cdot 2^\frac{9}{12}$  |F♯/G♭ |       |
+  | 79 |  783.99 | $440 \cdot 2^\frac{10}{12}$ |G     |       |
+  | 80 |  830.61 | $440 \cdot 2^\frac{11}{12}$ |A♭/G♯ |       |
+  | 81 |  880.00 | $440 \cdot 2^\frac{12}{12}$ |A     |  5    |
 
 * The "why" of all this is a future lecture
 
@@ -84,5 +85,5 @@
 
 * Notes may overlap: "polyphony". Some instruments
   (including some synths) are monophonic: one note at a
-  time, so start of next note is end of current
+  time, so start of next note at/after end of current
 
