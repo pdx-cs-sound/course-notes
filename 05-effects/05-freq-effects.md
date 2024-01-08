@@ -55,11 +55,20 @@
 
 * Not normally an "effect": just a thing. We've talked about
   it in detail.
+  
+  * Double by adding more samples
+    * Insert a zero between every pair of samples (and
+      double amplitude); *or* double every sample
+    * Lowpass filter at halfband
+
+  * Halve by removing samples
+    * Lowpass filter at halfband
+    * Remove every other sample
 
 * As an effect: "sped up" (Chipmunks) or "slowed down"
   (sleepy) version of the sound
 
-## Effect: Frequency Stretching
+## Effect: Frequency Stretching / Pitch Shifting
 
 * Frequency domain equivalent of resampling
 

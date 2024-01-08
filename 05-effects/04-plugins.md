@@ -22,7 +22,7 @@
 
 ## "Low-Latency Professional Audio"
 
-* JACK (Linux), ASIO (Windows)
+* JACK, Pipewire (Linux), ASIO (Windows)
 
 * Alternate framework for handling audio from the driver
   level up
@@ -33,9 +33,9 @@
 * Idea: Provide standard interfaces for "pro gear" effects
   chains
 
-* Nightmarish to work with
+* JACK and ASIO are a bit nightmarish to work with
 
-* Better: use an RTOS instead of a desktop OS; also
+* Better: use an RTOS instead of a desktop OS; also a bit
   nightmarish to work with
 
 ## Effects Rack
