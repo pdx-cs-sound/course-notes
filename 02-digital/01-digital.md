@@ -94,7 +94,7 @@
 
     * Floating point samples are really useful for
       convenience and to avoid overflow in
-      calculations. 0.0..1.0 is common, as is -1.0..1.0.
+      calculations. -1.0..1.0 is normal range
 
 ## Number Representation
 

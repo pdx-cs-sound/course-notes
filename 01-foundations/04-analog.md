@@ -8,7 +8,7 @@
 
 ## Microphone
 
-* Turn sound into voltage or current
+* Turn sound pressure into voltage or current
 
 * Microphone varies resistance, capacitance, voltage or
   current (reversed speaker) depending on air pressure
@@ -22,7 +22,7 @@
 
 ## Speakers
 
-* Turn voltage into air pressure change
+* Turn voltage or current into air pressure change
 
 * Wire solenoid attached to paper cone
   [like this](https://www.youtube.com/watch?v=Qu5sqpFDYn8)

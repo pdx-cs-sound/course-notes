@@ -103,9 +103,10 @@
 
         * This is part of what the "ears" (pinna) do
 
-    * Distance:
+    * Distance (not really stereo):
 
         * Softer, lower-frequency sounds seem farther away
 
         * Room effects (reflection) increase perceived distance
 
+* Binaural Recording: Two mics and a head model

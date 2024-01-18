@@ -2,7 +2,7 @@
 
 * Band-limited via Nyquist (approximation in time)
 
-* Quantization due to finite representation (approximation
+* Quantization due to discrete representation (approximation
   in amplitude)
 
 * Assumes an idealized sampling clock — clock "skew" and

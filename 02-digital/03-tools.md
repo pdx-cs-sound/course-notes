@@ -51,11 +51,10 @@
 * Integration between PulseAudio and Jack seems to actually
   work these days, mostly…
 
-* The new Linux buzz is around
+* The new Linux thing is
   [PipeWire](https://gitlab.freedesktop.org/pipewire/pipewire/)
-  which is PulseAudio and Jack compatible and also does
-  video. But it is Linux-only for now, which may be a
-  problem.
+  which is PulseAudio, Jack, ALSA compatible and also does
+  video.
 
 ## Audio Tools
 
