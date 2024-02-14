@@ -33,11 +33,13 @@
     * 0dBu = 0dBm = 1mW @ 600Ω = 0.7746Vrms = 1.0954Vpp
 
       $$
+      \begin{eqnarray*}
       V = I \cdot R \\
       I = \frac{V}{R} \\
       P = I \cdot V \\
       P = \frac{V^2}{R} \\
       V = \sqrt{P \cdot R}
+      \end{eqnarray*}
       $$
 
 * A "loudness" control typically provides a big bass boost
