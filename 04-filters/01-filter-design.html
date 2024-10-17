@@ -1,0 +1,117 @@
+<h2 id="simple-fir-lowpass-filter">Simple FIR Lowpass Filter</h2>
+<ul>
+<li><p>Let&#x2019;s design an FIR lowpass filter</p></li>
+<li><p>First, some notation:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi><mrow><mo stretchy="true" form="prefix">[</mo><mi>n</mi><mo stretchy="true" form="postfix">]</mo></mrow></mrow><annotation encoding="application/x-tex">x[n]</annotation></semantics></math>
+is the nth sample of input,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>y</mi><mrow><mo stretchy="true" form="prefix">[</mo><mi>n</mi><mo stretchy="true" form="postfix">]</mo></mrow></mrow><annotation encoding="application/x-tex">y[n]</annotation></semantics></math>
+is the nth sample of output. Amplitude of sample is assumed
+-1..1</p></li>
+<li><p>Filter equation:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>y</mi><mrow><mo stretchy="true" form="prefix">[</mo><mi>n</mi><mo stretchy="true" form="postfix">]</mo></mrow><mo>=</mo><mfrac><mn>1</mn><mn>2</mn></mfrac><mrow><mo stretchy="true" form="prefix">(</mo><mi>x</mi><mrow><mo stretchy="true" form="prefix">[</mo><mi>n</mi><mo stretchy="true" form="postfix">]</mo></mrow><mo>+</mo><mi>x</mi><mrow><mo stretchy="true" form="prefix">[</mo><mi>n</mi><mo>&#x2212;</mo><mn>1</mn><mo stretchy="true" form="postfix">]</mo></mrow><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">y[n] = \frac{1}{2}(x[n] + x[n - 1])</annotation></semantics></math></p></li>
+<li><p>Why is this a low-pass filter? For higher frequencies, if sample
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi><mrow><mo stretchy="true" form="prefix">[</mo><mi>n</mi><mo stretchy="true" form="postfix">]</mo></mrow></mrow><annotation encoding="application/x-tex">x[n]</annotation></semantics></math>
+is positive, sample
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi><mrow><mo stretchy="true" form="prefix">[</mo><mi>n</mi><mo>&#x2212;</mo><mn>1</mn><mo stretchy="true" form="postfix">]</mo></mrow></mrow><annotation encoding="application/x-tex">x[n-1]</annotation></semantics></math>
+will tend to be negative, so they will tend to cancel. For lower
+frequencies the sample
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi><mrow><mo stretchy="true" form="prefix">[</mo><mi>n</mi><mo stretchy="true" form="postfix">]</mo></mrow></mrow><annotation encoding="application/x-tex">x[n]</annotation></semantics></math>
+will be close to
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi><mrow><mo stretchy="true" form="prefix">[</mo><mi>n</mi><mo>&#x2212;</mo><mn>1</mn><mo stretchy="true" form="postfix">]</mo></mrow></mrow><annotation encoding="application/x-tex">x[n-1]</annotation></semantics></math>
+so they will reinforce</p></li>
+<li><p>This filter is kind of bad: the <a
+href="http://www.dsprelated.com/josimages_new/filters/img115.png">frequency
+response</a> doesn&#x2019;t have much of a &#x201C;knee&#x201D; at all</p></li>
+<li><p>On the other hand, this filter is stupidly cheap to implement,
+and has very little latency: the output depends only on the current and
+previous samples</p></li>
+</ul>
+<h2 id="higher-filter-orders">&#x201C;Higher Filter Orders&#x201D;</h2>
+<ul>
+<li><p>One way to improve a filter is to cascade copies</p></li>
+<li><p>Filter functions multiply, but it gets a little weird</p></li>
+<li><p>Common in analog, but almost never in digital</p></li>
+</ul>
+<h2 id="wider-fir-filters">Wider FIR Filters</h2>
+<ul>
+<li><p>Normally, you want a much sharper knee</p></li>
+<li><p>To get that, you typically use more of the history</p></li>
+<li><p>For standard FIR filters, it is common to use thousands of
+samples of history</p></li>
+<li><p>General FIR filter:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>y</mi><mrow><mo stretchy="true" form="prefix">[</mo><mi>i</mi><mo stretchy="true" form="postfix">]</mo></mrow><mo>=</mo><mfrac><mn>1</mn><mi>k</mi></mfrac><mi>x</mi><mrow><mo stretchy="true" form="prefix">[</mo><mi>i</mi><mo>&#x2212;</mo><mi>k</mi><mi>&#x2026;</mi><mi>i</mi><mo stretchy="true" form="postfix">]</mo></mrow><mo>&#x22C5;</mo><mi>a</mi><mrow><mo stretchy="true" form="prefix">[</mo><mi>k</mi><mi>&#x2026;</mi><mn>0</mn><mo stretchy="true" form="postfix">]</mo></mrow></mrow><annotation encoding="application/x-tex"> y[i] = \frac{1}{k} x[i-k \ldots i] \cdot a[k \ldots 0] </annotation></semantics></math></p>
+<p>So
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math>
+multiplications and additions per sample</p></li>
+<li><p>Now the cost is greater, and the latency is higher, but the
+quality can be <em>very</em> good</p></li>
+<li><p>Where do the coefficients
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>a</mi><annotation encoding="application/x-tex">a</annotation></semantics></math>
+come from?</p></li>
+</ul>
+<h2 id="inversion-reversal-superposition">Inversion, Reversal,
+Superposition</h2>
+<ul>
+<li><p>Why the obsession with lowpass? Because we can get the other
+kinds &#x201C;for free&#x201D; from the lowpass</p></li>
+<li><p>Inversion: Negate all coefficients and add 1 to the &#x201C;center&#x201D;
+coefficient &#x2014; this flips the spectrum, so high-pass</p></li>
+<li><p>Reversal: Reverse the order of coefficients &#x2014; this reverses the
+spectrum, so high-pass</p></li>
+<li><p>Superposition: Average the coefficients of two equal-length
+filters &#x2014; this gives a spectrum that is the product of the filters. If
+one is low-pass and the other high-pass, this is band-notch. We can then
+invert to get bandpass.</p></li>
+</ul>
+<h2 id="convolution">Convolution</h2>
+<ul>
+<li><p>A filter can be thought of as a <em>convolution</em> of the input
+signal: sum of possibly delayed weighted inputs</p></li>
+<li><p>Convolution is probably out of scope for this course, but pretty
+cool</p></li>
+<li><p>Interestingly, <strong>multiplication in the frequency domain is
+convolution in the time domain</strong>. This means that we can use a
+DFT as a convolution operator if we like</p></li>
+</ul>
+<h2 id="fir-windowing-filters">FIR &#x201C;Windowing&#x201D; Filters</h2>
+<ul>
+<li><p>In general, simplest low-pass filters: take a &#x201C;window&#x201D; of past
+samples, then &#x201C;round off the corners&#x201D; by multiplying by some symmetric
+transfer function</p></li>
+<li><p>There are <em>many</em> window functions, each with their own
+slightly different properties as filters: simple things like triangular,
+plausible things like cosine, and weird things like Blackman, Hamming,
+Hanning</p></li>
+<li><p>Note that windowing is also how we deal with edge effects of DFT:
+we make the signal have period equal to the DFT size by applying a
+window, but this also low-passes and changes the signal</p></li>
+</ul>
+<h2 id="fir-chebyshev-remez-exchange-filters">FIR Chebyshev &#x201C;Remez
+Exchange&#x201D; Filters</h2>
+<ul>
+<li><p>There&#x2019;s a fancy mathematical trick for approximating a given
+desired filter shape with high accuracy for a given filter size</p></li>
+<li><p>Involves treating filter coefficients as coefficients of a
+Chebyshev Polynomial, then adjusting the coefficients until maximum
+error is minimized</p></li>
+<li><p>Probably not something you want to do yourself, but there are
+programs out there that will do it for you</p></li>
+</ul>
+<h2 id="iir-filters">IIR Filters</h2>
+<ul>
+<li><p>Can get much better response per unit computation by feeding the
+filter output back into the filter (?!)</p></li>
+<li><p>In some applications, a 12th-order IIR filter can replace a
+1024th-order FIR filter</p></li>
+<li><p>Design of these filters really wants a full understanding of
+complex analysis, outside the scope of this course</p></li>
+<li><p>Fortunately, many standard filter designs exist: Chebyschev,
+Bessel, Butterworth, Biquad, etc</p></li>
+<li><p>Basic operation is the same as FIR, except that you have to
+remember some output:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>y</mi><mrow><mo stretchy="true" form="prefix">[</mo><mi>n</mi><mo stretchy="true" form="postfix">]</mo></mrow><mo>=</mo><mfrac><mn>1</mn><mrow><mi>k</mi><mo>+</mo><mi>m</mi></mrow></mfrac><mrow><mo stretchy="true" form="prefix">(</mo><mi>x</mi><mrow><mo stretchy="true" form="prefix">[</mo><mi>n</mi><mo>&#x2212;</mo><mi>k</mi><mi>&#x2026;</mi><mi>n</mi><mo stretchy="true" form="postfix">]</mo></mrow><mo>&#x22C5;</mo><mi>a</mi><mrow><mo stretchy="true" form="prefix">[</mo><mi>k</mi><mi>&#x2026;</mi><mn>0</mn><mo stretchy="true" form="postfix">]</mo></mrow><mo>+</mo><mi>y</mi><mrow><mo stretchy="true" form="prefix">[</mo><mi>n</mi><mo>&#x2212;</mo><mi>m</mi><mo>&#x2212;</mo><mn>1</mn><mi>&#x2026;</mi><mi>n</mi><mo>&#x2212;</mo><mn>1</mn><mo stretchy="true" form="postfix">]</mo></mrow><mo>&#x22C5;</mo><mi>b</mi><mrow><mo stretchy="true" form="prefix">[</mo><mn>0</mn><mi>&#x2026;</mi><mi>m</mi><mo stretchy="true" form="postfix">]</mo></mrow><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">y[n] = \frac{1}{k+m} (x[n-k \ldots n] \cdot a[k \ldots 0] + y[n-m-1 \ldots n-1] \cdot b[0 \ldots m])</annotation></semantics></math></p></li>
+<li><p>Always use floating point, as intermediate terms can get large /
+small</p></li>
+<li><p>Really, just look up a filter design and implement it: probably
+too hard to &#x201C;roll your own&#x201D;</p></li>
+</ul>

@@ -1,0 +1,80 @@
+<h2 id="effects-plugin-architecture">Effects &#x201C;Plugin&#x201D; Architecture</h2>
+<ul>
+<li><p>Compare VST, LADSPA, LV2, JUCE, etc etc</p></li>
+<li><p>&#x201C;Linux Audio Developers Simple Plugin API&#x201D; <a
+href="http://www.ladspa.org"
+class="uri">http://www.ladspa.org</a></p></li>
+<li><p>Idea: Provide loadable &#x201C;modules&#x201D; with a known API for</p>
+<ul>
+<li>Accepting sample streams</li>
+<li>Accepting control streams (same thing?)</li>
+<li>Accepting control parameters</li>
+<li>Emitting output streams</li>
+<li>Providing GUI information for rendering</li>
+</ul></li>
+<li><p>Plugins are available from many places, shipped with Linux
+distros, etc</p></li>
+<li><p>Plugin &#x201C;host&#x201D; is responsible for loading and plugging together
+plugins: we will use Audacity for non-realtime demos</p></li>
+<li><p>Global plugin ID registry</p></li>
+</ul>
+<h2 id="low-latency-professional-audio">&#x201C;Low-Latency Professional
+Audio&#x201D;</h2>
+<ul>
+<li><p>JACK, Pipewire (Linux), ASIO (Windows)</p></li>
+<li><p>Alternate framework for handling audio from the driver level
+up</p></li>
+<li><p>Idea: Keep effects latency minimal by providing low-latency
+metered interfaces</p></li>
+<li><p>Idea: Provide standard interfaces for &#x201C;pro gear&#x201D; effects
+chains</p></li>
+<li><p>JACK and ASIO are a bit nightmarish to work with</p></li>
+<li><p>Better: use an RTOS instead of a desktop OS; also a bit
+nightmarish to work with</p></li>
+</ul>
+<h2 id="effects-rack">Effects Rack</h2>
+<ul>
+<li><p>Need something to plug into</p>
+<ul>
+<li><p>Specify effects chain</p></li>
+<li><p>Provide control interface</p></li>
+<li><p>Run signals through effects</p></li>
+</ul></li>
+<li><p>Classic cockpit problem</p>
+<ul>
+<li><p>Effects racks were once literally racks of analog effects:
+connections via &#xBC;&#x201D; audio cable, knobs on front</p></li>
+<li><p>Emulating this is maybe not <em>ideal</em>, but
+<em>familiar</em></p></li>
+</ul></li>
+<li><p>Good GUI is hard</p></li>
+<li><p>Example: Calf Jack Rack <a href="https://calf-studio-gear.org/"
+class="uri">https://calf-studio-gear.org/</a></p></li>
+</ul>
+<h2 id="an-example-plugin-mu-law">An Example Plugin: mu-law</h2>
+<ul>
+<li><p>Let&#x2019;s look at a plugin and try it out</p></li>
+<li><p>Effect: <a
+href="https://en.wikipedia.org/wiki/&#x39C;-law_algorithm">&#x3BC;-law</a>
+encoding</p></li>
+<li><p>Used for telephony to raise quiet parts of signal above line
+noise</p></li>
+<li><p>Simple time-domain transformation: no history at all</p></li>
+<li><p>How does it sound?</p></li>
+</ul>
+<h2 id="implementing-in-swh-ladspa">Implementing In SWH LADSPA</h2>
+<ul>
+<li><p><a href="http://github.com/BartMassey/swh-ladspa"
+class="uri">http://github.com/BartMassey/swh-ladspa</a></p></li>
+<li><p>Uses XML as a metadata format for C code (!)</p></li>
+<li><p>Makes the plugin syntax and semantics clearer</p></li>
+<li><p>Requires some XML tools</p></li>
+</ul>
+<h2 id="example-plugin-valve">Example Plugin: Valve</h2>
+<ul>
+<li><p>Simulation of a tube amplifier</p></li>
+<li><p>Uses limited history to do some filtering as well as
+distortion</p></li>
+<li><p>Based on a Norwegian thesis, since lost.</p></li>
+<li><p>How does it sound?</p></li>
+</ul>

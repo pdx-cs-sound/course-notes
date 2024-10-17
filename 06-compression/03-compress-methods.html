@@ -1,0 +1,87 @@
+<h2 id="stereo">Stereo</h2>
+<ul>
+<li><p>Idea: Left and right stereo channels are highly
+correlated</p></li>
+<li><p>Typical to take a stereo pair and turn it into a mono channel
+<em>(l + r) / 2</em> and a side channel <em>(l - r)</em></p></li>
+<li><p>The side channel is typically low amplitude, and so can be
+compressed easily</p></li>
+<li><p>Side benefit: mono channel is easily extracted</p></li>
+</ul>
+<h2 id="downsampling">Downsampling</h2>
+<ul>
+<li><p>Idea: Most audio has low amplitudes at higher
+frequencies</p></li>
+<li><p>Downsample the signal, transmit that</p></li>
+<li><p>Loss is pretty noticeable at high compression rates; maybe need
+some residue coding</p></li>
+<li><p>The signal path may be band-limited anyhow: embedded devices,
+guitar pedals, etc</p></li>
+<li><p>MP3 (discussed in a bit) is a surprisingly close cousin to this
+scheme</p></li>
+</ul>
+<h2 id="log-companding">Log-Companding</h2>
+<ul>
+<li><p>Idea: Small differences in large amplitudes matter less. In
+particular, human hearing is log-amplitude</p></li>
+<li><p>To best represent a signal in a fixed number of bits, squash the
+encoding so that there are fewer codes for larger amplitudes</p></li>
+<li><p>Classic: 8-bit <a
+href="https://en.wikipedia.org/wiki/%CE%9C-law_algorithm">&#xB5;-Law</a>, <a
+href="https://en.wikipedia.org/wiki/A-law_algorithm">A-law</a></p></li>
+<li><p>&#xB5;-Law: 14 bits in, 8 bits out</p>
+<ul>
+<li><p>Continuous</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>y</mi><mrow><mo stretchy="true" form="prefix">[</mo><mi>n</mi><mo stretchy="true" form="postfix">]</mo></mrow><mo>=</mo><mrow><mi mathvariant="normal">s</mi><mi mathvariant="normal">g</mi><mi mathvariant="normal">n</mi></mrow><mrow><mo stretchy="true" form="prefix">(</mo><mi>x</mi><mrow><mo stretchy="true" form="prefix">[</mo><mi>n</mi><mo stretchy="true" form="postfix">]</mo></mrow><mo stretchy="true" form="postfix">)</mo></mrow><mfrac><mrow><mo>ln</mo><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>+</mo><mi>&#x3BC;</mi><mrow><mo stretchy="true" form="prefix">|</mo><mi>x</mi><mrow><mo stretchy="true" form="prefix">[</mo><mi>n</mi><mo stretchy="true" form="postfix">]</mo></mrow><mo stretchy="true" form="postfix">|</mo></mrow><mo stretchy="true" form="postfix">)</mo></mrow></mrow><mrow><mo>ln</mo><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>+</mo><mi>&#x3BC;</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow></mfrac></mrow><annotation encoding="application/x-tex">y[n] = \mathrm{sgn}(x[n]) \frac{\ln(1 + \mu |x[n]|)}{\ln(1 + \mu)}</annotation></semantics></math></p>
+<p>where &#xB5; is 255 (more or less, I think)</p></li>
+<li><p>Discrete version is given by big approximation table</p></li>
+</ul></li>
+<li><p>A-Law: 13 bits in, 8 bits out; slightly gentler
+squashing</p></li>
+</ul>
+<h2 id="pots">POTS</h2>
+<ul>
+<li><p>US Plain Ol&#x2019; Telephone Service (POTS) compression is downsampling
+to 8000 sps and then &#xB5;-Law encoding to 8 bits, so 64000 bps (<em>cf</em>
+ISDN)</p></li>
+<li><p>Lossy, but turns out to be good enough to sound OK for
+voice</p></li>
+<li><p>Originally implemented entirely analog: the digital thing is a
+replicant</p></li>
+<li><p>Characteristic telephone sound is mostly this</p></li>
+</ul>
+<h2 id="flac">FLAC</h2>
+<ul>
+<li><p>Predict in time domain using polynomial model or Linear
+Predictive Code</p></li>
+<li><p>Encode residue using Rice codes (related to Huffman
+codes)</p></li>
+<li><p>Reliable compression of about 2&#xD7;</p></li>
+<li><p>Remember: the noise must be compressed and recreated
+also</p></li>
+</ul>
+<h2 id="lossy-compression-ala-mp3">Lossy Compression ala MP3</h2>
+<ul>
+<li><p>Good Ars Technica <a
+href="https://arstechnica.com/features/2007/10/the-audiofile-understanding-mp3-compression/">MP3
+tutorial</a></p></li>
+<li><p>High-level view:</p>
+<ul>
+<li><p>Split the input signal up into a bunch of frequency bands using a
+&#x201C;polyphase filter&#x201D;</p></li>
+<li><p>In each band:</p>
+<ul>
+<li><p>Use an FFT to figure out what&#x2019;s going on</p></li>
+<li><p>Use a DCT to get a power spectrum (noise subframes are
+speshul)</p></li>
+<li><p>Quantize the spectrum to reduce the number of bits (giving power
+errors due to noise)</p></li>
+<li><p>Huffman-encode the quantized coefficients to get a compact
+representation</p></li>
+</ul></li>
+<li><p>Combine all the compressed quantized coefficients to get a
+frame</p></li>
+</ul></li>
+<li><p>The details are quite complex: see something like Ogg Vorbis for
+a cleaner version</p></li>
+</ul>

@@ -1,0 +1,110 @@
+<h2 id="generative-synthesis">Generative Synthesis</h2>
+<ul>
+<li><p>Idea: Use simple waveforms and filters to generate complex
+sounds.</p></li>
+<li><p>A pipe organ is an additive synthesizer; the electric organ
+builds on that idea</p></li>
+<li><p>Remember, any periodic sound can be represented as the sum of
+sinusoids</p></li>
+<li><p>But that isn&#x2019;t too practical, so tricks are used</p></li>
+</ul>
+<h2 id="harmonics">Harmonics</h2>
+<ul>
+<li><p>Recall that a distorted sinusoid has &#x201C;harmonics&#x201D;: multiples of
+the fundamental frequency</p>
+<ul>
+<li><p>Square wave, triangle have odd harmonics (square&#x2019;s are
+stronger)</p></li>
+<li><p>Sawtooth has all harmonics</p></li>
+<li><p>Various other waves have even and/or odd harmonics</p></li>
+</ul></li>
+<li><p>Organ plan: Make power-of-two pipe lengths for each note
+(&#x201C;ranks&#x201D;) with adjustable volume</p></li>
+<li><p>But start with distorted sinusoids so even more harmonic
+content</p></li>
+<li><p>Can add non-octave multiples for even more interesting
+sounds</p></li>
+<li><p>Electric organ &#x201C;oscillators&#x201D;; synthesizer &#x201C;VCO&#x201D;
+(Voltage-Controlled Oscillator)</p></li>
+</ul>
+<h2 id="envelope">Envelope</h2>
+<ul>
+<li><p>Organ only manages quickish attack to sustain level, quickish
+release</p></li>
+<li><p>Probably want (at least) an ADSR envelope (next) so that sounds
+can have attack or decay</p></li>
+<li><p>May want each note to have <em>multiple envelopes</em> to control
+other things</p></li>
+</ul>
+<h2 id="envelope-attack-decay-sustain-release">Envelope: Attack, Decay,
+Sustain, Release</h2>
+<ul>
+<li><p><a
+href="https://blog.landr.com/adsr-envelopes-infographic/">ADSR</a> model
+is standard envelope description</p>
+<ul>
+<li><p>Attack: short ramp-up at start of note</p></li>
+<li><p>Decay: short ramp-down just after attack</p></li>
+<li><p>Sustain: constant hold level when decay is complete</p></li>
+<li><p>Release: short ramp-down after key is released</p></li>
+</ul></li>
+<li><p>Remember, volume is in dB: these ramps should be
+log-scaled</p></li>
+<li><p>Often linear ramps, sometimes smoothed</p></li>
+<li><p>Used in pretty much every kind of synthesis</p></li>
+</ul>
+<h2 id="tremolo-vibrato">Tremolo, Vibrato</h2>
+<ul>
+<li><p>Both desirable effects: modulate Voltage Controlled Oscillator
+(&#x201C;VCO&#x201D;) with Low Frequency Oscillator (&#x201C;LFO&#x201D;)</p>
+<ul>
+<li><p>Tremolo: modulate amplitude</p></li>
+<li><p>Vibrato: modulate frequency</p></li>
+</ul></li>
+</ul>
+<h2 id="filtering">Filtering</h2>
+<ul>
+<li><p>Sounds have different character depending on harmonic
+content</p></li>
+<li><p>May want global filter (lowpass, bandpass, fancy) to control
+overall sound shape</p></li>
+<li><p>May want per-note filters that <em>track</em> the note: Voltage
+Controlled Filter (&#x201C;VCF&#x201D;). Often bandpass, used to get resonance effects
+etc</p></li>
+<li><p>Filter often controlled by Low Frequency Oscillator (&#x201C;LFO&#x201D;)
+and/or ADSR</p></li>
+</ul>
+<h2 id="noise">Noise</h2>
+<ul>
+<li><p>Adding filtered noise is good</p></li>
+<li><p>Several kinds and scales would be nice: white noise, scalable max
+frequency</p></li>
+<li><p>Use very slow noise as a control to modulate pitch etc</p></li>
+</ul>
+<h2 id="effects">Effects</h2>
+<ul>
+<li><p>Almost any of the effects we discussed are nice additions to a
+synth</p></li>
+<li><p>Reverb and delay effects are particularly common</p></li>
+</ul>
+<h2 id="controllers">Controllers</h2>
+<ul>
+<li><p>Big strength of additive synthesis: be able to turn the knobs
+(you have knobs, right?) in real-time to modulate the sound</p></li>
+<li><p>This is why most MIDI keyboards have a pitch wheel and mod wheel:
+ideally the pitch wheel can be used for other things</p></li>
+<li><p>MIDI controller boards are really common, with lots of knobs and
+pushpads and other fancy things</p></li>
+</ul>
+<h2 id="modeling-natural-sources">Modeling Natural Sources</h2>
+<ul>
+<li><p>Weird sounds are great, but it&#x2019;s also great to imitate orchestral
+instruments etc</p></li>
+<li><p>String &#x201C;pads&#x201D; are fairly easy to achieve</p></li>
+<li><p>Wind instruments are a bit sketch: use filtered &#x201C;breath&#x201D; noise
+and resonant filters</p></li>
+<li><p>Brass instruments are meh: they have fairly fancy changes in
+frequency over time. They are basically subtractive instruments</p></li>
+<li><p>Plucked strings are pretty garbage, really: hard to do well (<a
+href="https://en.wikipedia.org/wiki/Karplus%E2%80%93Strong_string_synthesis">Karplus-Strong</a>)</p></li>
+</ul>

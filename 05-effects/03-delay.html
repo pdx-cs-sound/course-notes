@@ -1,0 +1,57 @@
+<h2 id="delay-effects">Delay Effects</h2>
+<ul>
+<li><p>One capability of computers that we haven&#x2019;t talked about much is
+the ability to store a signal and give back a delayed copy of
+it</p></li>
+<li><p>This is pretty much unobtanium for analog systems. Digital delay
+is crazily cheap and good</p></li>
+<li><p>Amount of delay determines effect</p>
+<ul>
+<li><p>Small delay (&lt; 10ms): Phase cancellation,
+localization</p></li>
+<li><p>Moderate delay (10-100ms): &#x201C;Ensemble&#x201D; effect (<a
+href="http://www.cloneensemble.com/audio/cloneens.mp3">example</a>)</p></li>
+<li><p>Moderate to long delay (50-500ms): Reverb and echo
+effects</p></li>
+</ul></li>
+<li><p>Multiple delay effects can be combined; delayed signal can be
+chained with other effects</p></li>
+<li><p>Usually feed delayed signal back into input for reverb / echo
+effects</p></li>
+<li><p>Wet/dry is a big thing with delay effects, e.g.&#xA0;echo &#x2014; how much
+reverb signal to feed through (wet) vs original signal (dry)</p></li>
+</ul>
+<h2 id="ring-buffer">Ring Buffer</h2>
+<ul>
+<li><p>Delay data structure is a <em>queue</em> of samples: typical
+implementation is a <em>ring buffer</em></p>
+<pre><code>  len = 100
+  buffer = [0]*len
+  head = 0
+  tail = 0
+  empty = True
+
+  def queue(s):
+      assert empty or head != tail
+      buffer[tail] = s
+      tail = (tail + 1) % len
+      empty = False
+
+  def dequeue():
+      assert not empty
+      s = buffer[head]
+      head = (head + 1) % len
+      empty = head == tail
+      return s</code></pre></li>
+</ul>
+<h2 id="effect-reverb-and-room-effects">Effect: Reverb and Room
+Effects</h2>
+<ul>
+<li><p>Idea: Signal + delayed copies simulating resonance and
+bouncing</p></li>
+<li><p>Typically longish delays (100ms+)</p></li>
+<li><p>Typically delayed copies are filtered and damped</p></li>
+<li><p>Output-to-input copy is pretty standard</p></li>
+<li><p>Really fancy 3D sound modeling is a thing: leads into general
+acoustics (study of physical sound)</p></li>
+</ul>

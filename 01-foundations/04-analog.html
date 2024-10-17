@@ -1,0 +1,104 @@
+<h2 id="electrical-representation">Electrical Representation</h2>
+<ul>
+<li><p>Represent sound pressure as a voltage on a wire</p></li>
+<li><p>The classic: telephone</p></li>
+<li><p>Allows for transmission, processing</p></li>
+</ul>
+<h2 id="microphone">Microphone</h2>
+<ul>
+<li><p>Turn sound pressure into voltage or current</p></li>
+<li><p>Microphone varies resistance, capacitance, voltage or current
+(reversed speaker) depending on air pressure differential between front
+and back</p></li>
+<li><p>End result is a voltage representing instantaneous sound
+pressure</p></li>
+<li><p>Microphones are bad: noisy, nonlinear devices; often limiting
+factor in sound chain</p></li>
+</ul>
+<h2 id="speakers">Speakers</h2>
+<ul>
+<li><p>Turn voltage or current into air pressure change</p></li>
+<li><p>Wire solenoid attached to paper cone <a
+href="https://www.youtube.com/watch?v=Qu5sqpFDYn8">like
+this</a></p></li>
+<li><p>Typically in a resonant cavity (speaker cabinet)</p></li>
+<li><p>Speaker solenoid roughly tracks <em>change in current</em>
+through the wire, which makes things complicated (impedance
+matters)</p></li>
+<li><p>Need wavelength to be long for low frequency to move enough air:
+big speaker &#x201C;woofer&#x201D;</p>
+<ul>
+<li>C.f. <a
+href="https://en.wikipedia.org/wiki/Huygens&#x2013;Fresnel_principle">Huygens&#x2019;s
+Principle</a></li>
+</ul></li>
+<li><p>Need response time to be fast for high frequency: tiny speaker,
+maybe piezoelectric &#x2014; &#x201C;tweeter&#x201D;</p></li>
+</ul>
+<h2 id="attenuation-amplification">Attenuation / Amplification</h2>
+<ul>
+<li><p>Simplest transformation</p></li>
+<li><p>Attenuation: Sound out linearly less than sound in</p></li>
+<li><p>Easy to attenuate in all the obvious ways</p></li>
+<li><p>Amplification: Sound out linearly greater than sound in</p></li>
+<li><p>Amplification usually requires electronics</p></li>
+</ul>
+<h2 id="signal-path">Signal Path</h2>
+<ul>
+<li><p>We now know how to build something like a telephone or record
+player or stomp box:</p>
+<ul>
+<li><p>Use a microphone to convert air pressure to voltage</p></li>
+<li><p>Maybe process the voltage somehow: store it somewhere or modify
+it with circuitry</p></li>
+<li><p>Use a speaker to convert voltage back to sound</p></li>
+</ul></li>
+</ul>
+<h2 id="distortion">Distortion</h2>
+<ul>
+<li><p>Ideally, electric signal exactly represents sound
+pressure</p></li>
+<li><p>In practice, the signal path may introduce
+<em>distortion</em></p>
+<ul>
+<li><p>Nonlinearity: the signal doesn&#x2019;t accurately track the sound
+pressure</p></li>
+<li><p>History: the past signal influences the current signal</p></li>
+</ul></li>
+<li><p>We will talk about &#x201C;harmonic distortion&#x201D; (THD) at some
+point</p></li>
+<li><p>Some &#x201C;distortions&#x201D; are deliberate, because we are used to hearing
+distorted sounds and so they &#x201C;sound good&#x201D;</p></li>
+</ul>
+<h2 id="feedback">Feedback</h2>
+<ul>
+<li><p>&#x201C;Feedback&#x201D; is a classic oscillation effect:</p>
+<ul>
+<li><p>Sound coming out the speaker and back into the microphone
+interacts with speaker + microphone + air as a resonance</p></li>
+<li><p>The resonant frequency depends on the distance between microphone
+and speaker (air delay), and on the frequency response of the
+loop</p></li>
+<li><p>If the loop has net positive gain at some frequencies
+(amplification)&#x2026;</p></li>
+</ul></li>
+</ul>
+<h2 id="limitations">Limitations</h2>
+<ul>
+<li><p>Representation of analog sound as an electrical signal is
+potentially awesome: high accuracy in time, can represent very high and
+low frequencies well</p></li>
+<li><p>In practice, there are problems:</p>
+<ul>
+<li><p>Any &#x201C;noise&#x201D; (unwanted signal) is also very accurately
+represented. It is easy to accidentally generate voltage noise in an
+analog system, which will be accurately represented / amplified as
+well</p></li>
+<li><p>Analog signal storage devices are clunky, and don&#x2019;t work well:
+records, tapes, etc</p></li>
+<li><p>Manipulating electrical signals requires complex, expensive and
+special-purpose electronics</p></li>
+<li><p>&#x201C;Audiophiles&#x201D; love this stuff, so you have to deal with them
+(could be worst problem)</p></li>
+</ul></li>
+</ul>

@@ -1,0 +1,80 @@
+<h2 id="psychoacoustics-volume">Psychoacoustics: Volume</h2>
+<ul>
+<li><p><a
+href="https://media.extron.com/public/technology/img/loudnesscontrol_ts_2-lg.jpg">Robinson-Dadson
+curve</a> (AKA Fletcher-Munson curve)</p></li>
+<li><p>Three frequency bands</p>
+<ul>
+<li>Below 100 Hz: whatever</li>
+<li>100&#x2014;400 Hz: bass</li>
+<li>400Hz&#x2014;2 Khz: midrange</li>
+<li>2&#x2014;10 KHz: treble</li>
+<li>10KHz and up: whatever</li>
+</ul></li>
+<li><p>Three volume bands in <a
+href="https://en.wikipedia.org/wiki/Phon">phon</a>: perceived dB
+relative to 1KHz</p>
+<ul>
+<li>40 phon: low (A-weighting, midrange)</li>
+<li>50 phon: normal (B-weighting, moderate midrange)</li>
+<li>70 phon: loud (C-weighting, flat)</li>
+<li>100+ phon: aircraft (D-weighting, treble)</li>
+</ul></li>
+</ul>
+<h2 id="volume-loudness-presence">Volume, Loudness, Presence</h2>
+<ul>
+<li><p>Volume knob is &#x201C;log&#x201D;: ideal midpoint around 50 dB</p></li>
+<li><p>Voltage levels are a mess, with multiple <a
+href="https://en.wikipedia.org/wiki/Line_level">standards</a>: usually
+1&#x2014;2 Vpp maximum.</p>
+<ul>
+<li><p>0dBV is 1Vrms = 1.414Vpp &#x2014; sometimes consumer standard</p></li>
+<li><p>0dBu is 1.095Vpp &#x2014; pro standard</p></li>
+<li><p>0dBu = 0dBm = 1mW @ 600&#x3A9; = 0.7746Vrms = 1.0954Vpp</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtable><mtr><mtd columnalign="right" style="text-align: right"><mi>V</mi><mo>=</mo><mi>I</mi><mo>&#x22C5;</mo><mi>R</mi></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right"><mi>I</mi><mo>=</mo><mfrac><mi>V</mi><mi>R</mi></mfrac></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right"><mi>P</mi><mo>=</mo><mi>I</mi><mo>&#x22C5;</mo><mi>V</mi></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right"><mi>P</mi><mo>=</mo><mfrac><msup><mi>V</mi><mn>2</mn></msup><mi>R</mi></mfrac></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right"><mi>V</mi><mo>=</mo><msqrt><mrow><mi>P</mi><mo>&#x22C5;</mo><mi>R</mi></mrow></msqrt></mtd></mtr></mtable><annotation encoding="application/x-tex">
+\begin{eqnarray*}
+V = I \cdot R \\
+I = \frac{V}{R} \\
+P = I \cdot V \\
+P = \frac{V^2}{R} \\
+V = \sqrt{P \cdot R}
+\end{eqnarray*}
+</annotation></semantics></math></p></li>
+</ul></li>
+<li><p>A &#x201C;loudness&#x201D; control typically provides a big bass boost and a
+smaller treble boost</p>
+<ul>
+<li>Solid Extron <a
+href="https://www.extron.com/company/article.aspx?id=loudnesscontrol_ts">article</a>
+on &#x201C;loudness&#x201D; control.</li>
+</ul></li>
+<li><p>A &#x201C;<a
+href="https://www.fender.com/articles/tech-talk/be-in-the-moment-the-presence-control-explained">presence</a>&#x201D;
+control gives a treble boost, but with some feedback and distortion at
+high volume (by reducing power amp high-frequency negative feedback [or
+simulating that])</p></li>
+</ul>
+<h2
+id="psychoacoustics-harmonics-stretch-tuning-masking">Psychoacoustics:
+Harmonics, Stretch Tuning, Masking</h2>
+<ul>
+<li><p>Recall: harmonics are multiples of fundamental frequency produced
+by distortion</p></li>
+<li><p>Because the ear is not so sensitive at low and high frequencies
+(at normal volumes), it selectively hears midrange harmonics of bass
+notes</p></li>
+<li><p>This means that a piano, for example, needs to be &#x201C;<a
+href="https://en.wikipedia.org/wiki/Stretched_tuning">stretch tuned</a>&#x201D;
+so that the midrange harmonics sound in tune</p></li>
+<li><p>The low frequencies are partially &#x201C;masked&#x201D;</p></li>
+</ul>
+<h2 id="psychoacoustics-time-scales">Psychoacoustics: Time Scales</h2>
+<ul>
+<li><p>Let&#x2019;s assume a 50Ksps sample rate</p></li>
+<li><p>Smallest useful sample chunk for most things: 100 samples,
+2ms</p></li>
+<li><p>Fused sound: 500-2500 samples, 10-50 ms</p></li>
+<li><p>By 10ms (500s) latencies will be perceptible</p></li>
+<li><p>By 20-40ms (1000s-2000s) latencies will be annoying: larger
+latencies are perceived as intolerable</p></li>
+</ul>

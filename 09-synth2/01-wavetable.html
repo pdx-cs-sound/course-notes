@@ -1,0 +1,111 @@
+<h2 id="wavetable-synthesis">Wavetable Synthesis</h2>
+<ul>
+<li><p>Idea: Save a per-key waveform, play it back when key is
+pressed</p></li>
+<li><p>Needs lots of memory (not a problem anymore)</p></li>
+<li><p>Conceptual issues</p>
+<ul>
+<li><p>Want note to last as long as key is held: looping is
+needed</p></li>
+<li><p>May not have a wave for every key: pitch shifting is
+needed</p></li>
+<li><p>Wave may have inappropriate envelope: envelope generation is
+desirable</p></li>
+<li><p>May want to modify wave after-the-fact: effects are
+desirable</p></li>
+</ul></li>
+</ul>
+<h2 id="sustain-and-looping">Sustain and Looping</h2>
+<ul>
+<li><p>Want to maintain sustain level for as long as key is held
+down</p></li>
+<li><p>Infinite time stretching is a thing: usually achieved by
+&#x201C;looping&#x201D;</p></li>
+<li><p>Loop start and end may be marked manually, or can try to infer
+the sustain region</p></li>
+</ul>
+<h2 id="building-a-loop-frequency-domain">Building a Loop: Frequency
+Domain</h2>
+<ul>
+<li><p>Use DFT on a window of samples</p></li>
+<li><p>Stretch the spectrum as desired</p></li>
+<li><p>Use inverse DFT</p></li>
+<li><p>Need to use overlapping windows to preserve frequency changes
+over time</p></li>
+<li><p>Smearing is real</p></li>
+</ul>
+<h2 id="building-a-loop-time-domain">Building a Loop: Time Domain</h2>
+<ul>
+<li><p>Use <em>autocorrelation</em> to try to find a reasonable constant
+period of the sample</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mo>=</mo><mi>a</mi><mi>r</mi><mi>g</mi><mi>m</mi><mi>a</mi><msub><mi>x</mi><mi>t</mi></msub><mspace width="0.222em"></mspace><mspace width="0.222em"></mspace><mi>x</mi><mrow><mo stretchy="true" form="prefix">[</mo><mn>0</mn><mi>.</mi><mi>.</mi><mo stretchy="true" form="postfix">]</mo></mrow><mo>&#x22C5;</mo><mi>x</mi><mrow><mo stretchy="true" form="prefix">[</mo><mi>t</mi><mi>.</mi><mi>.</mi><mo stretchy="true" form="postfix">]</mo></mrow></mrow><annotation encoding="application/x-tex"> P = argmax_{t} ~~ x[0..] \cdot x[t..] </annotation></semantics></math></p>
+<p>(where the signal <em>x</em> is treated as cyclic)</p></li>
+<li><p>Crop the sample so that the start matches the end: usually at
+zero-crossing</p></li>
+<li><p>May need gain and frequency adjustment to avoid cyclic
+effects</p></li>
+<li><p>The longer the sample, the more &#x201C;real&#x201D; it will sound and the
+harder it will be to avoid loop effects</p></li>
+</ul>
+<h2 id="pitch-shifting">Pitch Shifting</h2>
+<ul>
+<li><p>As we discovered previously, the pitch of the note can be shifted
+by resampling</p></li>
+<li><p>Knowing the fundamental pitch of the original sample(s) is
+actually hard (unless the sample comes from a source with &#x201C;known&#x201D;
+frequency). Strongest component of DFT <em>sometimes</em>
+works.</p></li>
+<li><p>Remember, pitch <em>shifting</em> is frequency
+<em>stretching</em>.</p></li>
+</ul>
+<h2 id="resampling-technique">Resampling Technique</h2>
+<ul>
+<li><p>Don&#x2019;t want to dynamically resample on every keypress after
+generating a 93-coefficient FIR anti-aliasing filter (probably)</p></li>
+<li><p>Possibly use small adjustable IIR filter</p></li>
+<li><p>Resample to only a few frequencies (octaves, usually) in advance,
+then use linear interpolation during synthesis to get final pitch from
+nearest properly-resampled cache element</p></li>
+<li><p>As long as close to the sample rate, linear interpolation is
+&#x201C;good enough&#x201D;</p></li>
+<li><p>Ideally, just have a sample for every key</p></li>
+<li><p>Vibrato is a thing</p></li>
+</ul>
+<h2 id="wavetable-envelopes">Wavetable Envelopes</h2>
+<ul>
+<li><p>Question: Do you want the &#x201C;natural&#x201D; envelope from the sample, a
+&#x201C;synthetic&#x201D; ADSR envelope, or some combination of the two?</p></li>
+<li><p>This is really a question for the musician, so should probably be
+prepared to use either</p></li>
+<li><p>Ideally, sample will come with start and end of sustain marked;
+otherwise you have to guess</p></li>
+</ul>
+<h2 id="soundfonts">Soundfonts</h2>
+<ul>
+<li><p>Standard file format for wavetables, set up for synthesizer
+consumption</p></li>
+<li><p><a href="http://freepats.zenvoid.org/sf2/sfspec24.pdf">File
+format</a> is immensely complicated, so use a library and think
+carefully about handling</p></li>
+<li><p>&#x201C;General MIDI&#x201D; synthesizers are almost always this: standard GM
+soundfonts are readily available</p></li>
+</ul>
+<h2 id="general-midi">General MIDI</h2>
+<ul>
+<li><p><a href="https://en.wikipedia.org/wiki/General_MIDI">Standard</a>
+for cross-manufacturer synth capabilities</p></li>
+<li><p>Most importantly, identifies 128 specific MIDI &#x201C;programs&#x201D; with
+128 &#x201C;specific&#x201D; named sounds</p></li>
+<li><p>Examples: &#x201C;Alto Sax&#x201D; (66), &#x201C;Blown Bottle&#x201D; (77), &#x201C;Rock Organ&#x201D;
+(19), &#x201C;Slap Bass 1&#x201D; (37), &#x201C;Bagpipe&#x201D; (110, in &#x201C;Ethnic&#x201D; sounds category),
+&#x201C;Helicopter&#x201D; (126)</p></li>
+<li><p>MIDI channel 10 has its own set of GM percussion sounds</p></li>
+</ul>
+<h2 id="other-gm-requirments">Other GM Requirments</h2>
+<ul>
+<li><p>24-voice polyphony: 16 instrument + 8 percussion (?)</p></li>
+<li><p>Certain standard MIDI control change messages must be
+honored</p></li>
+<li><p>General MIDI Level 2 (GM2) extends all this</p></li>
+<li><p>You have heard this <em>a lot</em></p></li>
+</ul>

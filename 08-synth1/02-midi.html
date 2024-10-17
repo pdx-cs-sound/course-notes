@@ -1,0 +1,80 @@
+<h2 id="midi">MIDI</h2>
+<ul>
+<li><p>Musical Instrument Digital Interface (<a
+href="https://www.midi.org/specifications-old/item/the-midi-1-0-specification">MIDI</a>,
+requires free registration): ancient unidirectional standard for
+keyboard to synth communication (<em>Prophet 600</em>, 1982); replaced
+analog &#x201C;control voltage&#x201D; schemes</p></li>
+<li><p>&#x201C;Instrument&#x201D; is a synth. &#x201C;Controller&#x201D; is a keyboard or
+something</p></li>
+<li><p>Physical interface is&#x2026; a thing. Two-wire serial interface on
+5-pin DIN connector (also AT keyboard connector). 5ma current loop with
+optical isolation required. 31250 bps (halfway between 19200 and 38400,
+ugh) 8N1 (each byte transmitted as eight bits followed by one &#x201C;stop
+bit&#x201D;)</p></li>
+<li><p>USB MIDI <a
+href="https://www.usb.org/sites/default/files/midi10.pdf">Device
+Class</a> trades jitter and (maybe) latency for simplicity and
+throughput; MIDI&#x2190;&#x2192;USB interfaces start around $10 on Amazon.</p></li>
+</ul>
+<h2 id="midi-protocol">MIDI Protocol</h2>
+<ul>
+<li><p>1-3 byte messages</p>
+<ul>
+<li><p>1st byte is &#x201C;Status Byte&#x201D; with high bit set,</p></li>
+<li><p>Rest are data bytes</p></li>
+<li><p>Special case: &#x201C;System Exclusive&#x201D; status messages are arbitrary
+length, terminated by status message (usually EOX)</p></li>
+</ul></li>
+<li><p>16 &#x201C;channels&#x201D; used to address specific instruments: management
+can get fairly complicated. &#x201C;Thru&#x201D; MIDI is part of standard for chaining
+instruments; latency is a thing here</p></li>
+<li><p>Key messages (pun intended): Note-On, Note-Off. These can have
+&#x201C;velocity&#x201D; of press and release encoded</p></li>
+<li><p>Support for pitch bend, continuous controllers, pushbuttons.
+Volume, Balance, Pan, Expression etc are standardized</p></li>
+<li><p>Bank / Program / Patch support for changing instrument
+sound</p></li>
+<li><p>Much, much more: read the spec</p></li>
+</ul>
+<h2 id="midi-timing-sequencing-midi-files">MIDI Timing, Sequencing,
+&#x201C;MIDI Files&#x201D;</h2>
+<ul>
+<li><p>Keyboards are realtime, but MIDI can handle</p>
+<ul>
+<li><p>Synchronizing messages to specific times</p></li>
+<li><p>Driving a sequencer on-beat</p></li>
+<li><p>Playing <em>MIDI files:</em> standard format for timed MIDI
+messages</p></li>
+</ul></li>
+</ul>
+<h2 id="silencing-an-instrument">Silencing An Instrument</h2>
+<ul>
+<li><p>No great way to tell whether a serial MIDI controller has been
+disconnected</p></li>
+<li><p>Easy to end up with &#x201C;stuck notes&#x201D; after failing to receive NOTE
+OFF messages for this or other reasons</p></li>
+<li><p>Instrument should have easy local way to silence; should respond
+to ALL NOTES OFF and ALL SOUNDS OFF messages</p></li>
+</ul>
+<h2 id="working-with-midi">Working With MIDI</h2>
+<ul>
+<li><p>Get a library. This stuff gets a bit complicated</p></li>
+<li><p>For a controller: figure out what you want to be able to make an
+instrument do; figure out what minimum set of messages will make an
+instrument do that</p></li>
+<li><p>For an instrument: figure out what you want the instrument be
+able to do; figure out what message you have to and are willing to
+respond to</p></li>
+<li><p>Start bare-bones, add functionality incrementally</p></li>
+</ul>
+<h2 id="why-not-my-computer-keyboard">Why Not My Computer Keyboard?</h2>
+<ul>
+<li><p>N-key rollover?</p></li>
+<li><p>Not so many keys</p></li>
+<li><p>Ergonomics are awful</p>
+<ul>
+<li>No velocity</li>
+<li>Clicky</li>
+</ul></li>
+</ul>

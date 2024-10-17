@@ -1,0 +1,42 @@
+<h2 id="sources-of-pcm-approximation">Sources Of PCM
+&#x201C;Approximation&#x201D;</h2>
+<ul>
+<li><p>Band-limited via Nyquist (approximation in time)</p></li>
+<li><p>Quantization due to discrete representation (approximation in
+amplitude)</p></li>
+<li><p>Assumes an idealized sampling clock &#x2014; clock &#x201C;skew&#x201D; and &#x201C;jitter&#x201D;
+is a thing for real clocks</p></li>
+</ul>
+<h2 id="digital-to-analog-conversion">Digital To Analog Conversion</h2>
+<ul>
+<li><p>Need to take a binary number to a voltage</p></li>
+<li><p>Classic method: direct conversion via <a
+href="https://upload.wikimedia.org/wikipedia/commons/4/41/R2r-ladder.png">R/2R
+Ladder</a></p>
+<ul>
+<li><p>Very fast, simple</p></li>
+<li><p>Accuracy issues are real: bit voltages and component values must
+be matched pretty exactly</p></li>
+</ul></li>
+<li><p>Classic method: <a
+href="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/PWM%2C_3-level.svg/1920px-PWM%2C_3-level.svg.png"><em>Pulse
+Width Modulation</em></a> (PWM)</p>
+<ul>
+<li><p>Digital all the way to single-wire output</p></li>
+<li><p>Arbitrary resolution dependent on timing</p></li>
+<li><p>Really hard to get the filtering right for audio applications:
+want super-high pulse rate</p></li>
+</ul></li>
+<li><p>Fancy methods: can talk about later if folks are
+interested</p></li>
+</ul>
+<h2 id="analog-to-digital-conversion">Analog To Digital Conversion</h2>
+<ul>
+<li><p>Convert voltage on wire to binary number</p></li>
+<li><p>This is the &#x201C;hard&#x201D; direction: the DAC tricks aren&#x2019;t entirely
+invertible</p></li>
+<li><p>One common approach uses some combination of DACs and comparators
+to try to make the DAC output match the analog input</p></li>
+<li><p><a
+href="https://en.wikipedia.org/wiki/Analog-to-digital_converter#Direct-conversion">Discussion</a></p></li>
+</ul>

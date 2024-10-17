@@ -1,0 +1,83 @@
+<h2 id="sound-is-frequencies">Sound Is Frequencies</h2>
+<ul>
+<li><p>Most sounds have high periodicity</p></li>
+<li><p>Fourier&#x2019;s Theorem (FOO-ree-YAY or thereabouts) says that an
+infinitely repeating sound can be represented as a sum of
+sinusoids</p></li>
+<li><p>The ear hears/decomposes a sum of sinusoids</p></li>
+<li><p>Yet PCM is a sequence of samples over time: frequency is not
+represented</p>
+<ul>
+<li>The Nyquist Limit is hard to think of as a signal change over time
+thing</li>
+</ul></li>
+</ul>
+<h2 id="time-and-frequency">Time and Frequency</h2>
+<ul>
+<li><p>We have: a continuous waveform, a function
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>t</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">f(t)</annotation></semantics></math>
+representing sound pressure</p></li>
+<li><p>We want: a continuous <em>spectrum</em>, showing the amplitude
+and phase of sine waves at every frequency
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover><mi>f</mi><mo accent="true">&#x302;</mo></mover><mrow><mo stretchy="true" form="prefix">(</mo><mi>&#x3C9;</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\hat{f}(\omega)</annotation></semantics></math></p></li>
+<li><p>Wait, amplitude and phase from a single function? Yes,
+representing a frequency as a complex number with the usual geometric
+interpretation</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>&#x3C9;</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mi>a</mi><mo>+</mo><mi>b</mi><mi>i</mi></mrow><annotation encoding="application/x-tex"> f(\omega) = a + b i </annotation></semantics></math></p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mo stretchy="true" form="prefix">|</mo><mi>f</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>&#x3C9;</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">|</mo></mrow><mo>=</mo><msqrt><mrow><msup><mi>a</mi><mn>2</mn></msup><mo>&#x2212;</mo><msup><mi>b</mi><mn>2</mn></msup></mrow></msqrt></mrow><annotation encoding="application/x-tex"> |f(\omega)| = \sqrt{a^2 - b^2} </annotation></semantics></math></p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>&#x3B8;</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>f</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>&#x3C9;</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mi>t</mi><mi>a</mi><msup><mi>n</mi><mrow><mo>&#x2212;</mo><mn>1</mn></mrow></msup><mrow><mo stretchy="true" form="prefix">(</mo><mi>a</mi><mo>,</mo><mi>b</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex"> \theta(f(\omega)) = tan^{-1}(a, b) </annotation></semantics></math></p></li>
+<li><p>Note: you will see both <em>i</em> and <em>j</em> for
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msqrt><mrow><mo>&#x2212;</mo><mn>1</mn></mrow></msqrt><annotation encoding="application/x-tex">\sqrt{-1}</annotation></semantics></math>
+in different contexts</p></li>
+<li><p>Note: we freely mix between <em>angular frequency</em>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>&#x3C9;</mi><annotation encoding="application/x-tex">\omega</annotation></semantics></math>
+and &#x201C;normal&#x201D; frequency <em>f</em> (dammit &#x2014; we&#x2019;ll be using <em>f</em> as
+a symbol for both frequency and a generic function) via</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>&#x3C9;</mi><mo>=</mo><mn>2</mn><mi>&#x3C0;</mi><mi>f</mi></mrow><annotation encoding="application/x-tex"> \omega = 2 \pi f </annotation></semantics></math></p>
+<p>because once around the circle is one cycle</p></li>
+</ul>
+<h2 id="the-euler-formula">The Euler Formula</h2>
+<ul>
+<li><p><a href="https://en.wikipedia.org/wiki/Euler%27s_formula">Euler&#x2019;s
+Formula</a> says complex exponential is a sinusoid:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>e</mi><mrow><mi>i</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>&#x3C9;</mi><mi>t</mi><mo>+</mo><mi>&#x3B8;</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow></msup><mo>=</mo><mi>c</mi><mi>o</mi><mi>s</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>&#x3C9;</mi><mi>t</mi><mo>+</mo><mi>&#x3B8;</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>+</mo><mi>i</mi><mspace width="0.222em"></mspace><mi>s</mi><mi>i</mi><mi>n</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>&#x3C9;</mi><mi>t</mi><mo>+</mo><mi>&#x3B8;</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex"> e^{i (\omega t + \theta)} = cos(\omega t + \theta) + i~sin(\omega t + \theta) </annotation></semantics></math></p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>=</mo><msup><mi>e</mi><mrow><mi>i</mi><mi>&#x3C9;</mi><mi>t</mi></mrow></msup><msup><mi>e</mi><mrow><mi>i</mi><mi>&#x3B8;</mi></mrow></msup></mrow><annotation encoding="application/x-tex"> = e^{i \omega t} e^{i \theta} </annotation></semantics></math></p></li>
+<li><p>Starting point for &#x201C;<a
+href="https://en.wikibooks.org/wiki/Electronics/Phasors">phasor
+analysis</a>&#x201D;</p></li>
+<li><p>Now our sum of sinusoids can be represented as a sum of
+exponentials, making things easier (?)</p></li>
+</ul>
+<h2 id="the-time-domain-and-the-frequency-domain">The Time Domain and
+the Frequency Domain</h2>
+<ul>
+<li><p>Reminder: Fourier claims that every
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>t</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">f(t)</annotation></semantics></math>
+can be represented as some
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover><mi>f</mi><mo accent="true">&#x302;</mo></mover><mrow><mo stretchy="true" form="prefix">(</mo><mi>&#x3C9;</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\hat{f}(\omega)</annotation></semantics></math>
+(more or less)</p></li>
+<li><p>We think of the first kind of thing as &#x201C;in the time domain&#x201D;, the
+second as &#x201C;in the frequency domain&#x201D;</p></li>
+<li><p>Converting from a single frequency to its time domain
+representation is &#x201C;easy&#x201D;:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>t</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><msup><mi>e</mi><mrow><mo>&#x2212;</mo><mi>i</mi><mi>&#x3C9;</mi><mi>t</mi></mrow></msup></mrow><annotation encoding="application/x-tex"> f(t) = e^{-i \omega t} </annotation></semantics></math></p></li>
+<li><p>Even for a single sinusoid, converting the other way isn&#x2019;t
+immediately obvious</p></li>
+</ul>
+<h2
+id="continuous-fourier-decomposition-the-fourier-transform">Continuous
+Fourier Decomposition: The Fourier Transform</h2>
+<ul>
+<li><p>Let&#x2019;s just get the <a
+href="https://en.wikipedia.org/wiki/Fourier_transform">Fourier
+Transform</a> out there:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover><mi>f</mi><mo accent="true">&#x302;</mo></mover><mrow><mo stretchy="true" form="prefix">(</mo><mi>&#x3C9;</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><msubsup><mo>&#x222B;</mo><mrow><mo>&#x2212;</mo><mi>&#x221E;</mi></mrow><mi>&#x221E;</mi></msubsup><mi>f</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>t</mi><mo stretchy="true" form="postfix">)</mo></mrow><msup><mi>e</mi><mrow><mo>&#x2212;</mo><mi>i</mi><mi>&#x3C9;</mi><mi>t</mi></mrow></msup><mi>d</mi><mi>t</mi></mrow><annotation encoding="application/x-tex"> \hat{f}(\omega) = \int_{-\infty}^{\infty} f(t) e^{-i \omega t} dt </annotation></semantics></math></p>
+<ul>
+<li><p>The minus sign in the exponent is easy to lose</p></li>
+<li><p>The infinite integral is alarming</p></li>
+<li><p>Still, we now can math up what we wanted</p></li>
+</ul></li>
+<li><p>What about going the other way? Turns out that</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>t</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mfrac><mn>1</mn><mrow><mn>2</mn><mi>&#x3C0;</mi></mrow></mfrac><msubsup><mo>&#x222B;</mo><mrow><mo>&#x2212;</mo><mi>&#x221E;</mi></mrow><mi>&#x221E;</mi></msubsup><mover><mi>f</mi><mo accent="true">&#x302;</mo></mover><mrow><mo stretchy="true" form="prefix">(</mo><mi>&#x3C9;</mi><mo stretchy="true" form="postfix">)</mo></mrow><msup><mi>e</mi><mrow><mi>i</mi><mi>&#x3C9;</mi><mi>t</mi></mrow></msup><mi>d</mi><mi>&#x3C9;</mi></mrow><annotation encoding="application/x-tex"> f(t) = \frac{1}{2 \pi} \int_{-\infty}^{\infty} \hat{f}(\omega) e^{i \omega t} d\omega </annotation></semantics></math></p></li>
+<li><p>So the transform is <em>almost</em> self-inverse</p></li>
+</ul>

@@ -1,0 +1,122 @@
+<h2 id="music">Music</h2>
+<ul>
+<li><p>Just any ol&#x2019; sounds people find pleasing</p></li>
+<li><p>We will work in the &#x201C;classical&#x201D; realm of notes and note
+combinations</p></li>
+<li><p>Further, we will work in the &#x201C;western&#x201D; paradigm with particular
+&#x201C;scales&#x201D; and &#x201C;chords&#x201D; and stuff</p></li>
+</ul>
+<h2 id="review-notes">Review: Notes</h2>
+<ul>
+<li><p>A note is a sound with a perceived frequency (&#x201C;pitch&#x201D;) and
+duration</p></li>
+<li><p>440Hz is A above middle C (MIDI key 69)</p></li>
+<li><p>Split the octave between 440Hz and 880Hz into 12 equal parts with
+the same ol&#x2019; identity</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mo>=</mo><mn>440</mn><mo>&#x22C5;</mo><msup><mn>2</mn><mrow><mrow><mo stretchy="true" form="prefix">(</mo><mi>k</mi><mo>&#x2212;</mo><mn>69</mn><mo stretchy="true" form="postfix">)</mo></mrow><mi>/</mi><mn>12</mn></mrow></msup></mrow><annotation encoding="application/x-tex"> f = 440 \cdot 2^{(k - 69)/12} </annotation></semantics></math></p></li>
+<li><p>Formula holds down to near 0Hz and up to infinity</p></li>
+</ul>
+<h2 id="review-relative-pitch">Review: Relative Pitch</h2>
+<ul>
+<li><p>The ear (usually) only hears relative pitch</p></li>
+<li><p>We could have started with <em>any</em> base frequency rather
+than 440 and done the same thing</p></li>
+<li><p>For example, we could have chosen</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>440</mn><mo>&#x22C5;</mo><msup><mn>2</mn><mrow><mrow><mo stretchy="true" form="prefix">(</mo><mi>k</mi><mo>&#x2212;</mo><mn>71</mn><mo stretchy="true" form="postfix">)</mo></mrow><mi>/</mi><mn>12</mn></mrow></msup><mo>&#x2248;</mo><mn>493.88</mn><mo>&#x22C5;</mo><msup><mn>2</mn><mrow><mrow><mo stretchy="true" form="prefix">(</mo><mi>k</mi><mo>&#x2212;</mo><mn>69</mn><mo stretchy="true" form="postfix">)</mo></mrow><mi>/</mi><mn>12</mn></mrow></msup></mrow><annotation encoding="application/x-tex"> 440 \cdot 2^{(k - 71)/12} \approx
+   493.88 \cdot 2^{(k - 69)/12} </annotation></semantics></math></p></li>
+<li><p>Then we would have a scale &#x201C;two half-steps up&#x201D; from 440</p></li>
+</ul>
+<h2 id="the-piano-keyboard-is-special">The Piano Keyboard Is
+Special</h2>
+<ul>
+<li><p>White keys going from middle C to next C up define a &#x201C;C major
+scale&#x201D;</p></li>
+<li><p>A scale is a set of notes within an octave</p></li>
+<li><p>The C major scale has seven notes: MIDI key numbers</p>
+<pre><code>  60, 62, 64, 65, 67, 69 (, 71)</code></pre></li>
+<li><p>The pattern here is in &#x201C;half-steps&#x201D;:</p>
+<pre><code>  0, +2, +2, +1, +2, +2, +2 (, +1)</code></pre></li>
+<li><p>If we repeat this same pattern of half-steps starting from any
+key on the keyboard, we get a major scale</p></li>
+<li><p>All major scales sound alike: &#x201C;happy&#x201D;, &#x201C;default&#x201D;</p></li>
+</ul>
+<h2 id="stupid-note-names">Stupid Note Names</h2>
+<ul>
+<li><p>We name the white keys on the piano by letter. We use A for key
+69, and go up/down by eights</p></li>
+<li><p>This means that our C-major scale is</p>
+<pre><code> C, D, E, F, G, A, B, C</code></pre></li>
+<li><p>A black key can be thought of as a half-step up from the white
+key just to its left, or a half-step down from the white key just to its
+right</p></li>
+<li><p>Each black key gets two names: a &#x201C;sharp&#x201D; name <code>&#x266F;</code> for
+the &#x201C;half-step-up&#x201D; case, and a &#x201C;flat&#x201D; name <code>&#x266D;</code> for the
+&#x201C;half-step-down&#x201D; case</p></li>
+<li><p>Thus key number 70, a black key, can be thought of as A&#x266F; or
+B&#x266D;</p></li>
+<li><p>In textual notation, you&#x2019;ll often see <code>#</code> for
+<code>&#x266F;</code> and <code>b</code> for <code>&#x266D;</code></p></li>
+<li><p>(In general, &#x201C;sharp&#x201D; means &#x201C;toward higher frequencies&#x201D; and &#x201C;flat&#x201D;
+means &#x201C;toward lower frequencies&#x201D;)</p></li>
+</ul>
+<h2 id="example-relative-major-scales">Example: Relative Major
+Scales</h2>
+<ul>
+<li><p>Let&#x2019;s work out the D major scale</p>
+<ul>
+<li><p>start with D (key 62)</p></li>
+<li><p>Then go +2, +2, +1, +2, +2, +2 (, +1)</p></li>
+<li><p>So D, E, F# (Gb), G, A, B, C# (Db), D</p></li>
+</ul></li>
+</ul>
+<h2 id="note-duration">Note Duration</h2>
+<ul>
+<li><p>Divide music into &#x201C;beats&#x201D;: typically 45-130 bpm (<a
+href="https://symphonynovascotia.ca/faqs/symphony-101/how-do-musicians-know-how-fast-to-play-a-piece-and-why-are-the-terms-in-italian/">classical
+beat rates</a>)</p></li>
+<li><p>If a note&#x2019;s duration is a single beat, it is usually a &#x201C;quarter
+note&#x201D; (because reasons, see below)</p></li>
+<li><p>Note duration is typically 1/16 to 4 beats but can vary outside
+that range: mostly &#x201C;snap-quantized&#x201D; to the beats</p></li>
+</ul>
+<h2 id="measures-time-signature">Measures &#x2014; Time Signature</h2>
+<ul>
+<li><p>Group up beats into measures: collections usually of 4, sometimes
+of 3, occasionally others</p></li>
+<li><p>This defines the &#x201C;time signature&#x201D; of a piece of music: this is
+usually written as a fraction</p></li>
+<li><p>For example, a time signature of 4/4 says that the music will be
+grouped into 4-beat sections, with each beat a quarter note</p></li>
+<li><p>4/4 is known as &#x201C;common time&#x201D; <code>&#x1D134;</code>, because it is&#x2026;
+well, common</p></li>
+</ul>
+<h2 id="note-dynamics">Note Dynamics</h2>
+<ul>
+<li><p>How loud or soft are notes played?</p>
+<ul>
+<li>Volume of piece</li>
+<li>Volume of section</li>
+<li>Volume of individual notes: &#x201C;accent&#x201D;</li>
+</ul></li>
+<li><p>First beat of a measure is usually accented</p></li>
+<li><p>A piece in 4/4 will usually have an a smaller accent at beat 3 or
+4</p></li>
+</ul>
+<h2 id="make-a-piece-of-music">Make &#x201C;A Piece Of Music&#x201D;</h2>
+<ul>
+<li><p>Pick a beat rate</p></li>
+<li><p>Pick a time signature</p></li>
+<li><p>Pick notes and note properties</p></li>
+<li><p>(Notes can overlap)</p></li>
+</ul>
+<h2 id="notation">Notation</h2>
+<ul>
+<li><p>But probably don&#x2019;t want to memorize it, so need to record
+somehow</p>
+<ul>
+<li><p>Record audio performance (but how to repeat it?)</p></li>
+<li><p>Record MIDI key down/up events (but how to read/analyze
+it?)</p></li>
+<li><p>Some kind of &#x201C;music notation&#x201D;</p></li>
+</ul></li>
+</ul>

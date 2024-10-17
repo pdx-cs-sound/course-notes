@@ -1,0 +1,174 @@
+<h2 id="synthesis">Synthesis</h2>
+<ul>
+<li><p>Make a sound: contrast with analysis, effects</p></li>
+<li><p>Many popular approaches</p>
+<ul>
+<li><p>Wavetables</p></li>
+<li><p>Additive / Subtractive</p></li>
+<li><p>Frequency Modulation</p></li>
+<li><p>Some really fancy stuff</p></li>
+</ul></li>
+</ul>
+<h2 id="notes">Notes</h2>
+<ul>
+<li><p>A &#x201C;note&#x201D; is a sound with a fixed frequency</p></li>
+<li><p>Briefly: Western music uses a &#x201C;12-tone scale&#x201D;</p>
+<ul>
+<li><p>Remember that the ear hears frequency on log / exp scale</p></li>
+<li><p>An &#x201C;octave&#x201D; is a frequency that is twice some other
+frequency</p></li>
+<li><p>We divide an octave into 12 parts: with a base frequency
+<em>f</em>, we have</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mtext mathvariant="normal">note</mtext><mi>i</mi></msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>f</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mi>f</mi><mo>&#x22C5;</mo><msup><mn>2</mn><mrow><mi>i</mi><mi>/</mi><mn>12</mn></mrow></msup></mrow><annotation encoding="application/x-tex"> \textrm{note}_i(f) = f \cdot 2^{i/12} </annotation></semantics></math></p></li>
+</ul></li>
+<li><p>For example:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtable><mtr><mtd columnalign="right" style="text-align: right"><msub><mtext mathvariant="normal">note</mtext><mn>0</mn></msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>f</mi><mo stretchy="true" form="postfix">)</mo></mrow></mtd><mtd columnalign="center" style="text-align: center"><mo>=</mo></mtd><mtd columnalign="left" style="text-align: left"><mi>f</mi></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right"><msub><mtext mathvariant="normal">note</mtext><mn>12</mn></msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>f</mi><mo stretchy="true" form="postfix">)</mo></mrow></mtd><mtd columnalign="center" style="text-align: center"><mo>=</mo></mtd><mtd columnalign="left" style="text-align: left"><mn>2</mn><mi>f</mi></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right"><msub><mtext mathvariant="normal">note</mtext><mrow><mo>&#x2212;</mo><mn>24</mn></mrow></msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>f</mi><mo stretchy="true" form="postfix">)</mo></mrow></mtd><mtd columnalign="center" style="text-align: center"><mo>=</mo></mtd><mtd columnalign="left" style="text-align: left"><mfrac><mi>f</mi><mn>4</mn></mfrac></mtd></mtr></mtable><annotation encoding="application/x-tex">\begin{eqnarray*}
+  \textrm{note}_{0}(f) &amp;=&amp; f \\
+  \textrm{note}_{12}(f) &amp;=&amp; 2f \\
+  \textrm{note}_{-24}(f) &amp;=&amp; \frac{f}{4}
+\end{eqnarray*}</annotation></semantics></math></p></li>
+<li><p>There is a bunch of music theory here for future</p></li>
+</ul>
+<h2 id="key-numbers-note-names">Key Numbers, Note Names</h2>
+<ul>
+<li><p>For Western scales, the base frequency is 440Hz, because
+reasons</p></li>
+<li><p>We can use a numbering based on piano keys as a standard: &#x201C;MIDI
+key number&#x201D;</p></li>
+<li><p>MIDI 440Hz A is key 69; we call this the A in &#x201C;octave 4&#x201D; or
+A4</p></li>
+<li><p>We give the notes letter names with a possible &#x201C;sharp&#x201D; or &#x201C;flat&#x201D;
+modifier</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: right;">Key</th>
+<th style="text-align: right;">Freq</th>
+<th style="text-align: center;">Exact</th>
+<th style="text-align: left;">Name</th>
+<th style="text-align: left;">Octave</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">69</td>
+<td style="text-align: right;">440.00</td>
+<td
+style="text-align: center;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>440</mn><mo>&#x22C5;</mo><msup><mn>2</mn><mfrac><mn>0</mn><mn>12</mn></mfrac></msup></mrow><annotation encoding="application/x-tex">440 \cdot 2^\frac{0}{12}</annotation></semantics></math></td>
+<td style="text-align: left;">A</td>
+<td style="text-align: left;">4</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">70</td>
+<td style="text-align: right;">466.16</td>
+<td
+style="text-align: center;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>440</mn><mo>&#x22C5;</mo><msup><mn>2</mn><mfrac><mn>1</mn><mn>12</mn></mfrac></msup></mrow><annotation encoding="application/x-tex">440 \cdot 2^\frac{1}{12}</annotation></semantics></math></td>
+<td style="text-align: left;">B&#x266D;/A&#x266F;</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">71</td>
+<td style="text-align: right;">493.88</td>
+<td
+style="text-align: center;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>440</mn><mo>&#x22C5;</mo><msup><mn>2</mn><mfrac><mn>2</mn><mn>12</mn></mfrac></msup></mrow><annotation encoding="application/x-tex">440 \cdot 2^\frac{2}{12}</annotation></semantics></math></td>
+<td style="text-align: left;">B</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">72</td>
+<td style="text-align: right;">523.25</td>
+<td
+style="text-align: center;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>440</mn><mo>&#x22C5;</mo><msup><mn>2</mn><mfrac><mn>3</mn><mn>12</mn></mfrac></msup></mrow><annotation encoding="application/x-tex">440 \cdot 2^\frac{3}{12}</annotation></semantics></math></td>
+<td style="text-align: left;">C</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">73</td>
+<td style="text-align: right;">554.37</td>
+<td
+style="text-align: center;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>440</mn><mo>&#x22C5;</mo><msup><mn>2</mn><mfrac><mn>4</mn><mn>12</mn></mfrac></msup></mrow><annotation encoding="application/x-tex">440 \cdot 2^\frac{4}{12}</annotation></semantics></math></td>
+<td style="text-align: left;">D&#x266D;/C&#x266F;</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">74</td>
+<td style="text-align: right;">587.33</td>
+<td
+style="text-align: center;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>440</mn><mo>&#x22C5;</mo><msup><mn>2</mn><mfrac><mn>5</mn><mn>12</mn></mfrac></msup></mrow><annotation encoding="application/x-tex">440 \cdot 2^\frac{5}{12}</annotation></semantics></math></td>
+<td style="text-align: left;">D</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">75</td>
+<td style="text-align: right;">622.25</td>
+<td
+style="text-align: center;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>440</mn><mo>&#x22C5;</mo><msup><mn>2</mn><mfrac><mn>6</mn><mn>12</mn></mfrac></msup></mrow><annotation encoding="application/x-tex">440 \cdot 2^\frac{6}{12}</annotation></semantics></math></td>
+<td style="text-align: left;">E&#x266D;/D&#x266F;</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">76</td>
+<td style="text-align: right;">659.26</td>
+<td
+style="text-align: center;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>440</mn><mo>&#x22C5;</mo><msup><mn>2</mn><mfrac><mn>7</mn><mn>12</mn></mfrac></msup></mrow><annotation encoding="application/x-tex">440 \cdot 2^\frac{7}{12}</annotation></semantics></math></td>
+<td style="text-align: left;">E</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">77</td>
+<td style="text-align: right;">698.46</td>
+<td
+style="text-align: center;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>440</mn><mo>&#x22C5;</mo><msup><mn>2</mn><mfrac><mn>8</mn><mn>12</mn></mfrac></msup></mrow><annotation encoding="application/x-tex">440 \cdot 2^\frac{8}{12}</annotation></semantics></math></td>
+<td style="text-align: left;">F</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">78</td>
+<td style="text-align: right;">739.99</td>
+<td
+style="text-align: center;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>440</mn><mo>&#x22C5;</mo><msup><mn>2</mn><mfrac><mn>9</mn><mn>12</mn></mfrac></msup></mrow><annotation encoding="application/x-tex">440 \cdot 2^\frac{9}{12}</annotation></semantics></math></td>
+<td style="text-align: left;">F&#x266F;/G&#x266D;</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">79</td>
+<td style="text-align: right;">783.99</td>
+<td
+style="text-align: center;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>440</mn><mo>&#x22C5;</mo><msup><mn>2</mn><mfrac><mn>10</mn><mn>12</mn></mfrac></msup></mrow><annotation encoding="application/x-tex">440 \cdot 2^\frac{10}{12}</annotation></semantics></math></td>
+<td style="text-align: left;">G</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">80</td>
+<td style="text-align: right;">830.61</td>
+<td
+style="text-align: center;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>440</mn><mo>&#x22C5;</mo><msup><mn>2</mn><mfrac><mn>11</mn><mn>12</mn></mfrac></msup></mrow><annotation encoding="application/x-tex">440 \cdot 2^\frac{11}{12}</annotation></semantics></math></td>
+<td style="text-align: left;">A&#x266D;/G&#x266F;</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">81</td>
+<td style="text-align: right;">880.00</td>
+<td
+style="text-align: center;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>440</mn><mo>&#x22C5;</mo><msup><mn>2</mn><mfrac><mn>12</mn><mn>12</mn></mfrac></msup></mrow><annotation encoding="application/x-tex">440 \cdot 2^\frac{12}{12}</annotation></semantics></math></td>
+<td style="text-align: left;">A</td>
+<td style="text-align: left;">5</td>
+</tr>
+</tbody>
+</table></li>
+<li><p>The &#x201C;why&#x201D; of all this is a future lecture</p></li>
+</ul>
+<h2 id="note-timing">Note Timing</h2>
+<ul>
+<li><p>Notes start at a particular time, have a particular
+<em>duration</em> (how long they continue to play)</p></li>
+<li><p>For now, will think of this as an &#x201C;on time&#x201D; and &#x201C;off time&#x201D; for
+the note</p></li>
+<li><p>There&#x2019;s a whole complicated theory here, but we don&#x2019;t need it
+yet</p></li>
+<li><p>Typically start times are 4 to 30ms apart or thereabouts,
+durations are 4ms and up</p></li>
+<li><p>Notes may overlap: &#x201C;polyphony&#x201D;. Some instruments (including some
+synths) are monophonic: one note at a time, so start of next note
+at/after end of current</p></li>
+</ul>

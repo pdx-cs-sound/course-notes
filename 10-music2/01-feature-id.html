@@ -1,0 +1,110 @@
+<h2 id="analyzing-sound-signals">Analyzing Sound Signals</h2>
+<ul>
+<li><p>Some things to do:</p>
+<ul>
+<li><p>Identify beats, tempo</p></li>
+<li><p>Identify time signature</p></li>
+<li><p>Identify notes, melody, bass line</p></li>
+<li><p>Identify key</p></li>
+<li><p>Identify chords, harmonies</p></li>
+</ul></li>
+<li><p>All of these are hard!</p></li>
+<li><p>Caveat: Will mostly talk about pop</p></li>
+</ul>
+<h2 id="beat-id-direct-methods">Beat Id: Direct Methods</h2>
+<ul>
+<li><p>Convert signal to power</p>
+<ul>
+<li>RMS vs peak</li>
+<li>linear vs dB</li>
+</ul></li>
+<li><p>Search for impulse &#x201C;spikes&#x201D; in power</p>
+<ul>
+<li><p>Lowpass filter to smooth the signal</p></li>
+<li><p>Look for spikes above some reference amplitude. Autodetect
+amplitude?</p></li>
+<li><p>Look for high second derivative (second difference) of
+power</p></li>
+</ul></li>
+<li><p>Select based on expectations about time</p>
+<ul>
+<li><p>Beats are unlikely to occur less than a few tens of milliseconds
+apart, probably more like 100ms or longer</p></li>
+<li><p>Leading edge of beat is unlikely to be more than a few
+milliseconds long</p></li>
+</ul></li>
+<li><p>Can distinguish drumbeat (noise) from note attack (spectral
+signature)</p></li>
+<li><p>Limitations of all this are many:</p>
+<ul>
+<li><p>Heuristic, so much tuning is required. ML?</p></li>
+<li><p>Music signals are complex: beats buried in signal, irregular
+beats, drum rolls, etc</p></li>
+</ul></li>
+</ul>
+<h2 id="tempo-id">Tempo Id</h2>
+<ul>
+<li><p>Take input beats and find &#x201C;appropriate&#x201D; periodicity</p></li>
+<li><p>Multiple and partial beats exist, so looking for the
+&#x201C;fundamental&#x201D; beat frequency</p>
+<ul>
+<li><p>Tempo likely in the range of 60-300 bpm</p></li>
+<li><p>Use a &#x201C;Phase-Locked Loop&#x201D; architecture or an autocorrelator to
+detect dominant beat frequency</p></li>
+</ul></li>
+</ul>
+<h2 id="time-signature-id">Time Signature Id</h2>
+<ul>
+<li><p>Look for accented beats: 4/4 !.x. 3/4 !.. 6/8 !..x.. etc</p></li>
+<li><p>Look for chord changes: see below. Typical to hold a chord for
+one measure</p></li>
+</ul>
+<h2 id="note-id">Note Id</h2>
+<ul>
+<li><p>Can get very fancy</p></li>
+<li><p>Simple method</p>
+<ul>
+<li><p>Build a filter bank or use an FFT</p></li>
+<li><p>Watch for changes in power at note frequencies. Tuning?</p></li>
+<li><p>Lots of heuristics are helpful</p></li>
+<li><p>Harmonics are a pain</p></li>
+</ul></li>
+<li><p><a href="http://github.com/pdx-cs-sound/findnotes"
+class="uri">http://github.com/pdx-cs-sound/findnotes</a></p></li>
+<li><p>Fancy paper: <a
+href="https://www.sciencedirect.com/science/article/pii/S2212017316303279"
+class="uri">https://www.sciencedirect.com/science/article/pii/S2212017316303279</a></p></li>
+</ul>
+<h2 id="melody-bass-line-id">Melody, Bass Line Id</h2>
+<ul>
+<li><p>Look for top and bottom sounding notes</p></li>
+<li><p>Rests are an issue</p></li>
+</ul>
+<h2 id="key-chord-id">Key, Chord Id</h2>
+<ul>
+<li><p>See which major or minor scale notes are most consonant with
+found notes: 24 basic scales to choose from not counting &#x201C;weird
+minors&#x201D;</p></li>
+<li><p>See which chords that make sense for the key seem to be
+present</p></li>
+<li><p>Keep in mind that borrowed chords are a real thing, so improve
+heuristic scores by considering them</p></li>
+<li><p>Chord stacks / big splits are a pain, because the top may not
+match the bottom so well</p></li>
+<li><p>ML may be really helpful here?</p></li>
+</ul>
+<h2 id="state-of-the-art">State of the Art</h2>
+<ul>
+<li><p>Is not that great</p></li>
+<li><p>Garage Band cheats and uses MIDI/keys rather than notes? But
+transcription is <em>cool</em></p></li>
+<li><p>Shazam, SoundHound etc identify songs by first few notes of
+melody</p>
+<ul>
+<li><p>also by soft matching against signal, which is not &#x201C;really
+analysis&#x201D;</p></li>
+<li><p><a href="https://en.wikipedia.org/wiki/Parsons_code">Parson&#x2019;s
+Code</a> is a cute song identification trick</p></li>
+</ul></li>
+<li><p>Bunch of modern projects out there: Google around</p></li>
+</ul>

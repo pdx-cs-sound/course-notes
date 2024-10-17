@@ -1,0 +1,66 @@
+<h2 id="audio-effects">Audio Effects</h2>
+<ul>
+<li><p>Take an input sound, output a modified version</p></li>
+<li><p>All the commercial audio you hear is <em>heavily</em> effects
+processed: unprocessed &#x201C;sounds bad&#x201D; to a modern ear</p></li>
+<li><p>Artistic effects blend into engineering: things like limiting
+amplitude and bandwidth, correcting phase, limiting noise, etc are
+necessary in the audio chain but also can sound cool</p></li>
+<li><p>Example: Autotuner. Originally for correcting vocalist pitch
+issues, now also used as an artistic effect</p></li>
+</ul>
+<h2 id="effects-challenges">Effects Challenges</h2>
+<ul>
+<li><p>Often &#x201C;realtime&#x201D; effects</p>
+<ul>
+<li><p>Must have adequate throughput</p></li>
+<li><p>Latency can be a big deal, especially in chains of
+effects</p></li>
+<li><p>(Realtime effects can be used &#x201C;offline&#x201D; too)</p></li>
+</ul></li>
+<li><p>Often run on really simple hardware: traditionally analog, now
+tiny microcontrollers</p></li>
+<li><p>Complexity of effects chains can be high: &#x201C;enough knobs, but not
+too many&#x201D;</p></li>
+<li><p>Lots of emulation effects: modeling something else is hard</p>
+<ul>
+<li><p>e.g.&#xA0;microphones, amplifiers / speaker cabinets</p></li>
+<li><p>e.g.&#xA0;room effects, telephone effects</p></li>
+</ul></li>
+</ul>
+<h2 id="effects-chains">Effects Chains</h2>
+<ul>
+<li><p>Often want to apply multiple effects</p></li>
+<li><p>Build DAG for signal processing</p>
+<ul>
+<li><p>Splitting is easy in digital</p></li>
+<li><p>Still need to specify mixing for combining signals</p></li>
+<li><p>Challenges: multichannel, latency matching</p></li>
+</ul></li>
+</ul>
+<h2 id="effects-control-and-configuration">Effects Control and
+Configuration</h2>
+<ul>
+<li><p>So <em>many</em> different knobs, displays etc</p></li>
+<li><p>Want to save / restore complex effects chain config</p></li>
+<li><p>Want to have &#x201C;metaknobs&#x201D;: simplified control for entire effects
+chain</p></li>
+<li><p>Later: plugins and effects &#x201C;racks&#x201D;</p></li>
+<li><p>Lots of open questions here</p></li>
+</ul>
+<h2 id="example-compressionexpansion">Example:
+Compression/Expansion</h2>
+<ul>
+<li><p>Idea: Compression &#x2014; try to hold output volume level more steady
+as function of input volume</p></li>
+<li><p>Idea: Expansion &#x2014; try to make changes in input volume more
+pronounced on output</p></li>
+<li><p>Typical implementation: two different linear (in log space
+because volume) gain functions with a &#x201C;knee&#x201D;</p></li>
+<li><p>Switching functions at knee must not be instantaneous, else
+signal will distort: &#x201C;attack&#x201D; time to move to upper curve, &#x201C;decay&#x201D; time
+to move back to lower curve</p></li>
+<li><p>Used a lot because &#x201C;professional sound&#x201D; and because always-high
+volume is desirable</p></li>
+<li><p>Demo: <code>compressor/</code></p></li>
+</ul>

@@ -1,0 +1,77 @@
+<h2 id="sound-pressure-waves">Sound &#x2014; Pressure Waves</h2>
+<ul>
+<li><p>In this course, we will consider sound in <em>air</em></p>
+<ul>
+<li>Speed in air is around 1000 feet/s</li>
+<li>Speed in water is around 5000 feet/s</li>
+</ul></li>
+<li><p>Sound is <a
+href="https://upload.wikimedia.org/wikipedia/commons/8/82/Spherical_pressure_waves.gif">pressure
+waves</a></p></li>
+<li><p>Wavelength defined by speed and frequency</p>
+<pre><code>  s = f&#x3BB;</code></pre>
+<ul>
+<li>s is speed of sound in feet per second</li>
+<li>f is frequency in cycles per second (Hertz, Hz)</li>
+<li>&#x3BB; is wavelength in feet</li>
+</ul></li>
+<li><p>Frequency vs wavelength</p>
+<ul>
+<li>60Hz ~ 17 feet</li>
+<li>1KHz ~ 1 foot</li>
+<li>15KHz ~ 1 inch</li>
+</ul></li>
+</ul>
+<h2 id="sound-frequency">Sound &#x2014; Frequency</h2>
+<ul>
+<li><p>Note that we are assuming a <em>sinusoidal</em> wave. Good
+reasons for this described later</p></li>
+<li><p><em>Absolute</em> air pressure doesn&#x2019;t matter (within
+reason)</p></li>
+</ul>
+<h2 id="sound-volume-and-power">Sound &#x2014; Volume and Power</h2>
+<ul>
+<li><p>Volume is a complicated topic: we will return to it
+later</p></li>
+<li><p>Amplitude of a wave is usually given one of two ways:</p>
+<ul>
+<li><p>&#x201C;Peak-to-peak&#x201D; (PP) amplitude: the difference between the highest
+and lowest point in a cycle</p></li>
+<li><p>&#x201C;Root-mean-square&#x201D; (RMS) amplitude: the &#x201C;area under the curve&#x201D; of
+the cycle. For sine waves, we can calculate that the RMS amplitude is
+proportional to the PP amplitude</p>
+<pre><code>  Arms = App / sqrt(2)</code></pre></li>
+<li><p>Why RMS? Because the power delivered by a signal is proportional
+to the RMS amplitude. In the case of sound, the power delivered
+<em>is</em> the RMS amplitude</p></li>
+<li><p>(&#x201C;110V&#x201D; line voltage in the US is actually 110V RMS, so the
+peak-to-peak amplitude is about 170V)</p></li>
+</ul></li>
+<li><p>More about <a
+href="https://en.wikipedia.org/wiki/Sound_power">sound
+power</a></p></li>
+</ul>
+<h2 id="sound-latency">Sound &#x2014; Latency</h2>
+<ul>
+<li><p>Latency = delay. For example, how long between when a sound is
+produced and when it is heard</p></li>
+<li><p>Delay is not always undesirable: implies storage. A &#x201C;delay line&#x201D;
+stores a delayed copy of a signal: this is how reverb works</p></li>
+<li><p>Latency matters less at lower frequencies due to &#x201C;localization in
+time&#x201D;: hard to tell when a sound starts if it has a long
+wavelength</p></li>
+</ul>
+<h2 id="sound-superposition">Sound &#x2014; Superposition</h2>
+<ul>
+<li><p>Sounds that aren&#x2019;t pure sine waves are still usually
+<em>cyclic</em></p></li>
+<li><p>Any repeating sound can be represented by a <a
+href="https://en.wikipedia.org/wiki/Fourier_series">Fourier
+Series</a></p></li>
+<li><p>Thus, the sound we hear can actually be plausibly thought of as a
+superposition of sine waves with different frequencies and phases</p>
+<pre><code>  s(t) = &#x3A3; a[i] sin(w[i] t + &#x3A6;[i])</code></pre>
+<p>where <code>a</code>, <code>w</code> and <code>&#x3A6;</code> are the
+amplitude, frequency (in <em>radians</em> &#x2014; multiply by 2&#x3C0; to get Hz =
+cycles per second) and phase of a sine wave</p></li>
+</ul>

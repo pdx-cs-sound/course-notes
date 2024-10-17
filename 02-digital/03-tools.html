@@ -1,0 +1,78 @@
+<h2 id="audio-is-invisible">Audio Is Invisible</h2>
+<ul>
+<li><p>Working with audio is a pain &#x2014; can only experience it by
+hearing</p>
+<ul>
+<li><p>Can&#x2019;t take in a whole sound at once</p></li>
+<li><p>Can&#x2019;t detect a lot of what&#x2019;s going on</p></li>
+<li><p>Ear is in the frequency domain</p></li>
+</ul></li>
+</ul>
+<h2 id="audio-frameworks">Audio Frameworks</h2>
+<ul>
+<li><p>Linux, Windows, Mac, Android: no common standard for OS audio,
+really</p></li>
+<li><p><a href="http://www.portaudio.com">PortAudio</a> tries to provide
+a common API</p></li>
+<li><p>I will mostly talk about Linux audio here, because it is what I
+know best</p></li>
+</ul>
+<h2 id="linux-audio-frameworks">Linux Audio Frameworks</h2>
+<ul>
+<li><p>Typically several parts: drivers, system software, library
+interface, UI tooling</p></li>
+<li><p><a href="http://www.opensound.com/oss.html">OSS</a>: a sad piece
+of history</p>
+<ul>
+<li>Still sometimes use the OSS compatibility device
+(<code>/dev/dsp</code>) provided by ALSA for simple audio things</li>
+</ul></li>
+<li><p><a href="http://www.alsa-project.org">ALSA</a> provides Linux
+kernel drivers and a library that does some shared-memory stuff between
+processes</p>
+<ul>
+<li>Let me know if you want some class time on ALSA: it&#x2019;s a beast, but I
+do know a tiny bit about how it works / how to configure it</li>
+</ul></li>
+<li><p><a
+href="https://www.freedesktop.org/wiki/Software/PulseAudio/">PulseAudio</a>
+provides system software atop ALSA, etc; library API supports various
+GUI programs &#x2014; this is what most systems use</p></li>
+<li><p><a href="http://jackaudio.org/">Jack</a> provides an alternative
+to PulseAudio aimed at low-latency audio routing for pro-grade music and
+sound stuff &#x2014; this is what most &#x201C;special&#x201D; tools use</p></li>
+<li><p>Integration between PulseAudio and Jack seems to actually work
+these days, mostly&#x2026;</p></li>
+<li><p>The new Linux thing is <a
+href="https://gitlab.freedesktop.org/pipewire/pipewire/">PipeWire</a>
+which is PulseAudio, Jack, ALSA compatible and also does video.</p></li>
+</ul>
+<h2 id="audio-tools">Audio Tools</h2>
+<ul>
+<li><p>Huge range of function</p>
+<ul>
+<li><p>Generate: e.g.&#xA0;<a
+href="http://www.fluidsynth.org">FluidSynth</a>, various languages
+e.g.&#xA0;<a href="http://csound.com">CSound</a>)</p></li>
+<li><p>Record / Play / Edit: simple e.g.&#xA0;<code>parecord</code> and
+<code>paplay</code> from <a
+href="http://www.freedesktop.org/wiki/Software/PulseAudio/">PulseAudio</a>
+to complex e.g.&#xA0;<a href="http://ardour.org">Ardour</a></p></li>
+<li><p>Process: e.g.&#xA0;the <a href="http://www.ladspa.org">LADSPA</a>
+plugin suite and frameworks</p></li>
+</ul></li>
+</ul>
+<h2 id="general-purpose-tools">General-Purpose Tools</h2>
+<ul>
+<li><p>We will concentrate on &#x201C;Swiss Army Knife&#x201D; utility tools for
+now</p>
+<ul>
+<li><p><a href="http://sox.sourceforge.net/">SoX</a>, <em>literally</em>
+&#x201C;the Swiss Army knife of sound programs&#x201D;</p></li>
+<li><p><a href="http://www.audacityteam.org">Audacity</a>, a
+cross-platform GUI tool with more emphasis on recording, playback and
+editing</p></li>
+</ul></li>
+<li><p>More about these tools after we&#x2019;ve understood frequency-domain
+and DSP a bit better</p></li>
+</ul>

@@ -1,0 +1,89 @@
+<h2 id="effect-tremolo-vibrato">Effect: Tremolo / Vibrato</h2>
+<ul>
+<li><p>Vibrato: Oscillate the pitch of a signal. Resample as an effect
+(later), or just mess with the instrument</p></li>
+<li><p>Tremolo: Oscillate the volume of a signal. Easy effect</p></li>
+<li><p><strong>But&#x2026;</strong>: &#x201C;The tremolo arm on your favorite guitar,
+for example, is actually a vibrato arm.&#x201D; (<a
+href="https://www.sweetwater.com/insync/what-is-the-difference-between-vibrato-and-tremolo/">source</a>)
+So these terms are used interchangeably.</p></li>
+</ul>
+<h2 id="effect-wah">Effect: Wah</h2>
+<ul>
+<li><p>Classic frequency-domain effect</p></li>
+<li><p>Idea: lowpass filter with variable passband</p></li>
+<li><p>Human vocal tract is subtractive via low-pass filters: &#x201C;ooh&#x201D; is
+low-pass, &#x201C;aah&#x201D; is less low-pass (note inverse connection to speaker
+size)</p></li>
+<li><p>My sample implementation uses FIR filters</p></li>
+<li><p>More <a
+href="http://www.matthieuamiguet.ch/blog/diy-guitar-effects-python">typical
+implementation</a> is with an IIR filter cascade (need to keep number of
+coefficients small to be able to update the filter in reasonable time).
+<a href="https://en.wikipedia.org/wiki/Digital_biquad_filter">Biquad
+sections</a> are a popular choice, as here.</p></li>
+<li><p>See above for fancy demos</p></li>
+</ul>
+<h2 id="effect-flanger-phaser-chorus">Effect: Flanger / Phaser /
+Chorus</h2>
+<ul>
+<li><p><a
+href="https://www.dsprelated.com/freebooks/pasp/Flanging.html">Flanger</a>:
+Mix original signal with varying delay of few ms; creates varying &#x201C;comb
+filter&#x201D; by phase cancellation (<a
+href="https://www.audacityteam.org/about/nyquist/">Nyquist</a> <a
+href="https://forum.audacityteam.org/viewtopic.php?t=95059">plugin</a>)</p></li>
+<li><p>Phaser: Simulation of flanger using cascade of biquad &#x201C;all-pass
+filters&#x201D; to get multiple phase cancellations. Originally an analog
+flanger substitute, but different enough to survive (Audacity
+effect)</p></li>
+<li><p><a
+href="https://ccrma.stanford.edu/~jos/pasp/Chorus_Effect.html">Chorus</a>:
+Use a multi-tap delay line and vary the tap positions to get varying
+delay and frequency shift. Less pronounced than ensemble effect (Nyquist
+<a
+href="https://forum.audacityteam.org/viewtopic.php?t=68007">plugin</a>)</p></li>
+<li><p>These terms are used pretty interchangeably; no standard
+vocab</p></li>
+</ul>
+<h2 id="effect-resampling">Effect: Resampling</h2>
+<ul>
+<li><p>Not normally an &#x201C;effect&#x201D;: just a thing. We&#x2019;ve talked about it in
+detail.</p>
+<ul>
+<li>Double by adding more samples
+<ul>
+<li>Insert a zero between every pair of samples (and double amplitude);
+<em>or</em> double every sample</li>
+<li>Lowpass filter at halfband</li>
+</ul></li>
+<li>Halve by removing samples
+<ul>
+<li>Lowpass filter at halfband</li>
+<li>Remove every other sample</li>
+</ul></li>
+</ul></li>
+<li><p>As an effect: &#x201C;sped up&#x201D; (Chipmunks) or &#x201C;slowed down&#x201D; (sleepy)
+version of the sound</p></li>
+</ul>
+<h2 id="effect-frequency-stretching-pitch-shifting">Effect: Frequency
+Stretching / Pitch Shifting</h2>
+<ul>
+<li><p>Frequency domain equivalent of resampling</p></li>
+<li><p>Idea: lengthen or shorten a signal while keeping its harmonic
+content the same</p>
+<ul>
+<li><p>Time domain: Try to find the period of the signal, interpolate
+whole periods; useful period may be impractically long</p></li>
+<li><p>Frequency domain: Take DFT, scale it up or down (interpolate /
+decimate in frequency domain), take inverse DFT; Fourier uncertainty is
+a problem, multiscale is hard</p>
+<p><a href="https://en.wikipedia.org/wiki/Phase_vocoder">Phase
+Vocoder</a> is the general and somewhat successful approach
+here</p></li>
+</ul></li>
+<li><p>The difficulty of these plans is why historically video was
+time-scaled (frame skipping / doubling) rather than audio</p></li>
+<li><p>AKA pitch-shifting, because pitch is log-frequency, so
+multiplication becomes addition</p></li>
+</ul>

@@ -1,0 +1,95 @@
+<h2 id="a-look-at-a-sample">A Look At A Sample</h2>
+<ul>
+<li><p>Let&#x2019;s consider a 16-bit audio sample:</p>
+<pre><code>  00 010100000101 01</code></pre>
+<p>or 24-bit sample</p>
+<pre><code>  00 01010000010101010000 01</code></pre></li>
+<li><p>Sample consists of</p>
+<ul>
+<li><p>Headroom: Not recorded at maximum amplitude to avoid
+clipping</p></li>
+<li><p>Signal: The actual audio</p></li>
+<li><p>Noise: The low-order bits are typically garbage</p></li>
+</ul></li>
+<li><p>The signal and noise blend together</p></li>
+<li><p>As signals are manipulated, more noise creeps up into the signal
+bits because addition and multiplication</p></li>
+</ul>
+<h2 id="clipping">Clipping</h2>
+<ul>
+<li><p>Artifact of fixed-range representation of PCM sample:
+floating-point samples are basically unclippable</p></li>
+<li><p>If the amplitude to be represented goes over the max possible
+value or under the min, what to do?</p></li>
+<li><p>Not much except clamp (clip) the sample as close as you can get
+it</p></li>
+<li><p>Net effect: tops clipped off waves</p></li>
+<li><p>This happens in analog systems also because max/min
+voltages</p></li>
+<li><p>Discontinuity introduces harmonics: bad distortion</p></li>
+<li><p>This is why headroom</p></li>
+</ul>
+<h2 id="noise">Noise</h2>
+<ul>
+<li><p>Several kinds of common audio noise</p>
+<ul>
+<li><p>Uniform &#x201C;white noise&#x201D;: easy to make with a computer</p></li>
+<li><p>&#x201C;Pink noise&#x201D; that rolls off linearly with frequency (&#x201C;1/f noise&#x201D;,
+&#x201C;flicker noise&#x201D;)</p></li>
+<li><p>&#x201C;Brownian noise&#x201D; (&#x201C;1/f^2 noise&#x201D;) from random walk in time
+domain</p></li>
+<li><p>Check out this <a
+href="https://en.wikipedia.org/wiki/Colors_of_noise">Wikipedia
+article</a> on noise colors</p></li>
+</ul></li>
+</ul>
+<h2 id="audio-compression-model-and-residue">Audio Compression &#x2014; Model
+and Residue</h2>
+<ul>
+<li><p>Idea: Build a simplified <em>model</em> of the audio signal &#x2014;
+requires less space to represent.</p></li>
+<li><p>Maybe the model is good enough for purpose: lossy
+compression</p></li>
+<li><p>Otherwise send the model along with the <em>residue</em> &#x2014; the
+difference between the model and the true signal: lossless
+compression</p></li>
+<li><p>The residue might be a bit compressible too</p></li>
+</ul>
+<h2 id="audio-compression-model">Audio Compression &#x2014; Model</h2>
+<ul>
+<li><p>Goal: build a simple parameterized approximate model of the audio
+signal</p></li>
+<li><p>Time domain model</p>
+<ul>
+<li><p>Audio signals tend to be &#x201C;smooth&#x201D; continuous and have continuous
+derivatives</p></li>
+<li><p>Model the signal as lines or polynomials or splines</p></li>
+</ul></li>
+<li><p>Frequency domain model</p>
+<ul>
+<li><p>Audio signals tend to be periodic; frequencies tend to vary
+slowly</p></li>
+<li><p>Model the spectrum with quantization in frequency and
+amplitude</p></li>
+<li><p>Phase is confusing</p></li>
+</ul></li>
+</ul>
+<h2 id="audio-compression-residue">Audio Compression &#x2014; Residue</h2>
+<ul>
+<li><p>The residue can often look like noise</p></li>
+<li><p>Still, the amplitude of the residue should be small relative to
+the signal amplitude</p></li>
+<li><p>Common compression schemes &#x2014; Huffman coding, Rice coding,
+arithmetic coding &#x2014; take advantage of amplitude distribution of
+residue</p></li>
+</ul>
+<h2 id="lossless-vs-lossy-compression">Lossless vs Lossy
+Compression</h2>
+<ul>
+<li><p>Lossless (e.g.&#xA0;FLAC) is going to be limited for a lot of kinds of
+sounds. The fancier the model, the more kinds of sounds that can be
+compressed well</p></li>
+<li><p>Doing lossy well is harder, because mustn&#x2019;t throw away stuff that
+wrecks the sound. Psychoacoustics is needed. Tends to be done in
+frequency domain; models are generalized</p></li>
+</ul>

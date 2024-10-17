@@ -1,0 +1,50 @@
+<h2 id="digital-filters">Digital Filters</h2>
+<ul>
+<li><p>Idea: get signal into system as close to Nyquist as
+possible</p></li>
+<li><p>Do filtering mostly in software (or digital hardware)</p></li>
+<li><p>Can build <em>much</em> better filters</p></li>
+</ul>
+<h2 id="dft-filters">DFT Filters</h2>
+<ul>
+<li><p>Obvious approach: Convert to frequency domain, scale the
+frequencies you don&#x2019;t want, convert back</p></li>
+<li><p>For real-time filter output, this in principle means doing a DFT
+and inverse DFT at every sample position, which seems&#x2026;expensive to get
+one sample out</p></li>
+<li><p>Can cheat by sliding the window more than one, but you will lose
+time information from your signal</p></li>
+<li><p>Also, DFT has <em>ripple</em>: frequencies between bin centers
+will be slightly lower than they should be, since they are split between
+two bins and the sum of gaussians there isn&#x2019;t quite 1</p></li>
+<li><p>Frequency resolution can be an issue: a 128-point FFT on a 24KHz
+sample will produce roughly 200Hz bins, so the passband is going to be
+something like 400Hz, which is significant</p></li>
+</ul>
+<h2 id="fir-and-iir-filters">FIR and IIR Filters</h2>
+<ul>
+<li><p>We characterize filters in terms of <em>impulse response</em>:
+what if you have an input sample consisting of a single pulse of
+amplitude 1 and then zeros forever?</p></li>
+<li><p>Taking a look at the DFT sum, our DFT filter will treat an
+impulse anywhere in its window identically (linear time-invariant). When
+the pulse leaves the window, the FFT will then say 0 forever</p></li>
+<li><p>We call this <em>Finite Impulse Response</em>: an impulse
+presented to the filter will eventually go away</p></li>
+<li><p>A trick that we will explore is to actually use past filter
+<em>outputs</em> as well as inputs to decide the next filter
+output</p></li>
+<li><p>In this case, an impulse will make it into the outputs, which
+means that it will be looped back into the inputs: <em>Infinite Impulse
+Response</em></p></li>
+<li><p>Of course, the IIR filter should reduce the amplitude of the
+impulse over time, else badness. Such a filter is a <em>stable</em>
+filter</p></li>
+<li><p>IIR filters have cheap implementation (analog or digital) per
+unit quality, but:</p>
+<ul>
+<li><p>Are less flexible</p></li>
+<li><p>Are harder to design</p></li>
+<li><p>Have lots of issues with stability, noise, numerics</p></li>
+</ul></li>
+</ul>

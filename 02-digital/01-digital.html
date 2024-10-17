@@ -1,0 +1,138 @@
+<h2 id="discretization">Discretization</h2>
+<ul>
+<li><p>Idea: <em>Discretize</em> analog signal in time and space as &#x201C;<a
+href="https://www.soundexchangetampabay.com/wp-content/uploads/2011/04/04253.png">samples</a>&#x201D;</p></li>
+<li><p>Simplest to use uniform sampling time (discretization in time),
+fixed-size binary representation of sample values (discretization in
+amplitude)</p>
+<ul>
+<li>High sampling rates and lots of bits is more accurate, but
+&#x201C;wasteful&#x201D; for slowly-varying or low-amplitude signals</li>
+</ul></li>
+<li><p>This is often called &#x201C;Pulse Code Modulation&#x201D; (PCM), and is the
+basis of most &#x201C;time-domain&#x201D; digital representations of sound</p></li>
+<li><p>Usually PCM is &#x201C;Linear Pulse Code Modulation&#x201D; (LPCM): the binary
+amplitude values are interpreted directly. Sometimes a function is used
+to transform the sample values (e.g.&#xA0;A-law, &#x3BC;-law) to try to use fewer
+bits per sample with a decent representation: see below</p></li>
+</ul>
+<h2 id="advantages-of-discretization">Advantages of Discretization</h2>
+<ul>
+<li><p>Somewhat noise-immune: small variations in amplitude will be
+deliberately lost by the process</p></li>
+<li><p>Can be perfectly stored, transmitted and reproduced (all loss is
+up-front)</p></li>
+<li><p>Can be manipulated with a computer: simple compared to
+analog</p></li>
+<li><p>Audiophiles hate it</p></li>
+</ul>
+<h2 id="nyquist-limit">Nyquist Limit</h2>
+<ul>
+<li><p>Sound is a fundamentally frequency-domain (sum of sinusoids)
+thing: PCM treats it as time-domain</p></li>
+<li><p>A particularly striking example of this is the &#x201C;<a
+href="http://www.slack.net/~ant/bl-synth/3.nyquist.html">Nyquist
+Limit</a>&#x201D;</p></li>
+<li><p>To make PCM work well, we need to ensure that we don&#x2019;t try to
+represent signals that vary quickly relative to the sampling
+rate</p></li>
+<li><p>Specifically, we need to ensure that frequencies above half the
+sample rate are not present in the underlying signal (this is a strange
+way of putting things, but the math checks out)</p></li>
+<li><p>We will return to this topic throughout the course</p></li>
+</ul>
+<h2 id="pcm-representation">PCM Representation</h2>
+<ul>
+<li><p>Sound is represented as sequence of <em>samples</em>:
+numbers</p></li>
+<li><p>There is some specified <em>sample rate</em> in samples per
+second: note that samples per second is <em>2&#xD7;</em> max frequency in Hz,
+because Nyquist</p>
+<ul>
+<li><p>For the human frequency range, 44100 sps (22050 Hz) is more than
+adequate</p></li>
+<li><p>Typical low-end music stuff will run at 24000 sps (12000 Hz) or
+the analog equivalent bandwidth</p></li>
+<li><p>Voice can be adequately reproduced to be intelligible at 8000 sps
+(4KHz). This is the Plain Ol&#x2019; Telephone Line (POTS) standard</p></li>
+</ul></li>
+<li><p>For recording / playback, usually fixed-width integers: signed or
+unsigned</p>
+<ul>
+<li><p>For the dynamic range of human hearing, 16 bits is
+plenty</p></li>
+<li><p>Sound is quite intelligible even at 8 bits, especially if encoded
+/ decoded non-linearly on the front and back (A-law, &#x3BC;-law) to compress
+louder amplitudes</p>
+<ul>
+<li>POTS, old video games, etc</li>
+</ul></li>
+<li><p>Units are complicated: usually just normalized to range of
+values</p></li>
+</ul></li>
+<li><p>Internal calculations are different</p>
+<ul>
+<li><p>Sample rate of 96000 sps is not uncommon, to give room for
+frequency domain calculations at the high end (discussed later in the
+course)</p></li>
+<li><p>Floating point samples are really useful for convenience and to
+avoid overflow in calculations. -1.0..1.0 is normal range</p></li>
+</ul></li>
+</ul>
+<h2 id="number-representation">Number Representation</h2>
+<ul>
+<li><p>Obvious choice: integers at sampling resolution</p>
+<ul>
+<li><p>Can get weird for 24-bit, so promote to 32?</p></li>
+<li><p>Math is tricky: overflow etc. Promote to next higher
+size?</p></li>
+<li><p>What resolution to output? May have more or less precision than
+started with</p></li>
+<li><p>Fast</p></li>
+<li><p>Used for I/O, file formats, etc</p></li>
+</ul></li>
+<li><p>Obvious choice: floating-point</p>
+<ul>
+<li><p>Scale input to -1..1 or 0..1</p></li>
+<li><p>32 or 64 bit? (32-bit conveniently has 24 bits of
+precision)</p></li>
+<li><p>Issues of precision and resolution <em>mostly</em> go away (Inf
+and NaN).</p></li>
+<li><p>Fast with HW support, slow otherwise especially on 8-bit
+hardware</p></li>
+</ul></li>
+<li><p>Less obvious choice: &#x201C;fixed-point&#x201D;</p>
+<ul>
+<li><p>Treat integer as having implicit fixed &#x201C;binary point&#x201D;</p>
+<pre><code>    .1001011000000001
+    1.001011000000001
+    -.001011000000001
+    10010110.00000001</code></pre></li>
+<li><p>Fiddly, especially for languages that don&#x2019;t allow implementing a
+fixed-point type with normal arithmetic</p></li>
+<li><p>Slightly slower than integer: must keep the decimal in the right
+place</p></li>
+<li><p>Typical used on integer-only embedded systems, &#x201C;<a
+href="https://en.wikipedia.org/wiki/Motorola_56000">DSP
+chips</a>&#x201D;</p></li>
+</ul></li>
+<li><p>Strongly suggest 64-bit floating point for this course: just say
+no to a bunch of annoying bugs</p></li>
+</ul>
+<h2 id="raw-storage-and-transmission">Raw Storage and Transmission</h2>
+<ul>
+<li><p>Stereo (or more), so sample-per-<em>channel</em>, interleaved in
+the &#x201C;obvious&#x201D; way: <em>frames</em>. Frames are typically stored /
+transmitted sequentially: for a stereo signal</p>
+<pre><code>        frame0         frame1         frame2
+  ||sample|sample||sample|sample||sample|sample||&#x2026;</code></pre></li>
+<li><p>Lots is <em>implicit</em>: Sample rate? Frame size in channels?
+Frame order? Sample size? Sample endianness? Interpretation of sample
+bits?</p>
+<ul>
+<li><p>Transmission: Usually these things are specified by some external
+protocol</p></li>
+<li><p>Storage: Often many of these things are recorded in a
+<em>header</em> for flexibility</p></li>
+</ul></li>
+</ul>

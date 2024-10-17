@@ -1,0 +1,118 @@
+<h2 id="fm-synthesis">FM Synthesis</h2>
+<ul>
+<li><p>Old idea for making interesting sounds with cheap
+hardware</p></li>
+<li><p>Now used digitally because easier to implement
+accurately</p></li>
+<li><p>Idea: Think about an LFO being used to provide vibrato</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>y</mi><mrow><mo stretchy="true" form="prefix">[</mo><mi>t</mi><mo stretchy="true" form="postfix">]</mo></mrow><mo>=</mo><mo>sin</mo><mo stretchy="false" form="prefix">(</mo><msub><mi>&#x3C9;</mi><mn>0</mn></msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>t</mi><mo>+</mo><mi>a</mi><mspace width="0.222em"></mspace><mo>sin</mo><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>&#x3C9;</mi><mi>l</mi></msub><mi>t</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex"> y[t] = \sin(\omega_0 (t + a ~ \sin(\omega_l t)) </annotation></semantics></math></p></li>
+<li><p>Well, what happens when \(w_l\) gets above 100Hz or so?</p></li>
+<li><p>Turns out, can be modeled as a bunch of harmonics and
+subharmonics of \(w_0\)</p></li>
+<li><p>This is the same as FM radio: use an audio signal to make vibrato
+on a radio signal!</p></li>
+</ul>
+<h2 id="fm-refs">FM Refs</h2>
+<ul>
+<li><p>Wikipedia has a decent <a
+href="https://en.wikipedia.org/wiki/Frequency_modulation_synthesis">explanation</a>:
+note &#x201C;operators&#x201D;</p></li>
+<li><p>Some nice samples and a tutorial are <a
+href="https://www.attackmagazine.com/technique/tutorials/introduction-fm-synthesis/">here</a></p></li>
+<li><p>The classic synth is the <a
+href="http://www.synthfool.com/docs/Yamaha/DX_Series/Yamaha%20DX7%20Operating%20Manual.pdf">Yamaha
+DX7</a>. <a href="https://asb2m10.github.io/dexed/">Dexed</a> is a
+faithful open-source emulation</p></li>
+</ul>
+<h2 id="granular-synthesis">Granular Synthesis</h2>
+<ul>
+<li><p>Recall our discussion of sound time scales earlier</p></li>
+<li><p>1-50ms is an interesting duration: long enough that tones will be
+heard as tones, but too short to hear individual notes</p></li>
+<li><p>Idea: Break a sample into overlapping chunks in this time range
+and treat them as separate &#x201C;music particles&#x201D; or &#x201C;granules&#x201D;</p></li>
+<li><p>Various games can now be played with the granules: pitch shifting
+(resample the individual granuals), time stretching (replicate or omit
+granules), fun synthesis effects (e.g.&#xA0;emit randomly-sampled
+granules)</p></li>
+</ul>
+<h2 id="granular-refs">Granular Refs</h2>
+<ul>
+<li><p><a
+href="https://en.wikipedia.org/wiki/Granular_synthesis">Wikipedia</a></p></li>
+<li><p>The Granular Synthesis <a
+href="https://granularsynthesis.com/">resource</a></p></li>
+<li><p>Really nice audio <a
+href="https://www.izotope.com/en/blog/music-production/the-basics-of-granular-synthesis.html">tutorial</a></p></li>
+</ul>
+<h2 id="physical-modeling">Physical Modeling</h2>
+<ul>
+<li><p>Idea: Quit trying to be so clever. Build a model of the
+instrument and run the model to make simulated sound</p></li>
+<li><p>Way harder than sampling synth, but likely to produce way better
+results</p></li>
+<li><p>Pipe organ is pretty close to perfect: <a
+href="https://www.hauptwerk.com">Hauptwerk</a> has some amazing
+commercial software combining sampling (for individual pipes) with
+physical modeling (for the instrument as a whole)</p></li>
+<li><p>Piano isn&#x2019;t bad: <a
+href="https://www.youtube.com/watch?v=tKthfL7K5qk?t=120">Physis</a> has
+a nice demo</p></li>
+<li><p>Plucked string modeling is kind of terrible in general: <a
+href="https://en.wikipedia.org/wiki/Karplus&#x2013;Strong_string_synthesis">Karplus-Strong</a>
+is basic plan.</p></li>
+<li><p>Proper modeling requires solving acoustic systems; really hard
+math and physics. Drums are an active area of research</p></li>
+</ul>
+<h2 id="synth-architectures">Synth Architecture(s)</h2>
+<ul>
+<li><p>A synth is fundamentally async: want to take input from the
+musician while generating sound on the output</p></li>
+<li><p>Worth thinking about how that should work</p>
+<ul>
+<li><p>Concurrency / parallelism is generally inefficient</p></li>
+<li><p>Hard realtime requirements on both input and output</p></li>
+</ul></li>
+<li><p>Usual plan: three tasks, two threads</p>
+<ul>
+<li><p>Retrieve input from the musician</p></li>
+<li><p>Synthesize an output</p></li>
+<li><p>Output samples</p></li>
+</ul></li>
+<li><p>Split is somewhere in the middle, but where?</p></li>
+</ul>
+<h2 id="the-pull-model">The &#x201C;Pull Model&#x201D;</h2>
+<ul>
+<li><p>I recommend the simple, but sometimes inefficient, &#x201C;pull
+model&#x201D;</p>
+<ul>
+<li><p>When a sample is needed, call a sample mixer, which calls sample
+generators, which call each other. There may be a complex flowgraph to
+interpret</p></li>
+<li><p>The sources in the flowgraph are a set of currently-playing
+&#x201C;notes&#x201D; (sample buffers) and a set of control values. When a note is
+played out, it is removed from the note set</p></li>
+<li><p>When a key is pressed, add a note to the note set</p></li>
+<li><p>When a key is released, find the note that it generated and mark
+it as releasing</p></li>
+<li><p>When a control is changed, update the control value</p></li>
+</ul></li>
+</ul>
+<h2 id="evaluating-pull">Evaluating Pull</h2>
+<ul>
+<li><p>Advantages</p>
+<ul>
+<li><p>Sample generation gets priority. Good because underruns are the
+worst</p></li>
+<li><p>Many audio libraries are already callback driven</p></li>
+<li><p>No &#x201C;lookahead&#x201D; on key and control changes</p></li>
+</ul></li>
+<li><p>Disadvantages</p>
+<ul>
+<li><p>Have to have some synchronization around control value and sample
+buffer access</p></li>
+<li><p>Fairness is hard: musician may be &#x201C;locked out&#x201D; of the
+instrument</p></li>
+<li><p>Overhead can be high &#x2014; laziness is expensive</p></li>
+</ul></li>
+</ul>

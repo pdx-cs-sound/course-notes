@@ -1,0 +1,99 @@
+<h2 id="resampling-sample-rate-conversion">Resampling &#x2014; Sample Rate
+Conversion</h2>
+<ul>
+<li><p>Given: A signal at some fixed sampling rate <em>s</em></p></li>
+<li><p>Wanted: A signal at some different sampling rate <em>r</em> that
+represents <em>the same signal</em></p></li>
+<li><p>Obvious approach: drop or duplicate samples to get the new
+rate</p></li>
+<li><p>Obvious approach is wrong: Nyquist will punish this</p></li>
+</ul>
+<h2 id="example-2-downsampling-48000-sps-24000-sps">Example: 2&#xD7;
+Downsampling 48000 sps &#x2192; 24000 sps</h2>
+<ul>
+<li><p>Obvious approach would drop every other sample</p></li>
+<li><p>But Nyquist says that frequencies above 12 KHz will be aliased:
+this sounds <em>terrible</em></p></li>
+</ul>
+<h2 id="example-2-upsampling-24000-sps-48000-sps">Example: 2&#xD7; Upsampling
+24000 sps &#x2192; 48000 sps</h2>
+<ul>
+<li><p>Obvious approach would double every sample</p></li>
+<li><p>But this will produce &#x201C;jaggies&#x201D; at every other sample: these will
+translate to 12KHz noise that will be quite objectionable</p></li>
+</ul>
+<h2 id="solution-low-pass-filtering">Solution: Low-Pass Filtering</h2>
+<ul>
+<li><p>If we remove the unwanted frequencies, then everything turns out
+OK</p></li>
+<li><p>To downsample 2&#xD7;, low-pass at half the input bandwidth and then
+you can safely take every other sample</p></li>
+<li><p>To upsample 2&#xD7;, double each sample and then low-pass at half the
+output bandwidth to get rid of the noise</p></li>
+<li><p>Both solutions use an <em>anti-aliasing filter</em>: a
+brick-wall-as-possible low-pass filter</p></li>
+</ul>
+<h2 id="digital-filtering-is-expensive-time-domain-kludge">Digital
+Filtering Is Expensive: Time-Domain Kludge</h2>
+<ul>
+<li><p>Just average adjacent samples before downsampling; average
+adjacent samples after upsampling</p></li>
+<li><p>The average is essentially a bad digital filter here: will work
+OK but not great</p></li>
+</ul>
+<h2 id="applying-a-digital-filter">Applying A Digital Filter</h2>
+<ul>
+<li><p>Remember how an FIR digital filter works:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>y</mi><mrow><mo stretchy="true" form="prefix">[</mo><mi>i</mi><mo stretchy="true" form="postfix">]</mo></mrow><mo>=</mo><munderover><mo>&#x2211;</mo><mrow><mi>j</mi><mo>=</mo><mn>0</mn></mrow><mrow><mi>N</mi><mo>&#x2212;</mo><mn>1</mn></mrow></munderover><mi>a</mi><mrow><mo stretchy="true" form="prefix">[</mo><mi>j</mi><mo stretchy="true" form="postfix">]</mo></mrow><mi>x</mi><mrow><mo stretchy="true" form="prefix">[</mo><mi>i</mi><mo>&#x2212;</mo><mi>j</mi><mo stretchy="true" form="postfix">]</mo></mrow></mrow><annotation encoding="application/x-tex">y[i] = \sum_{j=0}^{N-1} a[j] x[i - j]</annotation></semantics></math></p>
+<p>where the <em>a[j]</em> are filter coefficients derived from some
+kind of black magic</p></li>
+<li><p>In Python</p>
+<pre><code>  y = []
+  for i in range(N, len(x)):
+      y0 = 0
+      for j in range(N):
+          y0 += a[j] * x[i - j]
+      y.append(y0)</code></pre></li>
+<li><p>Oops: the output signal <code>y</code> will be <code>N</code>
+shorter than the input. May want to stick <code>N</code> zeros on the
+front of <code>x</code> and then start from 0 instead of <code>N</code>
+or something</p></li>
+</ul>
+<h2 id="aside-python-numpy-scipy">Aside: Python, <code>numpy</code>,
+<code>scipy</code></h2>
+<ul>
+<li><p>The previous loop is going to be crazily slow in Python (at least
+40&#xD7; C): running time <em>M N</em> where <em>M</em> is the length of
+<code>x</code></p>
+<ul>
+<li><p>Use <code>numpy</code> arrays with <code>convolve()</code>:</p>
+<pre><code>   y = []
+   for i in range(N, len(x)):
+      y0 = numpy.convolve(x[i-N+1:i+1], a)
+      y.append(y0)</code></pre></li>
+<li><p>Go all the way with <code>scipy</code> and
+<code>lfilter()</code></p>
+<pre><code>   y = scipy.signal.lfilter(a, [1], x)</code></pre></li>
+</ul></li>
+<li><p>More C-like speed: still not gonna be super-fast for long
+filters</p></li>
+</ul>
+<h2 id="filter-and-decimate-interpolate-and-filter">Filter and Decimate,
+Interpolate and Filter</h2>
+<ul>
+<li><p>OK, so we have a plan for downsampling and upsampling by
+2&#xD7;</p></li>
+<li><p>2&#xD7; is just a special case: the plan works for any
+<em>integer</em> multiple or submultiple</p></li>
+<li><p>But as the rates get more dramatic, good filters get longer and
+longer</p></li>
+<li><p>We need to allow our filter function to have a transition band:
+sharper transition bands make good filters longer and longer</p></li>
+<li><p>Can handle <em>rational</em> factors by upsampling to numerator
+frequency and down to denominator: &#x2154;&#xD7; = 2&#xD7; up, 3&#xD7; down</p></li>
+<li><p>This gets gross for ratios close to 1, e.g.&#xA0;44100 / 48000 = 147 /
+160 so about 300&#xD7; work</p></li>
+<li><p>Clever algorithms for <a
+href="https://ieeexplore.ieee.org/document/6082271">ASRC</a>
+exist</p></li>
+</ul>
