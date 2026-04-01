@@ -37,12 +37,16 @@
     * "Peak-to-peak" (PP) amplitude: the difference between the
       highest and lowest point in a cycle
 
-    * "Root-mean-square" (RMS) amplitude: the "area under
+    * "Root-mean-square" (RMS) "amplitude": the "area under
       the curve" of the cycle. For sine waves, we can
       calculate that the RMS amplitude is proportional to
       the PP amplitude
 
             Arms = App / sqrt(2)
+
+      Note that this is a weird "amplitude": it is the
+      amplitude that will deliver equivalent power of
+      a PP signal.
 
     * Why RMS? Because the power delivered by a signal is
       proportional to the RMS amplitude. In the case of
