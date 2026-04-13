@@ -26,11 +26,11 @@
   representing a frequency as a complex number with the usual
   geometric interpretation
 
-  $$ f(\omega) = a + b i $$
+  $$ \hat{f}(\omega) = a + b i $$
 
-  $$ |f(\omega)| = \sqrt{a^2 - b^2} $$
+  $$ |\hat{f}(\omega)| = \sqrt{a^2 + b^2} $$
 
-  $$ \theta(f(\omega)) = tan^{-1}(a, b) $$
+  $$ \theta(\hat{f}(\omega)) = tan^{-1}(a, b) $$
 
 * Note: you will see both *i* and *j* for $\sqrt{-1}$ in
   different contexts
@@ -59,7 +59,7 @@
 
 ## The Time Domain and the Frequency Domain
 
-* Reminder: Fourier claims that every $f(t)$ can be
+* Reminder: Fourier claims that every repeating $f(t)$ can be
   represented as some $\hat{f}(\omega)$ (more or less)
 
 * We think of the first kind of thing as "in the time
