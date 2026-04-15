@@ -68,7 +68,10 @@
 
 * Normal filter definition / requirement
 
-* Output signal is a linear function of input signal ("no distortion")
+* Output signal is "linear"
+
+    * Output of sum is sum of outputs; scaled input produces
+      scaled output
 
     * Preserves frequencies of input waves
 
