@@ -1,264 +1,83 @@
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
-<head>
-  <meta charset="utf-8" />
-  <meta name="generator" content="pandoc" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>01-fourier</title>
-  <style>
-    html {
-      color: #1a1a1a;
-      background-color: #fdfdfd;
-    }
-    body {
-      margin: 0 auto;
-      max-width: 36em;
-      padding-left: 50px;
-      padding-right: 50px;
-      padding-top: 50px;
-      padding-bottom: 50px;
-      hyphens: auto;
-      overflow-wrap: break-word;
-      text-rendering: optimizeLegibility;
-      font-kerning: normal;
-    }
-    @media (max-width: 600px) {
-      body {
-        font-size: 0.9em;
-        padding: 12px;
-      }
-      h1 {
-        font-size: 1.8em;
-      }
-    }
-    @media print {
-      html {
-        background-color: white;
-      }
-      body {
-        background-color: transparent;
-        color: black;
-        font-size: 12pt;
-      }
-      p, h2, h3 {
-        orphans: 3;
-        widows: 3;
-      }
-      h2, h3, h4 {
-        page-break-after: avoid;
-      }
-    }
-    p {
-      margin: 1em 0;
-    }
-    a {
-      color: #1a1a1a;
-    }
-    a:visited {
-      color: #1a1a1a;
-    }
-    img {
-      max-width: 100%;
-    }
-    svg {
-      height: auto;
-      max-width: 100%;
-    }
-    h1, h2, h3, h4, h5, h6 {
-      margin-top: 1.4em;
-    }
-    h5, h6 {
-      font-size: 1em;
-      font-style: italic;
-    }
-    h6 {
-      font-weight: normal;
-    }
-    ol, ul {
-      padding-left: 1.7em;
-      margin-top: 1em;
-    }
-    li > ol, li > ul {
-      margin-top: 0;
-    }
-    blockquote {
-      margin: 1em 0 1em 1.7em;
-      padding-left: 1em;
-      border-left: 2px solid #e6e6e6;
-      color: #606060;
-    }
-    code {
-      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
-      font-size: 85%;
-      margin: 0;
-      hyphens: manual;
-    }
-    pre {
-      margin: 1em 0;
-      overflow: auto;
-    }
-    pre code {
-      padding: 0;
-      overflow: visible;
-      overflow-wrap: normal;
-    }
-    .sourceCode {
-     background-color: transparent;
-     overflow: visible;
-    }
-    hr {
-      background-color: #1a1a1a;
-      border: none;
-      height: 1px;
-      margin: 1em 0;
-    }
-    table {
-      margin: 1em 0;
-      border-collapse: collapse;
-      width: 100%;
-      overflow-x: auto;
-      display: block;
-      font-variant-numeric: lining-nums tabular-nums;
-    }
-    table caption {
-      margin-bottom: 0.75em;
-    }
-    tbody {
-      margin-top: 0.5em;
-      border-top: 1px solid #1a1a1a;
-      border-bottom: 1px solid #1a1a1a;
-    }
-    th {
-      border-top: 1px solid #1a1a1a;
-      padding: 0.25em 0.5em 0.25em 0.5em;
-    }
-    td {
-      padding: 0.125em 0.5em 0.25em 0.5em;
-    }
-    header {
-      margin-bottom: 4em;
-      text-align: center;
-    }
-    #TOC li {
-      list-style: none;
-    }
-    #TOC ul {
-      padding-left: 1.3em;
-    }
-    #TOC > ul {
-      padding-left: 0;
-    }
-    #TOC a:not(:hover) {
-      text-decoration: none;
-    }
-    code{white-space: pre-wrap;}
-    span.smallcaps{font-variant: small-caps;}
-    div.columns{display: flex; gap: min(4vw, 1.5em);}
-    div.column{flex: auto; overflow-x: auto;}
-    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
-    /* The extra [class] is a hack that increases specificity enough to
-       override a similar rule in reveal.js */
-    ul.task-list[class]{list-style: none;}
-    ul.task-list li input[type="checkbox"] {
-      font-size: inherit;
-      width: 0.8em;
-      margin: 0 0.8em 0.2em -1.6em;
-      vertical-align: middle;
-    }
-    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
-  </style>
-</head>
-<body>
 <h2 id="sound-is-frequencies">Sound Is Frequencies</h2>
-<ul class="incremental">
+<ul>
 <li><p>Most sounds have high periodicity</p></li>
-<li><p>Fourier’s Theorem (FOO-ree-YAY or thereabouts) says that an
+<li><p>Fourier's Theorem (FOO-ree-YAY or thereabouts) says that an
 infinitely repeating sound can be represented as a sum of
 sinusoids</p></li>
 <li><p>The ear hears/decomposes a sum of sinusoids</p></li>
 <li><p>Yet PCM is a sequence of samples over time: frequency is not
 represented</p>
-<ul class="incremental">
+<ul>
 <li>The Nyquist Limit is hard to think of as a signal change over time
 thing</li>
 </ul></li>
 </ul>
 <h2 id="time-and-frequency">Time and Frequency</h2>
-<ul class="incremental">
-<li><p>We have: a continuous waveform, a function <span
-class="math inline"><em>f</em>(<em>t</em>)</span> representing sound
-pressure</p></li>
+<ul>
+<li><p>We have: a continuous waveform, a function
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mo stretchy="false" form="prefix">(</mo><mi>t</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">f(t)</annotation></semantics></math>
+representing sound pressure</p></li>
 <li><p>We want: a continuous <em>spectrum</em>, showing the amplitude
-and phase of sine waves at every frequency <span
-class="math inline"><em>f̂</em>(<em>ω</em>)</span></p></li>
+and phase of sine waves at every frequency
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover><mi>f</mi><mo accent="true">&#x302;</mo></mover><mo stretchy="false" form="prefix">(</mo><mi>&#x3C9;</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\hat{f}(\omega)</annotation></semantics></math></p></li>
 <li><p>Wait, amplitude and phase from a single function? Yes,
 representing a frequency as a complex number with the usual geometric
 interpretation</p>
-<p><span
-class="math display"><em>f̂</em>(<em>ω</em>) = <em>a</em> + <em>b</em><em>i</em></span></p>
-<p><span class="math display">$$ |\hat{f}(\omega)| = \sqrt{a^2 + b^2}
-$$</span></p>
-<p><span
-class="math display"><em>θ</em>(<em>f̂</em>(<em>ω</em>)) = <em>t</em><em>a</em><em>n</em><sup>−1</sup>(<em>a</em>, <em>b</em>)</span></p></li>
-<li><p>Note: you will see both <em>i</em> and <em>j</em> for <span
-class="math inline">$\sqrt{-1}$</span> in different contexts</p></li>
-<li><p>Note: we freely mix between <em>angular frequency</em> <span
-class="math inline"><em>ω</em></span> and “normal” frequency <em>f</em>
-(dammit — we’ll be using <em>f</em> as a symbol for both frequency and a
-generic function) via</p>
-<p><span
-class="math display"><em>ω</em> = 2<em>π</em><em>f</em></span></p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover><mi>f</mi><mo accent="true">&#x302;</mo></mover><mo stretchy="false" form="prefix">(</mo><mi>&#x3C9;</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mi>a</mi><mo>+</mo><mi>b</mi><mi>i</mi></mrow><annotation encoding="application/x-tex"> \hat{f}(\omega) = a + b i </annotation></semantics></math></p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">|</mo><mover><mi>f</mi><mo accent="true">&#x302;</mo></mover><mo stretchy="false" form="prefix">(</mo><mi>&#x3C9;</mi><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="prefix">|</mo><mo>=</mo><msqrt><mrow><msup><mi>a</mi><mn>2</mn></msup><mo>+</mo><msup><mi>b</mi><mn>2</mn></msup></mrow></msqrt></mrow><annotation encoding="application/x-tex"> |\hat{f}(\omega)| = \sqrt{a^2 + b^2} </annotation></semantics></math></p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>&#x3B8;</mi><mo stretchy="false" form="prefix">(</mo><mover><mi>f</mi><mo accent="true">&#x302;</mo></mover><mo stretchy="false" form="prefix">(</mo><mi>&#x3C9;</mi><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mi>t</mi><mi>a</mi><msup><mi>n</mi><mrow><mi>&#x2212;</mi><mn>1</mn></mrow></msup><mo stretchy="false" form="prefix">(</mo><mi>a</mi><mo>,</mo><mi>b</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex"> \theta(\hat{f}(\omega)) = tan^{-1}(a, b) </annotation></semantics></math></p></li>
+<li><p>Note: you will see both <em>i</em> and <em>j</em> for
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msqrt><mrow><mi>&#x2212;</mi><mn>1</mn></mrow></msqrt><annotation encoding="application/x-tex">\sqrt{-1}</annotation></semantics></math>
+in different contexts</p></li>
+<li><p>Note: we freely mix between <em>angular frequency</em>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>&#x3C9;</mi><annotation encoding="application/x-tex">\omega</annotation></semantics></math>
+and "normal" frequency <em>f</em> (dammit &#x2014; we'll be using <em>f</em> as
+a symbol for both frequency and a generic function) via</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>&#x3C9;</mi><mo>=</mo><mn>2</mn><mi>&#x3C0;</mi><mi>f</mi></mrow><annotation encoding="application/x-tex"> \omega = 2 \pi f </annotation></semantics></math></p>
 <p>because once around the circle is one cycle</p></li>
 </ul>
 <h2 id="the-euler-formula">The Euler Formula</h2>
-<ul class="incremental">
-<li><p><a href="https://en.wikipedia.org/wiki/Euler%27s_formula">Euler’s
+<ul>
+<li><p><a href="https://en.wikipedia.org/wiki/Euler%27s_formula">Euler's
 Formula</a> says complex exponential is a sinusoid:</p>
-<p><span
-class="math display"><em>e</em><sup><em>i</em>(<em>ω</em><em>t</em> + <em>θ</em>)</sup> = <em>c</em><em>o</em><em>s</em>(<em>ω</em><em>t</em> + <em>θ</em>) + <em>i</em> <em>s</em><em>i</em><em>n</em>(<em>ω</em><em>t</em> + <em>θ</em>)</span></p>
-<p><span
-class="math display"> = <em>e</em><sup><em>i</em><em>ω</em><em>t</em></sup><em>e</em><sup><em>i</em><em>θ</em></sup></span></p></li>
-<li><p>Starting point for “<a
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>e</mi><mrow><mi>i</mi><mo stretchy="false" form="prefix">(</mo><mi>&#x3C9;</mi><mi>t</mi><mo>+</mo><mi>&#x3B8;</mi><mo stretchy="false" form="postfix">)</mo></mrow></msup><mo>=</mo><mi>c</mi><mi>o</mi><mi>s</mi><mo stretchy="false" form="prefix">(</mo><mi>&#x3C9;</mi><mi>t</mi><mo>+</mo><mi>&#x3B8;</mi><mo stretchy="false" form="postfix">)</mo><mo>+</mo><mi>i</mi><mspace width="0.222em"></mspace><mi>s</mi><mi>i</mi><mi>n</mi><mo stretchy="false" form="prefix">(</mo><mi>&#x3C9;</mi><mi>t</mi><mo>+</mo><mi>&#x3B8;</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex"> e^{i (\omega t + \theta)} = cos(\omega t + \theta) + i~sin(\omega t + \theta) </annotation></semantics></math></p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>=</mo><msup><mi>e</mi><mrow><mi>i</mi><mi>&#x3C9;</mi><mi>t</mi></mrow></msup><msup><mi>e</mi><mrow><mi>i</mi><mi>&#x3B8;</mi></mrow></msup></mrow><annotation encoding="application/x-tex"> = e^{i \omega t} e^{i \theta} </annotation></semantics></math></p></li>
+<li><p>Starting point for "<a
 href="https://en.wikibooks.org/wiki/Electronics/Phasors">phasor
-analysis</a>”</p></li>
+analysis</a>"</p></li>
 <li><p>Now our sum of sinusoids can be represented as a sum of
 exponentials, making things easier (?)</p></li>
 </ul>
 <h2 id="the-time-domain-and-the-frequency-domain">The Time Domain and
 the Frequency Domain</h2>
-<ul class="incremental">
-<li><p>Reminder: Fourier claims that every <span
-class="math inline"><em>f</em>(<em>t</em>)</span> can be represented as
-some <span class="math inline"><em>f̂</em>(<em>ω</em>)</span> (more or
-less)</p></li>
-<li><p>We think of the first kind of thing as “in the time domain”, the
-second as “in the frequency domain”</p></li>
+<ul>
+<li><p>Reminder: Fourier claims that every repeating
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mo stretchy="false" form="prefix">(</mo><mi>t</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">f(t)</annotation></semantics></math>
+can be represented as some
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover><mi>f</mi><mo accent="true">&#x302;</mo></mover><mo stretchy="false" form="prefix">(</mo><mi>&#x3C9;</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\hat{f}(\omega)</annotation></semantics></math>
+(more or less)</p></li>
+<li><p>We think of the first kind of thing as "in the time domain", the
+second as "in the frequency domain"</p></li>
 <li><p>Converting from a single frequency to its time domain
-representation is “easy”:</p>
-<p><span
-class="math display"><em>f</em>(<em>t</em>) = <em>e</em><sup>−<em>i</em><em>ω</em><em>t</em></sup></span></p></li>
-<li><p>Even for a single sinusoid, converting the other way isn’t
+representation is "easy":</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mo stretchy="false" form="prefix">(</mo><mi>t</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><msup><mi>e</mi><mrow><mi>&#x2212;</mi><mi>i</mi><mi>&#x3C9;</mi><mi>t</mi></mrow></msup></mrow><annotation encoding="application/x-tex"> f(t) = e^{-i \omega t} </annotation></semantics></math></p></li>
+<li><p>Even for a single sinusoid, converting the other way isn't
 immediately obvious</p></li>
 </ul>
 <h2
 id="continuous-fourier-decomposition-the-fourier-transform">Continuous
 Fourier Decomposition: The Fourier Transform</h2>
-<ul class="incremental">
-<li><p>Let’s just get the <a
+<ul>
+<li><p>Let's just get the <a
 href="https://en.wikipedia.org/wiki/Fourier_transform">Fourier
 Transform</a> out there:</p>
-<p><span
-class="math display"><em>f̂</em>(<em>ω</em>) = ∫<sub>−∞</sub><sup>∞</sup><em>f</em>(<em>t</em>)<em>e</em><sup>−<em>i</em><em>ω</em><em>t</em></sup><em>d</em><em>t</em></span></p>
-<ul class="incremental">
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover><mi>f</mi><mo accent="true">&#x302;</mo></mover><mo stretchy="false" form="prefix">(</mo><mi>&#x3C9;</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><msubsup><mo>&#x222B;</mo><mrow><mi>&#x2212;</mi><mi>&#x221E;</mi></mrow><mi>&#x221E;</mi></msubsup><mi>f</mi><mo stretchy="false" form="prefix">(</mo><mi>t</mi><mo stretchy="false" form="postfix">)</mo><msup><mi>e</mi><mrow><mi>&#x2212;</mi><mi>i</mi><mi>&#x3C9;</mi><mi>t</mi></mrow></msup><mi>d</mi><mi>t</mi></mrow><annotation encoding="application/x-tex"> \hat{f}(\omega) = \int_{-\infty}^{\infty} f(t) e^{-i \omega t} dt </annotation></semantics></math></p>
+<ul>
 <li><p>The minus sign in the exponent is easy to lose</p></li>
 <li><p>The infinite integral is alarming</p></li>
 <li><p>Still, we now can math up what we wanted</p></li>
 </ul></li>
 <li><p>What about going the other way? Turns out that</p>
-<p><span class="math display">$$ f(t) = \frac{1}{2 \pi}
-\int_{-\infty}^{\infty} \hat{f}(\omega) e^{i \omega t} d\omega
-$$</span></p></li>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mo stretchy="false" form="prefix">(</mo><mi>t</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mfrac><mn>1</mn><mrow><mn>2</mn><mi>&#x3C0;</mi></mrow></mfrac><msubsup><mo>&#x222B;</mo><mrow><mi>&#x2212;</mi><mi>&#x221E;</mi></mrow><mi>&#x221E;</mi></msubsup><mover><mi>f</mi><mo accent="true">&#x302;</mo></mover><mo stretchy="false" form="prefix">(</mo><mi>&#x3C9;</mi><mo stretchy="false" form="postfix">)</mo><msup><mi>e</mi><mrow><mi>i</mi><mi>&#x3C9;</mi><mi>t</mi></mrow></msup><mi>d</mi><mi>&#x3C9;</mi></mrow><annotation encoding="application/x-tex"> f(t) = \frac{1}{2 \pi} \int_{-\infty}^{\infty} \hat{f}(\omega) e^{i \omega t} d\omega </annotation></semantics></math></p></li>
 <li><p>So the transform is <em>almost</em> self-inverse</p></li>
 </ul>
-</body>
-</html>
