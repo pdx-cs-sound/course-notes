@@ -1,9 +1,10 @@
 ## Resampling — Sample Rate Conversion
 
-* Given: A signal at some fixed sampling rate *s*
+* Given: A PWM sequence at some fixed sampling rate *s*
+  representing a signal *f*
 
-* Wanted: A signal at some different sampling rate *r* that
-  represents *the same signal*
+* Wanted: A PWM sequence at some different sampling rate *r* that
+  represents *the same signal f*
 
 * Obvious approach: drop or duplicate samples to get the new
   rate
