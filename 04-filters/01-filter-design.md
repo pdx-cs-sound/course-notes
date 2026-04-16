@@ -8,7 +8,7 @@
 
 * Filter equation:
 
-    $$y[n] = \frac{1}{2}(x[n] + x[n - 1])$$
+    $$y[n] = \frac{1}{2}x[n] + \frac{1}{2}x[n - 1]$$
 
 * Why is this a low-pass filter? For higher
   frequencies, if sample $x[n]$ is positive, sample $x[n-1]$
@@ -52,7 +52,7 @@
 
 * Where do the coefficients $a$ come from?
 
-## Inversion, Reversal, Superposition
+## Inversion, Superposition
 
 * Why the obsession with lowpass? Because we can get the
   other kinds "for free" from the lowpass
@@ -60,14 +60,11 @@
 * Inversion: Negate all coefficients and add 1 to the
   "center" coefficient — this flips the spectrum, so high-pass
 
-* Reversal: Reverse the order of coefficients — this
-  reverses the spectrum, so high-pass
-
 * Superposition: Average the coefficients of two
   equal-length filters — this gives a spectrum that is the
-  product of the filters. If one is low-pass and the other
-  high-pass, this is band-notch. We can then invert to get
-  bandpass.
+  product of the filters. With overlapping low-pass and
+  high-pass we can get bandpass. With non-overlapping
+  low-pass and high-pass we can get band-stop.
 
 ## Convolution
 
