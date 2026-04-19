@@ -1,0 +1,262 @@
+<h1 id="iq-signals">I/Q Signals</h1>
+<p>Claude (Anthropic)</p>
+<p>Brief notes on the <em>I/Q</em> representation: what it is, why it’s
+legitimate, and where it shows up. Specific applications (tone
+detection, modulation) are covered separately.</p>
+<h2 id="what-iq-is">What I/Q is</h2>
+<ul class="incremental">
+<li>An <em>I/Q pair</em> represents a signal as two numbers per sample:
+an <em>in-phase</em> component
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>I</mi><annotation encoding="application/x-tex">I</annotation></semantics></math>
+and a <em>quadrature</em> component
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>Q</mi><annotation encoding="application/x-tex">Q</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>90</mn><mi>°</mi></mrow><annotation encoding="application/x-tex">90°</annotation></semantics></math>
+apart in phase.</li>
+<li>Equivalently: a complex-valued sample
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>I</mi><mo>+</mo><mi>j</mi><mi>Q</mi></mrow><annotation encoding="application/x-tex">I + jQ</annotation></semantics></math>.</li>
+<li><strong>It is a time-domain representation.</strong> One pair (or
+equivalently one complex number) per time index.</li>
+<li><strong>It is defined relative to a chosen reference
+frequency</strong>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>f</mi><mtext mathvariant="normal">ref</mtext></msub><annotation encoding="application/x-tex">f_\text{ref}</annotation></semantics></math>.
+You cannot form an I/Q representation without picking one.</li>
+<li>The pair describes the signal’s amplitude and phase <em>at
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>f</mi><mtext mathvariant="normal">ref</mtext></msub><annotation encoding="application/x-tex">f_\text{ref}</annotation></semantics></math>,
+at this moment</em>, rather than the raw instantaneous signal
+value.</li>
+</ul>
+<p>So: time-domain indexing, frequency-referenced meaning. A time series
+of “how much
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>f</mi><mtext mathvariant="normal">ref</mtext></msub><annotation encoding="application/x-tex">f_\text{ref}</annotation></semantics></math>
+is present, and at what phase, right now.”</p>
+<h2 id="why-two-numbers">Why two numbers</h2>
+<p>A sinusoid at frequency
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>f</mi><annotation encoding="application/x-tex">f</annotation></semantics></math>
+has two degrees of freedom: amplitude
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>A</mi><annotation encoding="application/x-tex">A</annotation></semantics></math>
+and phase
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>φ</mi><annotation encoding="application/x-tex">\varphi</annotation></semantics></math>.</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtable><mtr><mtd columnalign="right" style="text-align: right"><mi>A</mi><mspace width="0.222em"></mspace><mrow><mi mathvariant="normal">cos</mi><mo>&#8289;</mo></mrow><mo stretchy="false" form="prefix">(</mo><mn>2</mn><mi>π</mi><mi>f</mi><mi>t</mi><mo>+</mo><mi>φ</mi><mo stretchy="false" form="postfix">)</mo></mtd><mtd columnalign="center" style="text-align: center"><mo>=</mo></mtd><mtd columnalign="left" style="text-align: left"><mi>A</mi><mspace width="0.222em"></mspace><mrow><mi mathvariant="normal">cos</mi><mo>&#8289;</mo></mrow><mo stretchy="false" form="prefix">(</mo><mi>φ</mi><mo stretchy="false" form="postfix">)</mo><mspace width="0.222em"></mspace><mrow><mi mathvariant="normal">cos</mi><mo>&#8289;</mo></mrow><mo stretchy="false" form="prefix">(</mo><mn>2</mn><mi>π</mi><mi>f</mi><mi>t</mi><mo stretchy="false" form="postfix">)</mo><mo>−</mo><mi>A</mi><mspace width="0.222em"></mspace><mrow><mi mathvariant="normal">sin</mi><mo>&#8289;</mo></mrow><mo stretchy="false" form="prefix">(</mo><mi>φ</mi><mo stretchy="false" form="postfix">)</mo><mspace width="0.222em"></mspace><mrow><mi mathvariant="normal">sin</mi><mo>&#8289;</mo></mrow><mo stretchy="false" form="prefix">(</mo><mn>2</mn><mi>π</mi><mi>f</mi><mi>t</mi><mo stretchy="false" form="postfix">)</mo></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right"></mtd><mtd columnalign="center" style="text-align: center"><mo>=</mo></mtd><mtd columnalign="left" style="text-align: left"><mi>I</mi><mspace width="0.222em"></mspace><mrow><mi mathvariant="normal">cos</mi><mo>&#8289;</mo></mrow><mo stretchy="false" form="prefix">(</mo><mn>2</mn><mi>π</mi><mi>f</mi><mi>t</mi><mo stretchy="false" form="postfix">)</mo><mo>−</mo><mi>Q</mi><mspace width="0.222em"></mspace><mrow><mi mathvariant="normal">sin</mi><mo>&#8289;</mo></mrow><mo stretchy="false" form="prefix">(</mo><mn>2</mn><mi>π</mi><mi>f</mi><mi>t</mi><mo stretchy="false" form="postfix">)</mo></mtd></mtr></mtable><annotation encoding="application/x-tex">\begin{eqnarray*}
+A~\cos(2\pi f t + \varphi) &amp;=&amp; A~\cos(\varphi)~\cos(2\pi f t)
+   - A~\sin(\varphi)~\sin(2\pi f t) \\
+   &amp;=&amp; I ~ \cos(2\pi f t) - Q ~ \sin(2\pi f t)
+\end{eqnarray*}</annotation></semantics></math></p>
+<p>with
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>I</mi><mo>=</mo><mi>A</mi><mspace width="0.222em"></mspace><mrow><mi mathvariant="normal">cos</mi><mo>&#8289;</mo></mrow><mo stretchy="false" form="prefix">(</mo><mi>φ</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">I = A~\cos(\varphi)</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>Q</mi><mo>=</mo><mi>A</mi><mspace width="0.222em"></mspace><mrow><mi mathvariant="normal">sin</mi><mo>&#8289;</mo></mrow><mo stretchy="false" form="prefix">(</mo><mi>φ</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">Q = A~\sin(\varphi)</annotation></semantics></math>.
+Recover the original amplitude and phase as:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mo>=</mo><msqrt><mrow><msup><mi>I</mi><mn>2</mn></msup><mo>+</mo><msup><mi>Q</mi><mn>2</mn></msup></mrow></msqrt><mo>,</mo><mspace width="2.0em"></mspace><mi>φ</mi><mo>=</mo><mrow><mi mathvariant="normal">atan2</mi><mo>&#8289;</mo></mrow><mo stretchy="false" form="prefix">(</mo><mi>Q</mi><mo>,</mo><mi>I</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">A = \sqrt{I^2 + Q^2}, \qquad \varphi = \operatorname{atan2}(Q, I)</annotation></semantics></math></p>
+<p>A single real number per sample can’t do this — amplitude and phase
+are tangled together in the waveform.</p>
+<h2 id="the-complex-number-view">The complex-number view</h2>
+<p>Package
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>I</mi><mo>,</mo><mi>Q</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(I, Q)</annotation></semantics></math>
+as
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>I</mi><mo>+</mo><mi>j</mi><mi>Q</mi></mrow><annotation encoding="application/x-tex">I + jQ</annotation></semantics></math>.
+Using Euler’s formula
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>e</mi><mrow><mi>j</mi><mi>θ</mi></mrow></msup><mo>=</mo><mrow><mi mathvariant="normal">cos</mi><mo>&#8289;</mo></mrow><mi>θ</mi><mo>+</mo><mi>j</mi><mrow><mi mathvariant="normal">sin</mi><mo>&#8289;</mo></mrow><mi>θ</mi></mrow><annotation encoding="application/x-tex">e^{j\theta} = \cos\theta + j\sin\theta</annotation></semantics></math>:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>I</mi><mo>+</mo><mi>j</mi><mi>Q</mi><mo>=</mo><mi>A</mi><mrow><mi mathvariant="normal">cos</mi><mo>&#8289;</mo></mrow><mi>φ</mi><mo>+</mo><mi>j</mi><mi>A</mi><mrow><mi mathvariant="normal">sin</mi><mo>&#8289;</mo></mrow><mi>φ</mi><mo>=</mo><mi>A</mi><mo>⋅</mo><msup><mi>e</mi><mrow><mi>j</mi><mi>φ</mi></mrow></msup></mrow><annotation encoding="application/x-tex">I + jQ = A\cos\varphi + jA\sin\varphi = A \cdot e^{j\varphi}</annotation></semantics></math></p>
+<ul class="incremental">
+<li>Magnitude = amplitude.</li>
+<li>Angle = phase.</li>
+<li>A complex number is a natural container for “amplitude-and-phase at
+some frequency.”</li>
+<li>Many operations become single complex multiplications:
+<ul class="incremental">
+<li>Phase rotation: multiply by
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi>e</mi><mrow><mi>j</mi><mi>θ</mi></mrow></msup><annotation encoding="application/x-tex">e^{j\theta}</annotation></semantics></math>.</li>
+<li>Frequency shift: multiply by
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi>e</mi><mrow><mi>j</mi><mo>⋅</mo><mn>2</mn><mi>π</mi><mi mathvariant="normal">Δ</mi><mi>f</mi><mo>⋅</mo><mi>t</mi></mrow></msup><annotation encoding="application/x-tex">e^{j \cdot 2\pi \Delta f \cdot t}</annotation></semantics></math>.</li>
+<li>Amplitude scaling: multiply by a real scalar.</li>
+</ul></li>
+</ul>
+<h2 id="time-domain-not-frequency-domain">Time-domain, not
+frequency-domain</h2>
+<p>Worth spelling out, since this is a common point of confusion:</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Representation</th>
+<th>Indexed by</th>
+<th>Each sample is</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Time-domain (raw)</td>
+<td>time</td>
+<td>instantaneous signal value</td>
+</tr>
+<tr>
+<td><strong>I/Q (baseband)</strong></td>
+<td><strong>time</strong></td>
+<td><strong>amplitude &amp; phase at
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>f</mi><mtext mathvariant="normal">ref</mtext></msub><annotation encoding="application/x-tex">f_\text{ref}</annotation></semantics></math></strong></td>
+</tr>
+<tr>
+<td>Frequency-domain (DFT)</td>
+<td>frequency</td>
+<td>amplitude &amp; phase at that frequency</td>
+</tr>
+</tbody>
+</table>
+<p>I/Q uses frequency concepts (amplitude, phase, reference frequency)
+in its <em>definition</em>, but the resulting object is still a time
+series.</p>
+<p>Other common names for this representation:</p>
+<ul class="incremental">
+<li><strong>Baseband signal</strong> — the carrier at
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>f</mi><mtext mathvariant="normal">ref</mtext></msub><annotation encoding="application/x-tex">f_\text{ref}</annotation></semantics></math>
+has been “removed,” leaving only the slow variations around it. The
+signal is centered at
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>0</mn><annotation encoding="application/x-tex">0</annotation></semantics></math>
+Hz (DC).</li>
+<li><strong>Complex envelope</strong> —
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>I</mi><mo>+</mo><mi>j</mi><mi>Q</mi></mrow><annotation encoding="application/x-tex">I + jQ</annotation></semantics></math>
+<em>is</em> the envelope (amplitude and phase) of the signal relative to
+the carrier.</li>
+</ul>
+<h2 id="concrete-picture">Concrete picture</h2>
+<p>A 2225 Hz tone gated off partway through:</p>
+<figure>
+<img src="iq-three-views.png"
+alt="Three views of the same signal: raw time-domain samples, I/Q representation at reference frequency 2225 Hz, and DFT magnitude." />
+<figcaption aria-hidden="true">Three views of the same signal: raw
+time-domain samples, I/Q representation at reference frequency 2225 Hz,
+and DFT magnitude.</figcaption>
+</figure>
+<ul class="incremental">
+<li><strong>Raw samples:</strong> wiggle rapidly at 2225 Hz, with the
+tone switching off at
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>t</mi><mo>=</mo><mn>5</mn></mrow><annotation encoding="application/x-tex">t = 5</annotation></semantics></math>
+ms.</li>
+<li><strong>I/Q at
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>f</mi><mtext mathvariant="normal">ref</mtext></msub><mo>=</mo><mn>2225</mn></mrow><annotation encoding="application/x-tex">f_\text{ref} = 2225</annotation></semantics></math>
+Hz:</strong> sits near
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>A</mi><mo>,</mo><mn>0</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(A, 0)</annotation></semantics></math>
+while the tone is on,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mn>0</mn><mo>,</mo><mn>0</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(0, 0)</annotation></semantics></math>
+while it’s off. <strong>No 2225 Hz wiggling</strong> — it got absorbed
+into the reference. Only the slow envelope remains. (The residual ripple
+is an artifact of the finite lowpass filter used to produce I/Q; a
+sharper filter removes it.)</li>
+<li><strong>DFT:</strong> one complex number per frequency bin. Energy
+concentrated near 2225 Hz. No time information — you can’t tell from the
+DFT alone when the tone was on or off.</li>
+</ul>
+<p>I/Q is the middle view: same time resolution as raw samples, but the
+fast carrier is gone and only the slow modulation remains.</p>
+<h2 id="connection-to-the-dft">Connection to the DFT</h2>
+<p>This is where most students trip, and it’s worth making explicit. A
+DFT output bin is a complex number
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>X</mi><mo stretchy="false" form="prefix">[</mo><mi>k</mi><mo stretchy="false" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">X[k]</annotation></semantics></math>.
+A complex-valued sample in an I/Q stream is also a complex number.
+<strong>Are these the same thing?</strong> Yes, in the following precise
+sense.</p>
+<p>A DFT output bin is:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>X</mi><mo stretchy="false" form="prefix">[</mo><mi>k</mi><mo stretchy="false" form="postfix">]</mo><mo>=</mo><munderover><mo>∑</mo><mrow><mi>n</mi><mo>=</mo><mn>0</mn></mrow><mrow><mi>N</mi><mo>−</mo><mn>1</mn></mrow></munderover><mi>x</mi><mo stretchy="false" form="prefix">[</mo><mi>n</mi><mo stretchy="false" form="postfix">]</mo><mo>⋅</mo><msup><mi>e</mi><mrow><mi>−</mi><mi>j</mi><mo>⋅</mo><mn>2</mn><mi>π</mi><mi>k</mi><mi>n</mi><mi>/</mi><mi>N</mi></mrow></msup><mo>=</mo><msub><mi>I</mi><mi>k</mi></msub><mo>+</mo><mi>j</mi><msub><mi>Q</mi><mi>k</mi></msub></mrow><annotation encoding="application/x-tex">X[k] = \sum_{n=0}^{N-1} x[n] \cdot e^{-j \cdot 2\pi k n / N}
+      = I_k + jQ_k</annotation></semantics></math></p>
+<p>Writing that out in real and imaginary parts:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>I</mi><mi>k</mi></msub><mo>=</mo><munder><mo>∑</mo><mi>n</mi></munder><mrow><mi>x</mi><mo stretchy="false" form="prefix">[</mo><mi>n</mi><mo stretchy="false" form="postfix">]</mo><mspace width="0.222em"></mspace><mrow><mi mathvariant="normal">cos</mi><mo>&#8289;</mo></mrow><mo stretchy="false" form="prefix">(</mo><mn>2</mn><mi>π</mi><mi>k</mi><mi>n</mi><mi>/</mi><mi>N</mi><mo stretchy="false" form="postfix">)</mo></mrow><mo>,</mo><mspace width="2.0em"></mspace><msub><mi>Q</mi><mi>k</mi></msub><mo>=</mo><mi>−</mi><munder><mo>∑</mo><mi>n</mi></munder><mrow><mi>x</mi><mo stretchy="false" form="prefix">[</mo><mi>n</mi><mo stretchy="false" form="postfix">]</mo><mspace width="0.222em"></mspace><mrow><mi mathvariant="normal">sin</mi><mo>&#8289;</mo></mrow><mo stretchy="false" form="prefix">(</mo><mn>2</mn><mi>π</mi><mi>k</mi><mi>n</mi><mi>/</mi><mi>N</mi><mo stretchy="false" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">I_k = \sum_n {x[n]~\cos(2\pi k n / N)}, \qquad
+  Q_k = -\sum_n {x[n]~\sin(2\pi k n / N)}</annotation></semantics></math></p>
+<p>These are exactly the I/Q components of the signal at reference
+frequency
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>f</mi><mi>k</mi></msub><mo>=</mo><mi>k</mi><msub><mi>f</mi><mi>s</mi></msub><mi>/</mi><mi>N</mi></mrow><annotation encoding="application/x-tex">f_k = k f_s / N</annotation></semantics></math>,
+summed over the block. So:</p>
+<ul class="incremental">
+<li><strong>Each DFT output bin is an I/Q pair</strong> at that bin’s
+frequency.</li>
+<li><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">|</mo><mi>X</mi><mo stretchy="false" form="prefix">[</mo><mi>k</mi><mo stretchy="false" form="postfix">]</mo><mo stretchy="false" form="prefix">|</mo></mrow><annotation encoding="application/x-tex">|X[k]|</annotation></semantics></math>
+is the amplitude at
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>f</mi><mi>k</mi></msub><annotation encoding="application/x-tex">f_k</annotation></semantics></math>;
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>∠</mi><mi>X</mi><mo stretchy="false" form="prefix">[</mo><mi>k</mi><mo stretchy="false" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">\angle X[k]</annotation></semantics></math>
+is the phase at
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>f</mi><mi>k</mi></msub><annotation encoding="application/x-tex">f_k</annotation></semantics></math>.</li>
+<li><strong>A DFT is “compute one I/Q pair per frequency, for
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>N</mi><annotation encoding="application/x-tex">N</annotation></semantics></math>
+frequencies simultaneously.”</strong> The FFT is a fast algorithm for
+doing this.</li>
+</ul>
+<p>This also explains why DFT <em>inputs</em> are allowed to be
+complex-valued: they might themselves be I/Q streams, in which case the
+DFT is analyzing a baseband signal. For real-valued inputs (audio,
+voltages), you just set the imaginary part to zero; the DFT’s output is
+complex either way.</p>
+<h2 id="how-you-get-iq-in-practice">How you get I/Q in practice</h2>
+<p>Two common paths:</p>
+<ul class="incremental">
+<li><strong>Multiply (mix) and lowpass.</strong> Multiply the real
+signal by
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">cos</mi><mo>&#8289;</mo></mrow><mo stretchy="false" form="prefix">(</mo><mn>2</mn><mi>π</mi><msub><mi>f</mi><mtext mathvariant="normal">ref</mtext></msub><mi>t</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\cos(2\pi f_\text{ref} t)</annotation></semantics></math>
+to get
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>I</mi><annotation encoding="application/x-tex">I</annotation></semantics></math>,
+by
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>−</mi><mrow><mi mathvariant="normal">sin</mi><mo>&#8289;</mo></mrow><mo stretchy="false" form="prefix">(</mo><mn>2</mn><mi>π</mi><msub><mi>f</mi><mtext mathvariant="normal">ref</mtext></msub><mi>t</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">-\sin(2\pi f_\text{ref} t)</annotation></semantics></math>
+to get
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>Q</mi><annotation encoding="application/x-tex">Q</annotation></semantics></math>,
+then lowpass each to kill the sum-frequency image. Produces a continuous
+I/Q stream at the original sample rate. This is how software-defined
+radios, lock-in amplifiers, and superheterodyne receivers work
+internally.</li>
+<li><strong>Correlate over a block.</strong> Sum
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi><mo stretchy="false" form="prefix">[</mo><mi>n</mi><mo stretchy="false" form="postfix">]</mo><mrow><mi mathvariant="normal">cos</mi><mo>&#8289;</mo></mrow><mo stretchy="false" form="prefix">(</mo><mi>⋅</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">x[n]\cos(\cdot)</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi><mo stretchy="false" form="prefix">[</mo><mi>n</mi><mo stretchy="false" form="postfix">]</mo><mrow><mi mathvariant="normal">sin</mi><mo>&#8289;</mo></mrow><mo stretchy="false" form="prefix">(</mo><mi>⋅</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">x[n]\sin(\cdot)</annotation></semantics></math>
+over a block of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>N</mi><annotation encoding="application/x-tex">N</annotation></semantics></math>
+samples to get one
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>I</mi><mo>,</mo><mi>Q</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(I, Q)</annotation></semantics></math>
+pair per block. This is what a DFT bin, a Goertzel filter, and a
+matched-filter tone detector all compute.</li>
+</ul>
+<p>First path: one I/Q pair per input sample. Second path: one pair per
+block of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>N</mi><annotation encoding="application/x-tex">N</annotation></semantics></math>
+samples (downsampled by
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>N</mi><annotation encoding="application/x-tex">N</annotation></semantics></math>).
+Both are legitimately I/Q.</p>
+<h2 id="where-iq-shows-up">Where I/Q shows up</h2>
+<p>Once you start looking, it’s everywhere:</p>
+<ul class="incremental">
+<li><strong>Modems and digital radio.</strong> QAM, PSK, OFDM — all
+modulation schemes that encode bits as amplitude-and-phase transmit and
+receive in I/Q.</li>
+<li><strong>Software-defined radio.</strong> SDR hardware delivers I/Q
+samples at baseband; all demodulation, filtering, and decoding happens
+on the complex stream.</li>
+<li><strong>DFT/FFT internals.</strong> As above: every bin is an I/Q
+pair at that bin’s frequency.</li>
+<li><strong>Lock-in amplifiers.</strong> Standard lab technique for
+pulling a tiny signal at a known frequency out of noise. Literally an
+I/Q correlator in hardware.</li>
+<li><strong>Phase-locked loops.</strong> Track a reference by driving
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>Q</mi><annotation encoding="application/x-tex">Q</annotation></semantics></math>
+to zero.</li>
+<li><strong>Radar and sonar.</strong> Pulse-compression and Doppler
+processing both operate on I/Q.</li>
+<li><strong>MRI.</strong> The scanner acquires I/Q data; images
+reconstruct from the complex k-space representation.</li>
+</ul>
+<h2 id="things-to-carry-forward">Things to carry forward</h2>
+<ul class="incremental">
+<li>I/Q is a time series of (amplitude, phase) measurements at a chosen
+reference frequency.</li>
+<li>Packaging the pair as a complex number is a convenience, not a deep
+statement — but it does make a lot of algebra cleaner.</li>
+<li>You must commit to a reference frequency before you have I/Q at all.
+Different reference → different representation of the same signal.</li>
+<li>A DFT output bin is an I/Q pair at that bin’s frequency. A DFT
+computes
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>N</mi><annotation encoding="application/x-tex">N</annotation></semantics></math>
+such pairs in one shot.</li>
+<li>When a DSP algorithm seems mysteriously to want complex numbers even
+though your input is clearly real, the answer is almost always “because
+it’s really operating in I/Q at some reference frequency, even if nobody
+said so.”</li>
+</ul>
