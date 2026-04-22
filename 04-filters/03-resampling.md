@@ -112,3 +112,16 @@
 
 * Clever algorithms for
   [ASRC](https://ieeexplore.ieee.org/document/6082271) exist
+
+## Bad Interpolation
+
+* Can just interpolate between samples to get some kind of
+  approximate resampling
+  
+* But Nyquist still applies: you need to filter before or
+  after with appropriate cutoffs to avoid aliasing
+
+* ```
+  for i in 0..N:
+     y[i] = interpolate(x[floor(i * resample)], x[ceil(i * resample)])
+  ```
