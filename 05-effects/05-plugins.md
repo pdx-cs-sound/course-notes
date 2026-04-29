@@ -90,6 +90,8 @@
 * Uses limited history to do some filtering as well as
   distortion
 
-* Based on a Norwegian thesis, since lost.
+* Resulted from a Norwegian
+  [thesis](https://web.archive.org/web/20050212034404/http://www.notam02.no/~rbendiks/Diplom/Innhold.html)
+  on effects processing
   
 * How does it sound?
