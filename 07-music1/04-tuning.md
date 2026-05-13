@@ -76,18 +76,3 @@
 
 * Sounds good for things near C, bad at far-away keys
 
-## Circle Of Fifths (Fourths)
-
-* Even in equal temperament, can be useful to think about
-  going up five (seven half-steps) or down five (seven
-  half-steps)
-
-* This gives the fourth and fifth note of the scale
-
-* A C major scale up a fifth has just one black key: by
-  convention this is the sharp 7
-
-* A C major scale down a fifth (up a fourth) has just one
-  black key: by convention this is the flat 4
-
-* Continuing "around the circle" gets more sharps / flats

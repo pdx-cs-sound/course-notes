@@ -1,4 +1,4 @@
-# Harmonies
+## Harmonies
 
 * Polyphony: more than one note being sounded at a time
 
@@ -8,7 +8,7 @@
 * A bunch of the scale setup — in particular, "equal
   temperament" — is desiged to make polyphony sound good
 
-# The Basic Three-Note Chord
+## The Basic Three-Note Chord
 
 * There can be only one — well, one major, one minor
 
@@ -21,7 +21,7 @@
 * In other words, we pick a scale, then use the root, third
   and fifth notes of that scale to make a chord
 
-# Roman Numeral Notation
+## Roman Numeral Notation
 
 * Step 1: pick a scale (key)
 
@@ -43,7 +43,7 @@
 * For minor scale would be i, ii°, III, iv, v (or V in
   classical), VI, VII
 
-# What Do Chords Sound Like?
+## What Do Chords Sound Like?
 
 * Major chords sound happy, minor chords sound sad
 
@@ -52,7 +52,23 @@
 * (The "augmented chord" 1-3-5♯ sounds like it's going
   somewhere — you'll hear it occasionally)
   
-# Octaves and Inversions
+## Circle Of Fifths (Fourths)
+
+* Even in equal temperament, can be useful to think about
+  going up five (seven half-steps) or down five (seven
+  half-steps)
+
+* This gives the fourth and fifth note of the scale
+
+* A C major scale up a fifth has just one black key: by
+  convention this is the sharp 7
+
+* A C major scale down a fifth (up a fourth) has just one
+  black key: by convention this is the flat 4
+
+* Continuing "around the circle" gets more sharps / flats
+
+## Octaves and Inversions
 
 * It is common to use octave notes of the chord to add to
   a chord, either above or below. A big "chord stack" is its
@@ -66,7 +82,7 @@
 
   * 5 on bottom is the "second inversion": 5-1-3 notated e.g. $I^6_4$
 
-# Adding Notes
+## Adding Notes
 
 * A common addition to a chord is the 7 tone,
   either flatted ("natural seventh") or not ("major
@@ -82,7 +98,7 @@
 * The 9 tone, 11 tone, 13 tone may be added for increasing
   dissonance. This is mostly a jazz thing
 
-# More About Minors
+## More About Minors
 
 * "Relative minor" starts on 6 of major: has same key
   signature
@@ -92,7 +108,7 @@
 
 * (Other minors start on other tones)
 
-# Pop
+## Pop
 
 * Cast a big net here: Pop intermingles with Rock, Rock is
   inspired by world rhythms, Blues, Jazz, and (yes) Country
@@ -117,7 +133,7 @@
 
 * More could be said about bass, but time…
 
-# Chord Motifs Are Reused In Pop
+## Chord Motifs Are Reused In Pop
 
 * Many of you will have seen *Four Chords* by Axis of
   Awesome
@@ -134,7 +150,7 @@
 
   * [many more](https://en.wikipedia.org/wiki/List_of_chord_progressions)
 
-# Pop, Key Changes, and the Circle Of Fourths
+## Pop, Key Changes, and the Circle Of Fourths
 
 * We are playing in equal temperament so that we can shift
   keys during a piece
@@ -148,7 +164,7 @@
 
   * Chorus: IV-V-♭VI-IV (repeat)
 
-# Fancier Pop Chords
+## Fancier Pop Chords
 
 * It's not all just formulaic: some songs have really fancy
   chords
@@ -157,7 +173,7 @@
   — diminished chords, diminished sevenths, fancy key
   changes, etc
 
-# Computer Things
+## Computer Things
 
 * When analyzing music:
 
@@ -177,7 +193,7 @@
   * The melody should be in the scale corresponding to the
     chord: some "accidentals" are fine
 
-# Captain Obvious Says
+## Captain Obvious Says
 
   * This is just a starting point: go find out more things
 
