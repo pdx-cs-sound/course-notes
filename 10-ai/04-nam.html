@@ -1,0 +1,117 @@
+<h1 id="neural-amp-modeler-nam-how-it-works">Neural Amp Modeler (NAM):
+How It Works</h1>
+<p>A brief, simplified outline of the DSP and ML behind NAM.</p>
+<p>The useful framing up front: this is the <em>nonlinear</em>
+counterpart to capturing an impulse response. A speaker cabinet is, near
+enough, a linear time-invariant system, so a single IR plus convolution
+captures it. An amp&#x2019;s tube/clipping stages are <em>nonlinear</em> &#x2014; gain
+depends on level, so no single IR exists. NAM is an open-source,
+non-parametric amp modeler that captures a device as a black box,
+learning the nonlinear input
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>&#x2192;</mo><annotation encoding="application/x-tex">\to</annotation></semantics></math>
+output map directly from audio.</p>
+<h2 id="the-ml-side-model-and-training">The ML side: model and
+training</h2>
+<ol type="1">
+<li><p><strong>Problem framing.</strong> Treat the amp (or pedal) as an
+unknown function mapping a dry DI input stream to the processed output
+stream. NAM learns this as a regression: predict output sample
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>y</mi><mo stretchy="false" form="prefix">[</mo><mi>n</mi><mo stretchy="false" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">y[n]</annotation></semantics></math>
+from a window of recent input samples
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi><mo stretchy="false" form="prefix">[</mo><mi>n</mi><mo>&#x2212;</mo><mi>N</mi><mo>+</mo><mn>1</mn><mo stretchy="false" form="postfix">]</mo><mo>,</mo><mi>&#x2026;</mi><mo>,</mo><mi>x</mi><mo stretchy="false" form="prefix">[</mo><mi>n</mi><mo stretchy="false" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">x[n-N{+}1], \dots, x[n]</annotation></semantics></math>.
+It&#x2019;s a <em>snapshot</em> &#x2014; one fixed knob setting per model, not
+conditioned on the controls (unlike parametric commercial products such
+as Neural DSP).</p></li>
+<li><p><strong>Data capture (the DSP-flavored part).</strong> Play a
+standardized DI file through the real device and record the output,
+giving an aligned input/target pair. The standard input is a
+deliberately varied signal (~3 min 10 s) chosen to exercise the device
+across levels and content; roughly three minutes of audio has been shown
+to suffice. A latency-calibration step time-aligns target to input
+before training &#x2014; a sample offset here poisons the fit.</p></li>
+<li><p><strong>Architecture (default: feedforward WaveNet).</strong>
+NAM&#x2019;s flagship is a WaveNet adapted to run <em>feedforward</em> rather
+than autoregressively. The core is a stack of dilated convolutional
+layers. The key ingredients:</p>
+<ul>
+<li><strong>Causal</strong> convolutions: each output depends only on
+past samples.</li>
+<li><strong>Dilated (atrous)</strong> convolutions: layers skip samples
+so the receptive field grows exponentially with depth, reaching tens of
+milliseconds of context cheaply.</li>
+<li><strong>Gated activations</strong> inside each layer, with
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo>&#xD7;</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">1\times1</annotation></semantics></math>
+linear mixers.</li>
+</ul>
+<p>A typical config is a channel dimension of 16, kernel size 3, a
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo>&#xD7;</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">1\times1</annotation></semantics></math>
+mixer, and an 18-layer dilation pattern. The &#x201C;standard&#x201D; NAM architecture
+stacks two WaveNet modules of different widths in series; LSTM and plain
+ConvNet variants also exist.</p></li>
+<li><p><strong>Loss function.</strong> Train by minimizing the
+<strong>error-to-signal ratio (ESR)</strong> &#x2014; squared error normalized
+by the target&#x2019;s energy, so quiet passages aren&#x2019;t drowned out by loud
+ones:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="normal">ESR</mtext><mo>=</mo><mfrac><mrow><munder><mo>&#x2211;</mo><mi>n</mi></munder><mo minsize="120%" maxsize="120%" stretchy="true" form="prefix">(</mo><msub><mi>y</mi><mi>p</mi></msub><mo stretchy="false" form="prefix">[</mo><mi>n</mi><mo stretchy="false" form="postfix">]</mo><mo>&#x2212;</mo><msub><mover><mi>y</mi><mo accent="true">&#x302;</mo></mover><mi>p</mi></msub><mo stretchy="false" form="prefix">[</mo><mi>n</mi><mo stretchy="false" form="postfix">]</mo><msup><mo minsize="120%" maxsize="120%" stretchy="true" form="postfix">)</mo><mn>2</mn></msup></mrow><mrow><munder><mo>&#x2211;</mo><mi>n</mi></munder><msub><mi>y</mi><mi>p</mi></msub><mo stretchy="false" form="prefix">[</mo><mi>n</mi><msup><mo stretchy="false" form="postfix">]</mo><mn>2</mn></msup></mrow></mfrac></mrow><annotation encoding="application/x-tex">\text{ESR} = \frac{\sum_n \bigl(y_p[n] - \hat{y}_p[n]\bigr)^2}{\sum_n y_p[n]^2}</annotation></semantics></math></p>
+<p>Both signals are first run through a <strong>pre-emphasis</strong>
+high-pass filter,</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>H</mi><mo stretchy="false" form="prefix">(</mo><mi>z</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>1</mn><mo>&#x2212;</mo><mn>0.95</mn><mspace width="0.167em"></mspace><msup><mi>z</mi><mrow><mi>&#x2212;</mi><mn>1</mn></mrow></msup><mo>,</mo></mrow><annotation encoding="application/x-tex">H(z) = 1 - 0.95\,z^{-1},</annotation></semantics></math></p>
+<p>because without it the model tends to struggle at higher frequencies.
+An optional DC-offset term is sometimes added (notably for the recurrent
+variant). Training runs on PyTorch Lightning.</p></li>
+</ol>
+<h2 id="the-dsp-side-runtime-inference">The DSP side: runtime
+inference</h2>
+<ol start="5" type="1">
+<li><p><strong>Real-time convolution, but nonlinear.</strong> At
+inference the trained net slides its receptive-field window over the
+incoming signal (block by block), producing output in real time.
+Mechanically this resembles the partitioned convolution used to apply an
+IR &#x2014; except the dilated-conv stack with its nonlinear gated activations
+<em>is</em> the operator, so it reproduces compression, sag, and
+clipping that a linear IR cannot. It runs on a decent (not
+top-of-the-line) CPU.</p></li>
+<li><p><strong>Export and deploy.</strong> The trained model is exported
+to the <code>.nam</code> format and loaded into a real-time plugin (the
+C++ NAM Core), typically as a VST3/AU in a DAW. In practice you chain it
+with a separate linear cabinet IR + convolution: NAM for the nonlinear
+amp, an IR loader for the speaker.</p></li>
+</ol>
+<h2 id="caveat-aliasing">Caveat: aliasing</h2>
+<p>Because the model is nonlinear, the gated activations generate
+harmonics above Nyquist that fold back as <strong>aliasing</strong> &#x2014; an
+active research area. The usual mitigations are oversampling the model
+at inference or smoothing the activation functions.</p>
+<h2 id="sources">Sources</h2>
+<ul>
+<li>WaveNet architecture in NAM Core &#x2014; DeepWiki: <a
+href="https://deepwiki.com/sdatkinson/NeuralAmpModelerCore/2.3.1-wavenet-architecture"
+class="uri">https://deepwiki.com/sdatkinson/NeuralAmpModelerCore/2.3.1-wavenet-architecture</a></li>
+<li>NAM repository overview (workflow, <code>.nam</code> export,
+architectures) &#x2014; DeepWiki: <a
+href="https://deepwiki.com/sdatkinson/neural-amp-modeler"
+class="uri">https://deepwiki.com/sdatkinson/neural-amp-modeler</a></li>
+<li>Full-featured training, PyTorch Lightning &#x2014; NAM docs: <a
+href="https://neural-amp-modeler.readthedocs.io/en/latest/tutorials/full.html"
+class="uri">https://neural-amp-modeler.readthedocs.io/en/latest/tutorials/full.html</a></li>
+<li>&#x201C;Slimmable NAM&#x201D; (the standard = two stacked WaveNets of differing
+width): <a href="https://openreview.net/pdf?id=hZJesTnnix"
+class="uri">https://openreview.net/pdf?id=hZJesTnnix</a></li>
+<li>PANAMA: Parametric Neural Amp Modeling (NAM as non-parametric
+baseline; feedforward WaveNet): <a
+href="https://arxiv.org/html/2509.26564v1"
+class="uri">https://arxiv.org/html/2509.26564v1</a></li>
+<li>&#x201C;Aliasing Reduction in Neural Amp Modeling by Smoothing Activations&#x201D;
+(config: 16 ch, kernel 3, 18-layer dilations; pre-emphasis
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>H</mi><mo stretchy="false" form="prefix">(</mo><mi>z</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>1</mn><mo>&#x2212;</mo><mn>0.95</mn><msup><mi>z</mi><mrow><mi>&#x2212;</mi><mn>1</mn></mrow></msup></mrow><annotation encoding="application/x-tex">H(z)=1-0.95z^{-1}</annotation></semantics></math>):
+<a href="https://arxiv.org/pdf/2505.04082"
+class="uri">https://arxiv.org/pdf/2505.04082</a></li>
+<li>Damsk&#xE4;gg/Wright, &#x201C;Real-Time Guitar Amplifier Emulation with Deep
+Learning&#x201D; (ESR loss, pre-emphasis, ~3 min sufficient): <a
+href="https://www.mdpi.com/2076-3417/10/3/766"
+class="uri">https://www.mdpi.com/2076-3417/10/3/766</a></li>
+<li>&#x201C;A Review of Neural Network-Based Emulation of Guitar Amplifiers&#x201D;
+(ESR, pre-emphasis, DC term): <a
+href="https://www.mdpi.com/2076-3417/12/12/5894"
+class="uri">https://www.mdpi.com/2076-3417/12/12/5894</a></li>
+</ul>

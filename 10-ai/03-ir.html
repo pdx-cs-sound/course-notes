@@ -1,0 +1,107 @@
+<h1 id="capturing-and-applying-an-impulse-response-ir">Capturing and
+Applying an Impulse Response (IR)</h1>
+<p>A brief, simplified outline of the DSP behind measuring an impulse
+response with a microphone and a sine chirp, and of applying the
+captured IR to a signal.</p>
+<h2 id="capturing-the-ir-exponential-sine-sweep-farina-method">Capturing
+the IR (exponential sine sweep / Farina method)</h2>
+<ol type="1">
+<li><p><strong>Generate the excitation.</strong> Use an
+<em>exponential</em> (log) sine sweep
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi><mo stretchy="false" form="prefix">(</mo><mi>t</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">x(t)</annotation></semantics></math>:
+instantaneous frequency rises geometrically from
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>f</mi><mn>1</mn></msub><annotation encoding="application/x-tex">f_1</annotation></semantics></math>
+to
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>f</mi><mn>2</mn></msub><annotation encoding="application/x-tex">f_2</annotation></semantics></math>
+over duration
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>T</mi><annotation encoding="application/x-tex">T</annotation></semantics></math>.
+Pad with trailing silence to leave room for the system&#x2019;s decay tail. The
+exponential (rather than linear) sweep is the key choice &#x2014; its spectrum
+is pink
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>&#x2248;</mo><mi>&#x2212;</mi><mn>3</mn></mrow><annotation encoding="application/x-tex">\approx -3</annotation></semantics></math>
+dB/octave), and it has a clean analytic inverse.</p></li>
+<li><p><strong>Play and record.</strong> Send
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi><mo stretchy="false" form="prefix">(</mo><mi>t</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">x(t)</annotation></semantics></math>
+out through the system under test (DAC
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>&#x2192;</mo><annotation encoding="application/x-tex">\to</annotation></semantics></math>
+amp
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>&#x2192;</mo><annotation encoding="application/x-tex">\to</annotation></semantics></math>
+speaker
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>&#x2192;</mo><annotation encoding="application/x-tex">\to</annotation></semantics></math>
+room/device
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>&#x2192;</mo><annotation encoding="application/x-tex">\to</annotation></semantics></math>
+mic
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>&#x2192;</mo><annotation encoding="application/x-tex">\to</annotation></semantics></math>
+ADC) and record
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>y</mi><mo stretchy="false" form="prefix">(</mo><mi>t</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">y(t)</annotation></semantics></math>.
+What you&#x2019;ve recorded is
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>y</mi><mo>=</mo><mi>x</mi><mo>*</mo><mi>h</mi></mrow><annotation encoding="application/x-tex">y = x \ast h</annotation></semantics></math>,
+where
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>h</mi><annotation encoding="application/x-tex">h</annotation></semantics></math>
+is the IR of the <em>entire</em> chain. If you only want the room (or
+only the device), measure the speaker+mic path separately and deconvolve
+it out, or use a reference loopback.</p></li>
+<li><p><strong>Build the inverse filter.</strong> Time-reverse the sweep
+and apply an amplitude envelope that compensates its spectral tilt (a
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>+</mi><mn>6</mn></mrow><annotation encoding="application/x-tex">+6</annotation></semantics></math>
+dB/octave correction, falling from start to end) so that
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi><mo>*</mo><mi>f</mi><mo>=</mo><mi>&#x3B4;</mi></mrow><annotation encoding="application/x-tex">x \ast f = \delta</annotation></semantics></math>.
+This
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mo stretchy="false" form="prefix">(</mo><mi>t</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">f(t)</annotation></semantics></math>
+is a <em>regularized</em> deconvolution kernel &#x2014; it behaves far better
+at the band edges than naive spectral division
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>Y</mi><mi>/</mi><mi>X</mi></mrow><annotation encoding="application/x-tex">Y/X</annotation></semantics></math>.</p></li>
+<li><p><strong>Deconvolve.</strong> Convolve the recording with the
+inverse filter:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>y</mi><mo>*</mo><mi>f</mi><mo>=</mo><mo stretchy="false" form="prefix">(</mo><mi>h</mi><mo>*</mo><mi>x</mi><mo stretchy="false" form="postfix">)</mo><mo>*</mo><mi>f</mi><mo>=</mo><mi>h</mi><mo>*</mo><mo stretchy="false" form="prefix">(</mo><mi>x</mi><mo>*</mo><mi>f</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mi>h</mi><mo>*</mo><mi>&#x3B4;</mi><mo>=</mo><mi>h</mi></mrow><annotation encoding="application/x-tex">y \ast f = (h \ast x) \ast f = h \ast (x \ast f) = h \ast \delta = h</annotation></semantics></math></p>
+<p>Out pops the impulse response. The payoff of the <em>exponential</em>
+sweep: harmonic distortion products land at <em>negative</em> times
+(they&#x2019;re time-advanced relative to the linear IR), so they appear as
+separate impulses ahead of the main response and can simply be windowed
+off &#x2014; yielding a clean, distortion-free linear IR.</p></li>
+</ol>
+<p><strong>Practical knobs:</strong> longer
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>T</mi><mo>&#x2192;</mo></mrow><annotation encoding="application/x-tex">T \to</annotation></semantics></math>
+better SNR; pick
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>f</mi><mn>1</mn></msub><annotation encoding="application/x-tex">f_1</annotation></semantics></math>/<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>f</mi><mn>2</mn></msub><annotation encoding="application/x-tex">f_2</annotation></semantics></math>
+a little beyond your band of interest; window the tail to set the decay
+length you actually keep.</p>
+<h2 id="applying-the-ir-to-a-signal">Applying the IR to a signal</h2>
+<p>This is just convolution:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>s</mi><mtext mathvariant="normal">out</mtext></msub><mo>=</mo><msub><mi>s</mi><mtext mathvariant="normal">in</mtext></msub><mo>*</mo><mi>h</mi></mrow><annotation encoding="application/x-tex">s_\text{out} = s_\text{in} \ast h</annotation></semantics></math>.</p>
+<ol type="1">
+<li><strong>Choose the method by IR length and latency budget.</strong>
+<ul>
+<li>Short IR
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>&#x2192;</mo><annotation encoding="application/x-tex">\to</annotation></semantics></math>
+direct time-domain convolution is fine.</li>
+<li>Long IR (reverb tails, cabinet/room sims)
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>&#x2192;</mo><annotation encoding="application/x-tex">\to</annotation></semantics></math>
+FFT-based <em>fast convolution</em>: block the input, multiply spectra
+by
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>H</mi><mo>=</mo><mi mathvariant="script">&#x2131;</mi><mo stretchy="false" form="prefix">{</mo><mi>h</mi><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">H = \mathcal{F}\{h\}</annotation></semantics></math>,
+inverse-FFT, and stitch with <strong>overlap-add</strong> or
+<strong>overlap-save</strong>.</li>
+<li>Real-time / low-latency
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>&#x2192;</mo><annotation encoding="application/x-tex">\to</annotation></semantics></math>
+<strong>partitioned convolution</strong>: split
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>h</mi><annotation encoding="application/x-tex">h</annotation></semantics></math>
+into blocks so the first (small) partition gives low input-to-output
+latency, while larger later partitions keep the cost down. Non-uniform
+partitioning is the usual production choice.</li>
+</ul></li>
+<li><strong>Normalize.</strong> Scale
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>h</mi><annotation encoding="application/x-tex">h</annotation></semantics></math>
+(unity gain, or to taste) so the convolution doesn&#x2019;t blow up the level &#x2014;
+long IRs accumulate a lot of energy.</li>
+</ol>
+<hr />
+<p>The whole loop: sweep
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>&#x2192;</mo><annotation encoding="application/x-tex">\to</annotation></semantics></math>
+record
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>&#x2192;</mo><annotation encoding="application/x-tex">\to</annotation></semantics></math>
+deconvolve with the inverse filter
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>&#x2192;</mo><annotation encoding="application/x-tex">\to</annotation></semantics></math>
+window
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>&#x2192;</mo><annotation encoding="application/x-tex">\to</annotation></semantics></math>
+convolve your dry signal with the result.</p>
